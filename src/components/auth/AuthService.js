@@ -1,10 +1,13 @@
 // AuthService.js
+
+import {serverIP} from '../../Globals';
+
 const AuthService = {
   // In a real-world scenario, you'd implement methods for interacting with the backend for authentication
   // For simplicity, we'll just set a token in local storage
   login: async (username, password) => {
     try {
-      const response = await fetch('http://localhost:3000/login', {
+      const response = await fetch(`http://${serverIP}/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -48,7 +51,7 @@ const AuthService = {
 
   register: async (character, username, password) => {
     try {
-      const response = await fetch('http://localhost:3000/register', {
+      const response = await fetch(`http://${serverIP}/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
