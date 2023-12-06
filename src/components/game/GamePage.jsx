@@ -1,16 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {connectWebSocket, disconnectWebSocket} from './WebSocketService';
+import {connectWebSocket, disconnectWebSocket, sendWebsocket} from './WebSocketService';
 import { GameDataProvider } from './dataProviders/GameDataProvider';
+
+import TestComponent from './TestComponent';
 
 export default function GamePage() {
   const [initGameData, setGameInitData] = useState();
+  const [initCharData, setCharInitData] = useState();
 
   useEffect(() => {
     
 
     // Connect to WebSocket when the component mounts
     console.log('Open WebSocket connection...');
-    connectWebSocket(setGameInitData);
+    connectWebSocket(setGameInitData, setCharInitData);
 
     // Clean up the WebSocket connection when the component unmounts
     return () => {
@@ -24,9 +27,9 @@ export default function GamePage() {
     <div>
       <h1>Game Page</h1>
       {initGameData ? (
-        <GameDataProvider data={initGameData}>
+        <GameDataProvider initGameData={initGameData} initCharData={initCharData} send={sendWebsocket}>
           <div>
-            {/* Add game content here */}
+            <TestComponent/>
           </div>
         </GameDataProvider>
       ) : (

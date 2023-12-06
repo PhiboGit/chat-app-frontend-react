@@ -3,8 +3,8 @@ import {serverIP} from '../../Globals';
 
 let socket = null
 
-export function connectWebSocket(setGameInitData) {
-  console.log('ConnectWebSocket', socket);
+export function connectWebSocket(setGameInitData, setCharInitData) {
+  console.log('ConnectWebSocket');
   if (!socket || socket.readyState == 2 || socket.readyState == 3) {
     console.log('Setting up new socket...');
     const token = localStorage.getItem('token')
@@ -18,10 +18,13 @@ export function connectWebSocket(setGameInitData) {
 
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data)
-      console.log('WebSocket message received:', data);
+      console.log('WebSocket message JSON received:', data);
       // Handle incoming messages from the WebSocket server
       if (data['type'] === 'init_data') {
         setGameInitData(data.data);
+      }
+      if (data['type'] === 'init_character') {
+        setCharInitData(data.data);
       }
     };
 
@@ -33,8 +36,12 @@ export function connectWebSocket(setGameInitData) {
 }
 
 export function disconnectWebSocket() {
-  console.log('WebSocket disconnect', socket);
+  console.log('WebSocket disconnect');
   if (socket) {
     socket.close();
   }
+}
+
+export function sendWebsocket(message){
+  socket.send(message);
 }

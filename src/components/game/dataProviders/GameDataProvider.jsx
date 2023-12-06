@@ -1,15 +1,19 @@
 // GameDataProvider.jsx
 import { createContext, useState } from 'react';
 
-const GameDataContext = createContext();
+export const GameDataContext = createContext();
 
-export const GameDataProvider = ({children, data }) => {
+export const GameDataProvider = ({children, initGameData, initCharData, send }) => {
   const [gameData, setGameData] = useState({
-    expTable: data.expTable
+    expTable: initGameData.expTable,
+    gatheringResourcesData: initGameData.gatheringResourcesData,
+    recipesData: initGameData.recipesData
   });
+  const [charData, setCharData] = useState({
+    character: initCharData.character})
 
   return (
-    <GameDataContext.Provider value={{ gameData }}>
+    <GameDataContext.Provider value={{ gameData, charData, send }}>
       {children}
     </GameDataContext.Provider>
   );
