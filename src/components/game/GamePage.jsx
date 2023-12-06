@@ -1,24 +1,35 @@
-import React, { useEffect } from 'react';
-import {connect, disconnect} from './WebSocketService';
+import React, { useEffect, useState } from 'react';
+import {connectWebSocket, disconnectWebSocket} from './WebSocketService';
+import { GameDataProvider } from './dataProviders/GameDataProvider';
 
+export default function GamePage() {
+  const [initGameData, setGameInitData] = useState();
 
-export default function GamePage (){ 
   useEffect(() => {
+    
+
     // Connect to WebSocket when the component mounts
-    console.log('Connecting to WebSocket...');
-    connect();
+    const socket = connectWebSocket(setGameInitData);
 
-    // Clean up the WebSocket connection on component unmount
+    // Clean up the WebSocket connection when the component unmounts
     return () => {
-      //disconnect();
-      console.log('WebSocket connection closed');
+      //TODO: fix disconnect on site loading, iterrupting the connection
+      //disconnectWebSocket(socket);
     };
-  }, []); // Run this effect only once when the component mounts
+  }, []);
 
-
-  return(
-  <div>
-    <h1>Game Page</h1>
-    {/* Add game content here */}
-  </div>
-)}
+  return (
+    <div>
+      <h1>Game Page</h1>
+      {initGameData ? (
+        <GameDataProvider data={initGameData}>
+          <div>
+            {/* Add game content here */}
+          </div>
+        </GameDataProvider>
+      ) : (
+        <div>loading...</div>
+      )}
+    </div>
+  );
+}

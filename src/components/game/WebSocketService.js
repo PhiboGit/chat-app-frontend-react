@@ -3,10 +3,9 @@ import {serverIP} from '../../Globals';
 
 let socket
 
-export function connect() {
-  // Get the token from localStorage
-  const token = localStorage.getItem('token');
+export function connectWebSocket(onDataReceived) {
   if (!socket) {
+    const token = localStorage.getItem('token')
     const socketURL = `ws://${serverIP}?accessToken=${token}`;
     socket = new WebSocket(socketURL);
 
@@ -16,8 +15,12 @@ export function connect() {
     };
 
     socket.onmessage = (event) => {
-      console.log('WebSocket message received:', event.data);
+      const data = JSON.parse(event.data)
+      console.log('WebSocket message received:', data);
       // Handle incoming messages from the WebSocket server
+      if (data['type'] === 'init_data') {
+        onDataReceived(data.data);
+      }
     };
 
     socket.onclose = (event) => {
@@ -25,9 +28,10 @@ export function connect() {
       // Handle WebSocket connection closure
     };
   }
+  return socket
 }
 
-export function disconnect() {
+export function disconnectWebSocket(socket) {
   if (socket) {
     socket.close();
   }
