@@ -9,12 +9,14 @@ export default function GamePage() {
     
 
     // Connect to WebSocket when the component mounts
-    const socket = connectWebSocket(setGameInitData);
+    console.log('Open WebSocket connection...');
+    connectWebSocket(setGameInitData);
 
     // Clean up the WebSocket connection when the component unmounts
     return () => {
+      console.log('Cleanup WebSocket connection');
       //TODO: fix disconnect on site loading, iterrupting the connection
-      //disconnectWebSocket(socket);
+      disconnectWebSocket();
     };
   }, []);
 

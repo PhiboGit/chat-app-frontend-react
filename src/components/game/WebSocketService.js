@@ -1,10 +1,12 @@
 // WebSocketService.js
 import {serverIP} from '../../Globals';
 
-let socket
+let socket = null
 
-export function connectWebSocket(onDataReceived) {
-  if (!socket) {
+export function connectWebSocket(setGameInitData) {
+  console.log('ConnectWebSocket', socket);
+  if (!socket || socket.readyState == 2 || socket.readyState == 3) {
+    console.log('Setting up new socket...');
     const token = localStorage.getItem('token')
     const socketURL = `ws://${serverIP}?accessToken=${token}`;
     socket = new WebSocket(socketURL);
@@ -19,7 +21,7 @@ export function connectWebSocket(onDataReceived) {
       console.log('WebSocket message received:', data);
       // Handle incoming messages from the WebSocket server
       if (data['type'] === 'init_data') {
-        onDataReceived(data.data);
+        setGameInitData(data.data);
       }
     };
 
@@ -28,10 +30,10 @@ export function connectWebSocket(onDataReceived) {
       // Handle WebSocket connection closure
     };
   }
-  return socket
 }
 
-export function disconnectWebSocket(socket) {
+export function disconnectWebSocket() {
+  console.log('WebSocket disconnect', socket);
   if (socket) {
     socket.close();
   }
