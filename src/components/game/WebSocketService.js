@@ -3,7 +3,13 @@ import {serverIP} from '../../Globals';
 
 let socket = null
 
-export function connectWebSocket(setGameInitData, setCharInitData) {
+/**
+ * 
+ * @param {*} setGameInitData 
+ * @param {*} setCharInitData 
+ * @param {EventTarget} messageReceiver 
+ */
+export function connectWebSocket(setGameInitData, setCharInitData, messageReceiver) {
   console.log('ConnectWebSocket');
   if (!socket || socket.readyState == 2 || socket.readyState == 3) {
     console.log('Setting up new socket...');
@@ -26,6 +32,8 @@ export function connectWebSocket(setGameInitData, setCharInitData) {
       if (data['type'] === 'init_character') {
         setCharInitData(data.data);
       }
+      const customEvent = new CustomEvent(data['type'], { detail: data.data })
+      messageReceiver.dispatchEvent(customEvent)
     };
 
     socket.onclose = (event) => {
@@ -43,5 +51,7 @@ export function disconnectWebSocket() {
 }
 
 export function sendWebsocket(message){
-  socket.send(message);
+  console.log('WebSocket send: ', message);
+  const jsonString = JSON.stringify(message)
+  socket.send(jsonString);
 }
