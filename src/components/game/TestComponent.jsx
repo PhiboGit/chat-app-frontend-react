@@ -4,7 +4,12 @@ import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
 
 const TestComponent = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { charData } = useContext(CharacterDataContext);
+  const { characterData } = useContext(CharacterDataContext);
+  //const { resources } = useContext(CharacterDataContext);
+  // maybe useMemo()
+  //const oreT1Value = useMemo(() => characterData.resources.oreT1, [characterData.resources.oreT1]);
+  const oreT1Value = characterData.resources.oreT1;
+
 
   const handleButtonClick = () => {
     const action = {
@@ -24,7 +29,8 @@ const TestComponent = () => {
     <div>
       <h1>Test Component</h1>
       <p>GameData: {JSON.stringify(gameData)}</p>
-      <p>CharData: {JSON.stringify(charData)}</p>
+      <p>CharData: {JSON.stringify(characterData)}</p>
+      <p>OreT1: {oreT1Value}</p>
       <button onClick={handleButtonClick}>Call send()</button>
     </div>
   );
