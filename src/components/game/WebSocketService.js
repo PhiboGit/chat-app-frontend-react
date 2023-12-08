@@ -9,7 +9,7 @@ let socket = null
  * @param {*} setCharInitData 
  * @param {EventTarget} messageReceiver 
  */
-export function connectWebSocket(setGameInitData, setCharInitData, messageReceiver) {
+export function connectWebSocket(setGameInitData, setCharInitData, messageReceiver, setWebSocketOpen) {
   console.log('ConnectWebSocket');
   if (!socket || socket.readyState == 2 || socket.readyState == 3) {
     console.log('Setting up new socket...');
@@ -18,8 +18,9 @@ export function connectWebSocket(setGameInitData, setCharInitData, messageReceiv
     socket = new WebSocket(socketURL);
 
     socket.onopen = () => {
-      console.log('WebSocket connection opened');
       // You can send initial messages or perform other actions upon connection
+      console.log('WebSocket connection opened');
+      setWebSocketOpen(true)
     };
 
     socket.onmessage = (event) => {
@@ -37,8 +38,9 @@ export function connectWebSocket(setGameInitData, setCharInitData, messageReceiv
     };
 
     socket.onclose = (event) => {
-      console.log('WebSocket connection closed:', event);
       // Handle WebSocket connection closure
+      console.log('WebSocket connection closed:', event);
+      setWebSocketOpen(false);
     };
   }
 }
