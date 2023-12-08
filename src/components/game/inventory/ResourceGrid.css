@@ -1,0 +1,13 @@
+/* ResourceGrid.css */
+.resources-grid-container {
+  max-width: 500px;
+  max-height: 400px;
+  overflow: auto;
+}
+
+.resources-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-template-rows: repeat(auto-fill, minmax(50px, 1fr));
+  grid-gap: 10px;
+}

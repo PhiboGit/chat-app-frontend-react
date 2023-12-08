@@ -1,0 +1,39 @@
+/* ResourceItem.css */
+.resource-item {
+  position: relative;
+  width: 100%;
+  padding-bottom: 100%; /* Ensure the item is a square */
+  overflow: hidden; /* Prevent text from overflowing */
+}
+
+.resource-item img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.item-name,
+.item-value {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+}
+
+.item-name {
+  top: 4px;
+  color: rgb(255, 255, 255); /* Set the font color to white for the name */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; /* Add a black border */
+  z-index: 1; /* Ensure the name is above the image */
+  /* Font properties for the name */
+  font-size: 18px; /* Adjust the font size as needed */
+}
+
+.item-value {
+  bottom: 4px;
+  color: white; /* Set the font color to white for the value */
+  text-shadow: -1px -1px 0 black, 1px -1px 0 black, -1px 1px 0 black, 1px 1px 0 black; /* Add a black border */
+  z-index: 1; /* Ensure the value is above the image */
+  /* Font properties for the value */
+  font-size: 18px; /* Adjust the font size as needed */
+}
