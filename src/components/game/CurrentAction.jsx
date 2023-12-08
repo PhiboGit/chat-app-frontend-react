@@ -1,10 +1,14 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
+import { GameDataContext } from './dataProviders/GameDataProvider';
+import './ActionQueue.css'; // Add your CSS file for styling
+
 
 const updateTime = 100 // ms update
 
 export default function CurrentAction() {
   const { characterData } = useContext(CharacterDataContext);
+  const { send } = useContext(GameDataContext)
 
   const currentAction = useMemo(() => characterData.currentAction, [characterData.currentAction]);
 
@@ -37,14 +41,21 @@ export default function CurrentAction() {
       startProgress();
     }  
   }, [currentAction]);
-
-  function startProgress(){
-    setTime(0)
-    console.log('Starting progress currentAction: ', time)
+  function startProgress() {
+    setTime(0);
+    const startTime = Date.now();
+  
+    console.log('Starting progress currentAction: ', actionTime);
     const intervalId = setInterval(() => {
-      setTime((time) => {
-        return time + updateTime
-      });
+      const currentTime = Date.now();
+      const elapsedTime = currentTime - startTime;
+      setTime(elapsedTime);
+  
+      // Check if the progress has reached the actionTime
+      if (elapsedTime >= actionTime) {
+        clearInterval(intervalId);
+        setTime(actionTime); // Ensure the progress bar reaches 100%
+      }
     }, updateTime);
   
     setTimer(intervalId);
@@ -53,7 +64,6 @@ export default function CurrentAction() {
   function getActionName(){
     return (
       <>
-        <p>{task} - {actionType}: {JSON.stringify(args)}</p>
         {(limit) ? (
           <p>Iterations left: {iterations}</p>
         ):(
@@ -63,15 +73,25 @@ export default function CurrentAction() {
     )
   }
 
+  function cancelAction(){
+    send({
+      type: 'cancel',
+      index: -1, // index <= 0 is the current action, otherwise the queue index
+    });
+  }
+
   return (
-    <div>
+    <div className="action-queue-container">
       <p>Current Action:</p>
-      {(currentAction) ? (
+      {currentAction ? (
         <>
           {getActionName()}
-          <progress value={time} max={actionTime} title={``} />
+          <div className="action-progress">
+            <progress value={time} max={actionTime} title={``} />
+          </div>
+          <button onClick={() => cancelAction()}>Cancel</button>
         </>
-      ):(
+      ) : (
         <p>empty</p>
       )}
     </div>

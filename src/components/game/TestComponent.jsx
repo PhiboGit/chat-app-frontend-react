@@ -4,6 +4,7 @@ import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
 import ExpBar from './ExpBar';
 import ResourceGrid from './inventory/ResourceGrid';
 import CurrentAction from './CurrentAction';
+import ActionQueue from './ActionQueue';
 
 const TestComponent = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -47,6 +48,7 @@ const TestComponent = () => {
       <ExpBar profession={"character"}/>
       <ExpBar profession={"mining"}/>
       <CurrentAction />
+      <ActionQueue />
       <ResourceGrid resources={resources} />
     </div>
   );
