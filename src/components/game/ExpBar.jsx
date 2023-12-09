@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from './dataProviders/GameDataProvider';
 import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
+import Box from '@mui/material/Box';
+import LinearProgress from '@mui/material/LinearProgress';
 
 export default function ExpBar({ profession }) {
   const { gameData } = useContext(GameDataContext);
@@ -37,8 +39,10 @@ export default function ExpBar({ profession }) {
 
   return (
     <div>
-      <p>{profession}</p>
-      <progress value={exp} max={nextExp} title={`${exp} / ${nextExp} : ${nextExp-exp}`} />
+      <p>{profession} {getLevel(profession)}</p>
+      <Box sx={{ width: '100%' }}>
+        <LinearProgress variant="determinate" value={(exp/nextExp) * 100} />
+      </Box>
     </div>
   );
 }

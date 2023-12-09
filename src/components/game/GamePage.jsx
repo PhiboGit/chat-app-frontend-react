@@ -3,7 +3,12 @@ import {connectWebSocket, disconnectWebSocket, sendWebsocket} from './WebSocketS
 import { GameDataProvider } from './dataProviders/GameDataProvider';
 import { CharacterDataProvider } from './dataProviders/CharacterDataProvider';
 
+import { Grid, Container, Box } from '@mui/material';
+
 import TestComponent from './TestComponent';
+import Inventory from './inventory/Inventory';
+import ActionOverview from './actionOverview/ActionOverview';
+import GatheringOverview from './professions/GatheringOverview';
 
 const messageReceiver = new EventTarget()
 
@@ -27,16 +32,42 @@ export default function GamePage() {
   }, []);
 
   return (
-    <div>
-      <h1>Game Page</h1>
+    <>
       {isWebSocketOpen ? (
         <>
           {(initGameData && initCharData) ? (
             <GameDataProvider initGameData={initGameData} send={sendWebsocket}>
               <CharacterDataProvider initCharData={initCharData} messageReceiver={messageReceiver}>
-                <div>
-                  <TestComponent />
-                </div>
+                <Container maxWidth="false" style={{ height: '100vh' }}>
+                  <Grid container style={{ height: '100%' }} direction="row" justifyContent="flex-end" alignItems="stretch">
+
+                    {/* Main Content */}
+                    <Grid item xs={12} md={9} style={{ boxSizing: 'border-box', height: '100%' }}>
+                      <Box style={{ backgroundColor: '#f0f0f0', height: '100%' }}>
+                        <GatheringOverview profession={"mining"}/>
+                      </Box>
+                    </Grid>
+                    {/* Right Side */}
+                    <Grid item xs={12} md={3} style={{ boxSizing: 'border-box', height: '100%' }}>
+                      <Grid container direction="column" style={{ height: '100%' }}>
+                        {/* Inventory */}
+                        <Grid item style={{ flex: 3 }}>
+                          <Box style={{ backgroundColor: '#ddd', height: '100%' }}>
+                            <Inventory />
+                          </Box>
+                        </Grid>
+
+                        {/* Action Queue */}
+                        <Grid item style={{ flex: 1 }}>
+                          <Box style={{ backgroundColor: '#bbb', height: '100%' }}>
+                            <ActionOverview />
+                          </Box>
+                        </Grid>
+
+                      </Grid>
+                    </Grid>
+                  </Grid>
+                </Container>
               </CharacterDataProvider>
             </GameDataProvider>
           ) : (
@@ -48,6 +79,6 @@ export default function GamePage() {
         Please reload the page.
         </div>
       )}
-    </div>
+    </>
   );
 }

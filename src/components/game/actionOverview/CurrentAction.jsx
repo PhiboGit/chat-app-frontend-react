@@ -1,6 +1,8 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
-import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
-import { GameDataContext } from './dataProviders/GameDataProvider';
+import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../dataProviders/GameDataProvider';
+import LinearProgress from '@mui/material/LinearProgress';
+import Box from '@mui/material/Box';
 import './ActionQueue.css'; // Add your CSS file for styling
 
 
@@ -10,10 +12,10 @@ export default function CurrentAction() {
   const { characterData } = useContext(CharacterDataContext);
   const { send } = useContext(GameDataContext)
 
-  const currentAction = useMemo(() => characterData.currentAction, [characterData.currentAction]);
-
-  const [time, setTime] = useState()
+  const [progress, setProgress] = useState(0)
   const [timer, setTimer] = useState()
+
+  const currentAction = useMemo(() => characterData.currentAction, [characterData.currentAction]);
 
   const [actionTime, setActionTime] = useState()
   const [task, setTask] = useState()
@@ -25,10 +27,8 @@ export default function CurrentAction() {
 
   useEffect(() => {
     console.log('currentAction: ', currentAction)
-    
     clearInterval(timer);
-    
-
+    setProgress(0);
     if (currentAction){
       setActionTime(currentAction.actionTime);
       setTask(currentAction.task)
@@ -41,20 +41,21 @@ export default function CurrentAction() {
       startProgress();
     }  
   }, [currentAction]);
+
   function startProgress() {
-    setTime(0);
+    setProgress(0);
     const startTime = Date.now();
-  
+    const actionTime = currentAction.actionTime
     console.log('Starting progress currentAction: ', actionTime);
     const intervalId = setInterval(() => {
       const currentTime = Date.now();
       const elapsedTime = currentTime - startTime;
-      setTime(elapsedTime);
+      setProgress((elapsedTime / actionTime)* 100);
   
       // Check if the progress has reached the actionTime
       if (elapsedTime >= actionTime) {
         clearInterval(intervalId);
-        setTime(actionTime); // Ensure the progress bar reaches 100%
+        setProgress(100); // Ensure the progress bar reaches 100%
       }
     }, updateTime);
   
@@ -64,6 +65,7 @@ export default function CurrentAction() {
   function getActionName(){
     return (
       <>
+        <p>{task} - {actionType}</p>
         {(limit) ? (
           <p>Iterations left: {iterations}</p>
         ):(
@@ -87,7 +89,9 @@ export default function CurrentAction() {
         <>
           {getActionName()}
           <div className="action-progress">
-            <progress value={time} max={actionTime} title={``} />
+          <Box sx={{ width: '100%' }}>
+            <LinearProgress variant="determinate" value={progress} />
+          </Box>
           </div>
           <button onClick={() => cancelAction()}>Cancel</button>
         </>

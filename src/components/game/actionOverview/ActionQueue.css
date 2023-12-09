@@ -1,5 +1,11 @@
 .action-queue-container {
   width: 300px; /* Set your preferred fixed width */
+  
+  overflow-y: auto; /* Enable vertical scrolling when content exceeds the height */
+}
+
+.action-queue-content {
+  padding: 10px;
 }
 
 .action-item {

@@ -1,6 +1,6 @@
 import React, { useContext, useMemo } from 'react';
-import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
-import { GameDataContext } from './dataProviders/GameDataProvider';
+import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../dataProviders/GameDataProvider';
 import './ActionQueue.css'; // Add your CSS file for styling
 
 export default function ActionQueue() {

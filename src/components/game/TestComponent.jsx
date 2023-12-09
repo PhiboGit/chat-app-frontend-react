@@ -3,8 +3,8 @@ import { GameDataContext } from './dataProviders/GameDataProvider';
 import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
 import ExpBar from './ExpBar';
 import ResourceGrid from './inventory/ResourceGrid';
-import CurrentAction from './CurrentAction';
-import ActionQueue from './ActionQueue';
+import CurrentAction from './actionOverview/CurrentAction';
+import ActionQueue from './actionOverview/ActionQueue';
 
 const TestComponent = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -30,26 +30,11 @@ const TestComponent = () => {
     send(action);
   };
 
-  const chancelAction = () => {
-    send({
-      "type": "cancel",
-      "index": -1 // index < 0 is the current action, otherwise the queue index});
-    }) 
-  }
-
   return (
     <div>
       <h1>Test Component</h1>
-      <p>GameData: {JSON.stringify(gameData)}</p>
-      <p>CharData: {JSON.stringify(characterData)}</p>
-      <p>OreT1: {oreT1Value}</p>
       <button onClick={startAction}>Start</button>
-      <button onClick={chancelAction}>Cancel</button>
-      <ExpBar profession={"character"}/>
       <ExpBar profession={"mining"}/>
-      <CurrentAction />
-      <ActionQueue />
-      <ResourceGrid resources={resources} />
     </div>
   );
 };
