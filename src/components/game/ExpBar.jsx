@@ -39,7 +39,7 @@ export default function ExpBar({ profession }) {
 
   return (
     <div>
-      <p>{profession} {getLevel(profession)}</p>
+      <h3>{profession} {getLevel(profession)}</h3>
       <Box sx={{ width: '100%' }}>
         <LinearProgress variant="determinate" value={(exp/nextExp) * 100} />
       </Box>

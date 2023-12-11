@@ -3,12 +3,12 @@ import {connectWebSocket, disconnectWebSocket, sendWebsocket} from './WebSocketS
 import { GameDataProvider } from './dataProviders/GameDataProvider';
 import { CharacterDataProvider } from './dataProviders/CharacterDataProvider';
 
-import { Grid, Container, Box } from '@mui/material';
+import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
 
-import TestComponent from './TestComponent';
 import Inventory from './inventory/Inventory';
 import ActionOverview from './actionOverview/ActionOverview';
-import GatheringOverview from './professions/GatheringOverview';
+import GatheringOverview from './gathering/GatheringOverview';
+import BasicTabs from './mainContent/BasicTabs';
 
 const messageReceiver = new EventTarget()
 
@@ -39,16 +39,16 @@ export default function GamePage() {
             <GameDataProvider initGameData={initGameData} send={sendWebsocket}>
               <CharacterDataProvider initCharData={initCharData} messageReceiver={messageReceiver}>
                 <Container maxWidth="false" style={{ height: '100vh' }}>
-                  <Grid container style={{ height: '100%' }} direction="row" justifyContent="flex-end" alignItems="stretch">
+                  <Grid container style={{ height: '100%' }}   >
 
                     {/* Main Content */}
-                    <Grid item xs={12} md={9} style={{ boxSizing: 'border-box', height: '100%' }}>
+                    <Grid item xs={12} md={9}>
                       <Box style={{ backgroundColor: '#f0f0f0', height: '100%' }}>
-                        <GatheringOverview profession={"mining"}/>
+                        <BasicTabs/>
                       </Box>
                     </Grid>
                     {/* Right Side */}
-                    <Grid item xs={12} md={3} style={{ boxSizing: 'border-box', height: '100%' }}>
+                    <Grid item xs={12} md={3}>
                       <Grid container direction="column" style={{ height: '100%' }}>
                         {/* Inventory */}
                         <Grid item style={{ flex: 3 }}>
@@ -63,7 +63,6 @@ export default function GamePage() {
                             <ActionOverview />
                           </Box>
                         </Grid>
-
                       </Grid>
                     </Grid>
                   </Grid>
