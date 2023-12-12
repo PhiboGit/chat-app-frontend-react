@@ -3,23 +3,23 @@ import React, { useContext, useMemo } from 'react';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 
-import ResourceItem from './ResourceItem';
+import Item from './Item';
 import './ResourceGrid.css';
 
-const ResourceGrid = () => {
+const ItemGrid = () => {
   const { characterData } = useContext(CharacterDataContext);
 
-  const resources = useMemo(() => characterData.resources,[characterData.resources])
+  const items = useMemo(() => characterData.items,[characterData.items])
 
   return (
     <div className="resources-grid-container">
       <div className="resources-grid">
-        {Object.entries(resources).map(([name, value]) => (
-          <ResourceItem key={name} name={name} value={value} />
+        {items.map((item) => (
+          <Item key={item._id} item={item} />
         ))}
       </div>
     </div>
   );
 };
 
-export default ResourceGrid;
+export default ItemGrid;

@@ -15,15 +15,15 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const CraftingOverview = () => {
+const AugmentationOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
   const [profession, setProfession] = useState('');
   const [allRecipes, setAllRecipes] = useState({});
   const [recipe, setRecipe] = useState('');
-  const [ingredients, setIngredients] = useState([]);
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
+  const [upgrades, setUpgrades] = useState([]);
+  const [selectedUpgrades, setSelectedUpgrades] = useState([]);
 
   const handleProfession = (event) => {
     const newProfession = event.target.value;
@@ -31,9 +31,11 @@ const CraftingOverview = () => {
     // Reset recipe and ingredients when the profession changes
     setProfession(newProfession);
     setRecipe('');
-    setIngredients([]);
-    setSelectedIngredients([]);
-    setAllRecipes(gameData.recipesData[newProfession]);
+    setUpgrades([]);
+    setSelectedUpgrades([]);
+    setAllRecipes(Object.fromEntries(
+      Object.entries(gameData.recipesData[newProfession]).filter(([key, value]) => value.upgrades.length > 0)
+    ))
   };
 
   const handleRecipe = (event) => {
@@ -41,15 +43,15 @@ const CraftingOverview = () => {
 
     // Set the selected recipe and its ingredients
     setRecipe(newRecipe);
-    setIngredients(allRecipes[newRecipe]?.ingredients || []);
-    setSelectedIngredients(allRecipes[newRecipe]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || [] );
+    setUpgrades(allRecipes[newRecipe]?.upgrades || []);
+    setSelectedUpgrades(allRecipes[newRecipe]?.upgrades.map((value) => value.required ? value.slot[0].resource : "") || [] );
   };
 
-  const handleIngredients = (event, index) => {
-    const newSelectedIngredients = [...selectedIngredients];
-    newSelectedIngredients[index] = event.target.value;
-    console.log("selected Ingredients: ", newSelectedIngredients);
-    setSelectedIngredients(newSelectedIngredients);
+  const handleUpgrades = (event, index) => {
+    const newSelectedUpgrades = [...selectedUpgrades];
+    newSelectedUpgrades[index] = event.target.value;
+    console.log("selected Upgrades: ", newSelectedUpgrades);
+    setSelectedUpgrades(newSelectedUpgrades);
   };
 
   const [limit, setLimit] = React.useState(true);
@@ -69,19 +71,19 @@ const CraftingOverview = () => {
   }
   
   function handleStart(){
-    const crafting = {
+    const upgrading = {
       "type": "action",
       "actionType": profession,
-      "task": "crafting",
+      "task": "upgrading",
       "limit": limit,
       "iterations": parseInt(iterations),
       "args": {
           "recipe": recipe,
-          "ingredients": selectedIngredients.filter((value) => value !== "")
+          "upgrades": selectedUpgrades.filter((value) => value !== "")
       }
     }
-    console.log("crafting: ", crafting);
-    send(crafting)
+    console.log("crafting: ", upgrading);
+    send(upgrading)
   }
 
   return (
@@ -97,6 +99,7 @@ const CraftingOverview = () => {
             onChange={handleProfession}
           >
             <MenuItem value={'toolsmith'}>Toolsmith</MenuItem>
+            <MenuItem value={'woodworking'}>Woodworking</MenuItem>
           </Select>
         </FormControl>
       </div>
@@ -119,18 +122,23 @@ const CraftingOverview = () => {
         </FormControl>
       </div>
       <div>
-        <p>Required Ingredients:</p>
-        {ingredients.map((value, index) => (
+        <p>Required Augments:</p>
+        {upgrades.map((value, index) => (
           
           <FormControl key={index} sx={{ m: 1, minWidth: 80 }}>
           <InputLabel id="ingredient-label">Ingredient</InputLabel>
           <Select
             labelId="ingredient-label"
             id="ingredient"
-            value={selectedIngredients[index] || (value.required ? value.slot[0].resource : "")}
+            value={selectedUpgrades[index] || (value.required ? value.slot[0].resource : "")}
             label="Ingredient"
-            onChange={(event) => handleIngredients(event, index)}
+            onChange={(event) => handleUpgrades(event, index)}
           >
+            {!value.required && (
+              <MenuItem value="">
+                empty
+              </MenuItem>
+            )}
             {value.slot.map((value, index) => (
               <MenuItem key={index} value={value.resource}>
                 {value.amount}   {value.resource}
@@ -149,10 +157,10 @@ const CraftingOverview = () => {
           size="small"
           onChange={handleIterations}
         />)}
-        <Button disabled={selectedIngredients.filter((value) => value !== "").length < 1} onClick={handleStart} variant="contained">Start</Button>
+        <Button disabled={selectedUpgrades.filter((value) => value !== "").length < 1} onClick={handleStart} variant="contained">Start</Button>
       </div>
     </div>
   );
 };
 
-export default CraftingOverview;
+export default AugmentationOverview;

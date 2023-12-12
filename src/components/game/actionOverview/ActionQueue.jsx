@@ -3,6 +3,9 @@ import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import './ActionQueue.css'; // Add your CSS file for styling
 
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 export default function ActionQueue() {
   const { characterData } = useContext(CharacterDataContext);
   const { send } = useContext(GameDataContext);
@@ -23,7 +26,9 @@ export default function ActionQueue() {
         <div key={index} className="action-item">
           <p>Task: {action.task}</p>
           <p>Action Type: {action.actionType}</p>
-          <button onClick={() => cancelAction(index)}>Cancel</button>
+          <IconButton onClick={() => cancelAction(index)} aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
         </div>
       ))}
     </div>

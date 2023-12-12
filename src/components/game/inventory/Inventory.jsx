@@ -2,16 +2,18 @@ import React, { useContext, useMemo } from 'react';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import ResourceGrid from './ResourceGrid';
+import ItemGrid from './ItemGrid';
 import ExpBar from '../ExpBar';
 
 const Inventory = () => {
-  const { characterData } = useContext(CharacterDataContext);
-
-  const resources = useMemo(() => characterData.resources,[characterData.resources])
+  
   return (
     <div>
       <ExpBar profession={"character"}/>
-      <ResourceGrid resources={resources} />
+      <p>Resources</p>
+      <ResourceGrid />
+      <p>Items</p>
+      <ItemGrid />
     </div>
   );
 };

@@ -15,7 +15,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-const CraftingOverview = () => {
+const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
@@ -96,7 +96,9 @@ const CraftingOverview = () => {
             label="Profession"
             onChange={handleProfession}
           >
-            <MenuItem value={'toolsmith'}>Toolsmith</MenuItem>
+            <MenuItem value={'woodworking'}>Woodworking</MenuItem>
+            <MenuItem value={'smelting'}>Smelting</MenuItem>
+            <MenuItem value={'weaving'}>Weaving</MenuItem>
           </Select>
         </FormControl>
       </div>
@@ -155,4 +157,4 @@ const CraftingOverview = () => {
   );
 };
 
-export default CraftingOverview;
+export default RefiningOverview;

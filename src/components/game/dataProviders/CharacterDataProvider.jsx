@@ -13,18 +13,29 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     console.log("adding event listener")
     messageReceiver.addEventListener('update_char', updateChar);
     messageReceiver.addEventListener('action_manager', updateChar);
+    messageReceiver.addEventListener('items', updateItems);
     
     return () => {
       
       console.log("removing event listener")
       messageReceiver.removeEventListener('update_char', updateChar)
       messageReceiver.removeEventListener('action_manager', updateChar)
+      messageReceiver.removeEventListener('items', updateItems);
     };
   }, [])
 
   useEffect(() => {
     setCharacterData(charData);
   }, [charData]);
+
+  function updateItems(event){
+    const receivedData = event.detail; // Access the data from the detail property
+    console.log("Item update: ", receivedData);
+
+    const items = receivedData.items;
+    
+    changeValue('items', items, "$push");
+  }
 
   function updateChar(event) {
     const receivedData = event.detail; // Access the data from the detail property
@@ -67,7 +78,26 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
         currentObj[lastKey] = value;
         break;
       case "$push":
-        currentObj[lastKey].push(value);
+        if(lastKey == 'items' && typeof value === 'string'){
+          return
+        } else if(lastKey == 'items' && Array.isArray(value)){
+          // Create a mapping of _id to objects in currentObj[lastKey]
+          const idToItemMap = currentObj[lastKey].reduce((map, item) => {
+            map[item._id] = item;
+            return map;
+          }, {});
+          for(const newItem of value){
+            const item = idToItemMap[newItem._id]
+            if(item){
+              Object.assign(item, newItem);
+            } else {
+              currentObj[lastKey].push(newItem);
+            }
+          }
+          currentObj[lastKey]
+        }else {
+          currentObj[lastKey].push(value);
+        }
         break;
       case "$pull":
         currentObj[lastKey] = currentObj[lastKey].filter(item => item !== value);
