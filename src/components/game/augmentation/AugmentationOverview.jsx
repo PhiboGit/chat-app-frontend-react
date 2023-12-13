@@ -99,7 +99,6 @@ const AugmentationOverview = () => {
             onChange={handleProfession}
           >
             <MenuItem value={'toolsmith'}>Toolsmith</MenuItem>
-            <MenuItem value={'woodworking'}>Woodworking</MenuItem>
           </Select>
         </FormControl>
       </div>
