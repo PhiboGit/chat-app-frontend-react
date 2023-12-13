@@ -49,7 +49,7 @@ const GatheringIcons = ({profession, selectGathering, selected}) => {
         onMouseEnter={() => setShowTooltip(prevState => ({ ...prevState, [tier]: true }))}
         onMouseLeave={() => setShowTooltip(prevState => ({ ...prevState, [tier]: false }))}
         className={`icon-container ${selected === key ? 'selected' : ''}`}>
-        <Icon sx={{ fontSize: 150 }}/>
+        <Icon sx={{ fontSize: 100 }}/>
 
         {showTooltip[tier] && (
           <div className="tooltip">
