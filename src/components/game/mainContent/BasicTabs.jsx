@@ -9,6 +9,7 @@ import RefiningOverview from '../refiningOverview/RefiningOverview';
 import CraftingOverview from '../crafting/CraftingOverview';
 import AugmentationOverview from '../augmentation/AugmentationOverview';
 import EnchantingOverview from '../enchanting/EnchantingOverview';
+import EquipmentOverview from '../equipment/EquipmentOverview';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -59,6 +60,7 @@ export default function BasicTabs() {
           <Tab label="Crafting" {...a11yProps(2)} />
           <Tab label="Augmentation" {...a11yProps(3)} />
           <Tab label="Enchanting" {...a11yProps(4)} />
+          <Tab label="Equipment" {...a11yProps(5)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
@@ -75,6 +77,9 @@ export default function BasicTabs() {
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
         <EnchantingOverview/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={5}>
+        <EquipmentOverview/>
       </CustomTabPanel>
     </Box>
   );
