@@ -30,19 +30,46 @@ import { Key } from '@mui/icons-material';
 import CarpenterIcon from '@mui/icons-material/Carpenter';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 
-const Item = styled(Paper)(({ theme, icon }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#fff',
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: 'center',
-  width: 60,
-  height: 60,
-  display: 'flex',
-  flexDirection: 'column',
-  alignItems: 'center',
-  justifyContent: 'center',
-  color: theme.palette.text.secondary,
-}));
+const Item = ({ icon: IconComponent, onClick  }) => {
+  const [backgroundColor, setBackgroundColor] = useState('white');
+
+  const paperStyle = {
+    width: 60,
+    height: 60,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    transition: 'background-color 0.3s ease',
+    cursor: 'pointer',
+    backgroundColor: backgroundColor,
+  };
+
+  const iconStyle = {
+    width: '100%',
+    height: '100%',
+  };
+
+  const handleHover = () => {
+    setBackgroundColor('lightgray');
+  };
+
+  const handleLeave = () => {
+    setBackgroundColor('white');
+  };
+
+  return (
+    <Paper
+      style={paperStyle}
+      onMouseEnter={handleHover}
+      onMouseLeave={handleLeave}
+      onClick={onClick}
+    >
+      <div style={iconStyle}>
+        {IconComponent && <IconComponent style={{ width: '100%', height: '100%' }} />}
+      </div>
+    </Paper>
+  );
+};
 
 
 const EquipmentOverview = () => {
@@ -61,6 +88,14 @@ const EquipmentOverview = () => {
     map[item._id] = item;
     return map;
   }, {});
+
+  const getIcon = (profession) => {
+    switch (profession) {
+      case 'tool': return CarpenterIcon
+      default:
+        return HelpCenterIcon
+    }
+  }
 
   function equipItem(profession, slot){
     setProfession(profession)
@@ -107,12 +142,10 @@ const EquipmentOverview = () => {
           <Grid key={profession} container spacing={1}>
             {Object.keys(skills[profession].equipment).map((slot) => (
               <Grid key={slot} item >
-                <Item 
-                
+                <Item
+                icon={getIcon(slot)}
                 onClick={() => equipItem(profession, slot)}
-                >
-                  <HelpCenterIcon sx={{ fontSize: 90 }}/>
-                </Item>
+              />
               </Grid>
             ))}
           </Grid>

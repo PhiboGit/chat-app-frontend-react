@@ -5,10 +5,9 @@ import { CharacterDataProvider } from './dataProviders/CharacterDataProvider';
 
 import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
 
-import Inventory from './inventory/Inventory';
 import ActionOverview from './actionOverview/ActionOverview';
-import GatheringOverview from './gathering/GatheringOverview';
 import BasicTabs from './mainContent/BasicTabs';
+import InventoryOverview from './inventory/InventoryOverview';
 
 const messageReceiver = new EventTarget()
 
@@ -53,7 +52,7 @@ export default function GamePage() {
                         {/* Inventory */}
                         <Grid item style={{ flex: 3 }}>
                           <Box style={{ backgroundColor: '#ddd', height: '100%' }}>
-                            <Inventory />
+                            <InventoryOverview />
                           </Box>
                         </Grid>
 
