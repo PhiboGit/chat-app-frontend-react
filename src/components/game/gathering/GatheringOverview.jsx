@@ -18,6 +18,7 @@ import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 
 import Button from '@mui/material/Button';
+import GatheringIcon from './GatheringIcon';
 
 
 const Item = ({ icon: IconComponent, selected, onClick  }) => {
@@ -74,7 +75,7 @@ const GatheringOverview = () => {
 
   const gatheringData = gameData.gatheringResourcesData[profession].tiers[tier-1]
   
-  function getGatheringData(tier){
+  function getGatheringData(profession, tier){
     const tierData = gatheringData[tier]
     const exp = tierData.exp
     const expChar = tierData.expChar
@@ -144,11 +145,9 @@ const GatheringOverview = () => {
             const identifier = `${profession}-${tier}`
             return(
             <Grid item key={identifier}>
-              <Item
-                icon={getIcon(profession)}
-                selected={selectedItem === identifier}
-                onClick={() => handleItemClick(identifier, profession, tier)}
-              />
+              <GatheringIcon
+              gatheringData={gameData.gatheringResourcesData[profession].tiers[index]}
+            />
             </Grid>
           )})}          
         </Grid>
