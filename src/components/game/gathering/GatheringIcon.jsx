@@ -65,14 +65,14 @@ const CustomChip = ({gatheringData}) => {
   );
 };
 
-const ResourceTitle = ({ gatheringData }) => {
+const GatheringTitle = ({ gatheringData }) => {
   
   
 
   return (
     <React.Fragment>
       <Typography color="inherit">{gatheringData.lootTable}</Typography>
-      <CustomChip gatheringData={gatheringData}/>
+
       <hr/>
       <b>{`Level: ${gatheringData.level}`}</b>
       <br/>
@@ -93,8 +93,8 @@ const GatheringIcon = ({ gatheringData }) => {
 
   const paperStyle = {
     position: 'relative',
-    width: 100,
-    height: 100,
+    width: 130,
+    height: 130,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -130,7 +130,7 @@ const GatheringIcon = ({ gatheringData }) => {
     <HtmlTooltip
       placement="right"
       title={
-        <ResourceTitle gatheringData={gatheringData}/>
+        <GatheringTitle gatheringData={gatheringData}/>
       }
       >
       <Paper

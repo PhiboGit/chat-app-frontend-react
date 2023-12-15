@@ -11,6 +11,8 @@ import TextField from '@mui/material/TextField';
 
 import Button from '@mui/material/Button';
 import GatheringIcon from './GatheringIcon';
+import ProfessionIcon from '../ProfessionIcon';
+import { Typography } from '@mui/material';
 
 
 const GatheringOverview = () => {
@@ -60,19 +62,21 @@ const GatheringOverview = () => {
       <Box sx={{ flexGrow: 1 }}>
         {Object.keys(gameData.gatheringResourcesData).map((profession) =>(
         <Box key={profession} sx={{ flexGrow: 1 }}>
-        <ExpBar profession={profession}></ExpBar> 
-        <Grid key={profession} container spacing={1}>
-          {gameData.gatheringResourcesData[profession].tiers.map((value, index) => {
-            const tier = index +1
-            const identifier = `${profession}-${tier}`
-            return(
-            <Grid item key={identifier}>
-              <GatheringIcon
-              gatheringData={gameData.gatheringResourcesData[profession].tiers[index]}
-            />
-            </Grid>
-          )})}          
-        </Grid>
+          <Typography>{profession}: </Typography>
+          <ProfessionIcon profession={profession}/>
+          <ExpBar profession={profession}></ExpBar> 
+          <Grid key={profession} container spacing={1}>
+            {gameData.gatheringResourcesData[profession].tiers.map((value, index) => {
+              const tier = index +1
+              const identifier = `${profession}-${tier}`
+              return(
+              <Grid item key={identifier}>
+                <GatheringIcon
+                gatheringData={gameData.gatheringResourcesData[profession].tiers[index]}
+              />
+              </Grid>
+            )})}          
+          </Grid>
         </Box>
         ))}
       </Box>

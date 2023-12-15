@@ -1,4 +1,5 @@
 import React, { useContext, useState, useMemo } from 'react';
+
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
@@ -77,8 +78,6 @@ const CustomChip = ({rarity, tier, soulbound}) => {
 
 const ResourceTitle = ({ item }) => {
   
-  
-
   return (
     <React.Fragment>
       <Typography color="inherit">{item.subtype}</Typography>
