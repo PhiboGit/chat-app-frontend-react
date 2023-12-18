@@ -88,7 +88,7 @@ const GatheringOverview = () => {
         </Box>
         ))}
       </Box>
-      {selectedItem &&(<div className="startGathering-container">
+      <div>
         <Switch checked={limit} onChange={handleLimit} inputProps={{ 'aria-label': 'controlled' }}/>
         {limit && (<TextField
           label="Iterations"
@@ -97,10 +97,9 @@ const GatheringOverview = () => {
           size="small"
           onChange={handleIterations}
         />)}
-        <Button onClick={startAction} variant="contained">Start</Button>
-        {selectedItem}
-        
-    </div>)}
+        <Button disabled={!selectedItem} onClick={startAction} variant="contained">Start</Button>
+        {selectedItem}       
+    </div>
     </>
   );
 };
