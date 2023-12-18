@@ -176,7 +176,7 @@ const EnchantingOverview = () => {
         </Popover>
 
         <TextField
-              label="LevelLimit"
+              label="Enchanting Limit"
               id="levelLimit"
               defaultValue= {enchantingLimit}
               size="small"
