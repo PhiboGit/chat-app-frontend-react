@@ -82,7 +82,7 @@ const ResourceTitle = ({ item }) => {
     <React.Fragment>
       <Typography color="inherit">{item.subtype}</Typography>
       {item.type}
-      <CustomChip rarity={item.rarirty} tier={item.tier} soulbound={item.soulbound} />
+      <CustomChip rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
       <hr/>
       <b>{`Level: ${item.level}`}</b>
       <br/>
