@@ -2,6 +2,8 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
+import adjustWeights from './Wheights';
+
 import ExpBar from '../ExpBar';
 import Container from '@mui/material/Container';
 import CarpenterIcon from '@mui/icons-material/Carpenter';
@@ -20,6 +22,7 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ResourceIcon from '../inventory/ResourceIcon';
 import RecipeIcon from '../refiningOverview/RecipeIcon';
+import RarityDistribution from './RarityDistribution';
 
 const CraftingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -64,6 +67,34 @@ const CraftingOverview = () => {
     console.log("selected Ingredients: ", newSelectedIngredients);
     setSelectedIngredients(newSelectedIngredients);
   };
+
+  function rarityWeights() {
+    const skillLevel = characterData.skills[profession].level
+    const itemLevel = allRecipes[recipe].level
+    const table = gameData.craftingTable.equipments
+
+    const rarityWeights = table.rarityWeights
+    const defaultWindow = table.defaultWindow
+
+    let startBonus = 0
+    let endBonus = 0
+    
+    for (const selectedItem of selectedIngredients) {
+      const item = gameData.craftingMaterials[selectedItem]
+      if (!item) continue
+      if (item["craftingBonus"]){
+        startBonus += item["craftingBonus"]
+      }
+    }
+  
+    let startWindow = defaultWindow[0] + (skillLevel * table.professionLevel.start) + (itemLevel * table.itemLevel.start) + startBonus
+    let endWindow = defaultWindow[1] + (skillLevel * table.professionLevel.end) + (itemLevel * table.itemLevel.end) + endBonus
+
+    const weights = adjustWeights(rarityWeights, startWindow, endWindow)
+
+    console.log("Weights: ", weights)
+    return weights
+  }
 
   function init(){
     const selectedProfession = 'toolsmith'
@@ -269,6 +300,21 @@ const CraftingOverview = () => {
           </Box>
         </Box>
       </Container>
+
+      {recipe &&(<Container maxWidth="xs">
+        <Box 
+          display="flex"
+          flexDirection='column'
+          alignItems="center"
+          sx={{ bgcolor: 'rgba(91, 91, 200, 0.8)'}}>
+          <h3>Rarity chances:</h3>
+          <RarityDistribution values={rarityWeights()} />
+        
+          
+        </Box>
+      </Container>)}
+
+
       <Container maxWidth="xs">
         <Box 
             display="flex"

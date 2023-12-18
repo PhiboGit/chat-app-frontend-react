@@ -7,7 +7,9 @@ export const GameDataProvider = ({children, initGameData, send }) => {
   const [gameData, setGameData] = useState({
     expTable: initGameData.expTable,
     gatheringResourcesData: initGameData.gatheringResourcesData,
-    recipesData: initGameData.recipesData
+    recipesData: initGameData.recipesData,
+    craftingTable: initGameData.craftingTable,
+    craftingMaterials: initGameData.craftingMaterials
   });
 
   return (
