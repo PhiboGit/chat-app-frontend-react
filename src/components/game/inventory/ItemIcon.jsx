@@ -103,7 +103,7 @@ const ResourceTitle = ({ item }) => {
   )
 }
 
-const ItemIcon = ({ item }) => {
+const ItemIcon = ({ item, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const paperStyle = {
@@ -151,6 +151,10 @@ const ItemIcon = ({ item }) => {
     setIsHovered(false);
   };
 
+  const handleClick = (event) => {
+    if(onClick) onClick(event);
+  }
+
   return (
     <HtmlTooltip
       placement="top"
@@ -162,6 +166,7 @@ const ItemIcon = ({ item }) => {
         style={paperStyle}
         onMouseEnter={handleHover}
         onMouseLeave={handleLeave}
+        onClick={handleClick}
       >
         <div style={overlayStyle}></div>
         <div style={iconStyle}>

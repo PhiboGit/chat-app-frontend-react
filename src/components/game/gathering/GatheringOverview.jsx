@@ -28,6 +28,12 @@ const GatheringOverview = () => {
 
   const gatheringData = gameData.gatheringResourcesData[profession].tiers[tier-1]
 
+  function handleSelection(identifier, profession, tier){
+    setSelectedItem(identifier)
+    setProfession(profession)
+    setTier(tier)
+  }
+
   const handleLimit = (event) => {
     setLimit(event.target.checked);
     if (event.target.checked) {
@@ -72,8 +78,10 @@ const GatheringOverview = () => {
               return(
               <Grid item key={identifier}>
                 <GatheringIcon
-                gatheringData={gameData.gatheringResourcesData[profession].tiers[index]}
-              />
+                  selected ={selectedItem == identifier}
+                  onClick={() => handleSelection(identifier, profession, tier)}
+                  gatheringData={gameData.gatheringResourcesData[profession].tiers[index]}
+                />
               </Grid>
             )})}          
           </Grid>
@@ -90,9 +98,8 @@ const GatheringOverview = () => {
           onChange={handleIterations}
         />)}
         <Button onClick={startAction} variant="contained">Start</Button>
-        <div>
-          {JSON.stringify(gatheringData, null, '\t')}
-        </div>
+        {selectedItem}
+        
     </div>)}
     </>
   );

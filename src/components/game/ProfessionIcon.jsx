@@ -83,8 +83,6 @@ const ProfessionTitle = ({ profession, skillData }) => {
       <hr/>
       <b>{`Exp: ${skillData.exp}`}</b>
       <br/>
-      <b>{`Level: ${skillData.level}`}</b>
-      <br/>
       <b>{`Level Up: ${expLevel}/${nextExpLevel} Exp`}</b>
       <hr/>
       <b>{`Luck: ${skillData.luck}`}</b>

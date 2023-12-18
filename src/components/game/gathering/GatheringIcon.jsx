@@ -88,7 +88,7 @@ const GatheringTitle = ({ gatheringData }) => {
   )
 }
 
-const GatheringIcon = ({ gatheringData }) => {
+const GatheringIcon = ({ gatheringData, onClick, selected}) => {
   const [isHovered, setIsHovered] = useState(false);
 
   const paperStyle = {
@@ -113,6 +113,17 @@ const GatheringIcon = ({ gatheringData }) => {
     transition: 'opacity 0.3s ease', // Adjust the transition property
   };
 
+  const selectedStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(123, 239, 178, 0.3)', // Light green with 0.3 opacity
+    opacity: selected ? 1 : 0, // Show overlay on hover
+    transition: 'opacity 0.3s ease', // Adjust the transition property
+  };
+
   const iconStyle = {
     width: '100%',
     height: '100%',
@@ -126,9 +137,14 @@ const GatheringIcon = ({ gatheringData }) => {
     setIsHovered(false);
   };
 
+  const handleClick = (event) => {
+    if(onClick) onClick(event);
+  }
+
   return (
     <HtmlTooltip
-      placement="right"
+      placement="bottom"
+      arrow
       title={
         <GatheringTitle gatheringData={gatheringData}/>
       }
@@ -137,8 +153,10 @@ const GatheringIcon = ({ gatheringData }) => {
         style={paperStyle}
         onMouseEnter={handleHover}
         onMouseLeave={handleLeave}
+        onClick={handleClick}
       >
         <div style={overlayStyle}></div>
+        <div style={selectedStyle}></div>
         <div style={iconStyle}>
           <Icon style={{ width: '100%', height: '100%' }}>
             <img src={getIcon(gatheringData)} />

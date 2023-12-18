@@ -1,4 +1,7 @@
 import React, { useContext, useState, useMemo } from 'react';
+import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../dataProviders/GameDataProvider';
+
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
@@ -17,7 +20,7 @@ import ClothSvg from '../../../assets/svg/rolled-cloth.svg'
 import IngotSvg from '../../../assets/svg/metal-bar.svg'
 
 import PickaxeSvg from '../../../assets/svg/war-pick.svg'
-import RandomSvg from '../../../assets/svg/random.svg'
+import ScrollSvg from '../../../assets/svg/scroll.svg'
 
 
 const iconMappings = {
@@ -33,19 +36,20 @@ const iconMappings = {
   // Add more mappings as needed
 };
 
-const getIcon = (resourceName) => {
-  const icon = iconMappings[resourceName]
+const getIcon = (recipeName) => {
+  if (!recipeName) return ScrollSvg
+  const icon = iconMappings[recipeName]
   if(icon){
     return icon
   }
 
   for (const key in iconMappings) {
-    if (resourceName.startsWith(key)) {
+    if (recipeName.startsWith(key)) {
       return iconMappings[key];
     }
   }
 
-  return RandomSvg;
+  return ScrollSvg;
 };
 
 const HtmlTooltip = styled(({ className, ...props }) => (
@@ -81,40 +85,49 @@ const CustomChip = ({rarity, tier}) => {
   return (
     <Stack direction="row" spacing={1}>
       {/* Small Chip with custom color */}
-      {tier && <Chip label={`T${tier}`} size="small" style={{ backgroundColor: 'rgba(220, 220, 220, 1)',  color: 'black', }} />}
-      {rarity && <Chip label={rarity} size="small" style={{ backgroundColor: getRarityColor(rarity),  color: 'white', }} />}
+      
 
     </Stack>
   );
 };
 
-const ResourceTitle = ({name, amount}) => {
-  const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
-   // "woodT1_common"
-   //matchResult[0] "woodT1_common"
-   //matchResult[1] "wood"
-   //matchResult[2] "T1"
-   //matchResult[3] "1"
-   //matchResult[4] "_common"
-   //matchResult[5] "common"
+const CustomTitle = ({profession, recipeName}) => {
 
-  const resourceName = matchResult[1]
-  const tier = parseInt(matchResult[3]) ? parseInt(matchResult[3]) : undefined
-  const rarity = matchResult[5]
+  const { gameData } = useContext(GameDataContext);
+  const { characterData } = useContext(CharacterDataContext);
+
+  const skillData = characterData.skills[profession]
+
+  const recipe = gameData.recipesData[profession][recipeName]
 
   return (
     <React.Fragment>
-      <Typography color="inherit">{resourceName}</Typography>
-      {amount && <b>Amount: {amount}</b>} 
-      <CustomChip rarity={rarity} tier={tier}/>
+      <Typography color="inherit">{recipe.amount} x {recipeName}</Typography>
+      <CustomChip />
       <hr/>
-      <u>{'amazing content'}</u>.
-      {"It's very engaging. Right?"}
+      <b>
+        <span style={{ color: recipe.level > skillData.level ? 'red' : 'green' }}>
+          {`Level: ${recipe.level}`}
+        </span>
+      </b>
+      <br/>
+      <b>{`Exp: ${recipe.exp}`}</b>
+      <br/>
+      <b>{`Exp Char: ${recipe.expChar}`}</b>
+      <br/>
+      <b>{`Time: ${recipe.time}ms`}</b>
+      <br/>
+      
     </React.Fragment>
   )
 }
 
-const ResourceIcon = ({ amount, name , onClick}) => {
+const RecipeIcon = ({disableTitle, profession, recipeName, onClick}) => {
+  const { gameData } = useContext(GameDataContext);
+  const { characterData } = useContext(CharacterDataContext);
+
+  
+
   const [isHovered, setIsHovered] = useState(false);
 
   const paperStyle = {
@@ -163,14 +176,14 @@ const ResourceIcon = ({ amount, name , onClick}) => {
   };
 
   const handleClick = (event) => {
-    if(onClick) onClick(event);
+    onClick(event)
   }
 
   return (
     <HtmlTooltip
       placement="top"
       title={
-        <ResourceTitle name={name} amount={amount}/>
+        !disableTitle && <CustomTitle profession={profession} recipeName={recipeName} />
       }
       >
       <Paper
@@ -182,14 +195,13 @@ const ResourceIcon = ({ amount, name , onClick}) => {
         <div style={overlayStyle}></div>
         <div style={iconStyle}>
           <Icon style={{ width: '100%', height: '100%' }}>
-            <img src={getIcon(name)} />
+            <img src={getIcon(recipeName)} />
           </Icon>
         </div>
-        {amount && <div style={valueStyle}>{amount}</div>}
       </Paper>
         
     </HtmlTooltip>
   );
 };
 
-export default ResourceIcon;
+export default RecipeIcon;
