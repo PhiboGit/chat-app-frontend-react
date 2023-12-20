@@ -40,7 +40,7 @@ const EnchantingOverview = () => {
     const item = idToItemMap[newItemId]
     console.log("selected Item: ", item)
 
-    const validItems = Object.keys(characterData.resources).filter((resource) => resource.includes(`${item.subtype}T${item.tier}`))
+    const validItems = Object.keys(characterData.resources).filter((resource) => resource.includes(`${item.name}T${item.tier}`))
 
     // Set the selected recipe and its ingredients
     setItemId(newItemId);

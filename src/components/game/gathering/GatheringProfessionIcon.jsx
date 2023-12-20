@@ -1,6 +1,6 @@
 import React, { useContext, useState, useMemo} from 'react';
-import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
-import { GameDataContext } from './dataProviders/GameDataProvider';
+import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../dataProviders/GameDataProvider';
 
 
 import { styled } from '@mui/material/styles';
@@ -13,15 +13,15 @@ import Icon from '@mui/material/Icon';
 import Chip from '@mui/material/Chip';
 import Stack from '@mui/material/Stack';
 
-import MiningSvg from '../../assets/svg/mining.svg'
-import HerbsSvg from '../../assets/svg/herbs-bundle.svg'
-import LoggingSvg from '../../assets/svg/logging.svg'
+import MiningSvg from '../../../assets/svg/mining.svg'
+import HerbsSvg from '../../../assets/svg/herbs-bundle.svg'
+import LoggingSvg from '../../../assets/svg/logging.svg'
 
 
 
 
-import RandomSvg from '../../assets/svg/random.svg'
-import ItemIcon from './inventory/ItemIcon';
+import RandomSvg from '../../../assets/svg/random.svg'
+import ItemIcon from '../inventory/ItemIcon';
 
 
 const iconMappings = {
@@ -68,11 +68,13 @@ const CustomChip = ({gatheringData}) => {
 const ProfessionTitle = ({ profession, skillData }) => {
   const { gameData } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
-
-  const idToItemMap = characterData.items.reduce((map, item) => {
-    map[item._id] = item;
-    return map;
-  }, {});
+  
+  const idToItemMap = useMemo(() => {
+    return characterData.items.reduce((map, item) => {
+      map[item._id] = item;
+      return map;
+    }, {});
+  }, [characterData.items]);
 
   const expLevel = skillData.exp - gameData.expTable.Exp[`${skillData.level}`]
   const nextExpLevel = gameData.expTable.Exp[`${skillData.level + 1}`] - gameData.expTable.Exp[`${skillData.level}`]
@@ -106,10 +108,10 @@ const ProfessionTitle = ({ profession, skillData }) => {
   )
 }
 
-const ProfessionIcon = ({ profession }) => {
+const GatheringProfessionIcon = ({ profession }) => {
   
   const { characterData } = useContext(CharacterDataContext);
-  const skillData = characterData.skills[profession]
+  const skillData = useMemo(() => characterData.skills[profession], [characterData.skills[profession]]);
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -184,4 +186,4 @@ const ProfessionIcon = ({ profession }) => {
   );
 };
 
-export default ProfessionIcon;
+export default GatheringProfessionIcon;

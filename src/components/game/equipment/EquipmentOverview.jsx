@@ -89,8 +89,8 @@ const EquipmentOverview = () => {
     return map;
   }, {});
 
-  const getIcon = (profession) => {
-    switch (profession) {
+  const getIcon = (slot) => {
+    switch (slot) {
       case 'tool': return CarpenterIcon
       default:
         return HelpCenterIcon

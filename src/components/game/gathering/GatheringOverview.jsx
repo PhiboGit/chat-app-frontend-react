@@ -11,7 +11,7 @@ import TextField from '@mui/material/TextField';
 
 import Button from '@mui/material/Button';
 import GatheringIcon from './GatheringIcon';
-import ProfessionIcon from '../ProfessionIcon';
+import GatheringProfessionIcon from './GatheringProfessionIcon';
 import { Typography } from '@mui/material';
 
 
@@ -69,7 +69,7 @@ const GatheringOverview = () => {
         {Object.keys(gameData.gatheringResourcesData).map((profession) =>(
         <Box key={profession} sx={{ flexGrow: 1 }}>
           <Typography>{profession}: </Typography>
-          <ProfessionIcon profession={profession}/>
+          <GatheringProfessionIcon profession={profession}/>
           <ExpBar profession={profession}></ExpBar> 
           <Grid key={profession} container spacing={1}>
             {gameData.gatheringResourcesData[profession].tiers.map((value, index) => {

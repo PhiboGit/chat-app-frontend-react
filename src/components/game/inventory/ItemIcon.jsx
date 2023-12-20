@@ -25,12 +25,6 @@ const getIcon = (itemName) => {
     return icon
   }
 
-  for (const key in iconMappings) {
-    if (itemName.startsWith(key)) {
-      return iconMappings[key];
-    }
-  }
-
   return RandomSvg;
 };
 
@@ -80,8 +74,8 @@ const ResourceTitle = ({ item }) => {
   
   return (
     <React.Fragment>
-      <Typography color="inherit">{item.subtype}</Typography>
-      {item.type}
+      <Typography color="inherit">{item.name}</Typography>
+      {item.type} {' - '} {item.subtype}
       <CustomChip rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
       <hr/>
       <b>{`Level: ${item.level}`}</b>
@@ -98,6 +92,8 @@ const ResourceTitle = ({ item }) => {
       <br/>
       <b>{`Yield: ${item.properties.yieldMax }`}</b>
       <br/>
+      <hr/>
+      <b>{`Id: ${item._id }`}</b>
       
     </React.Fragment>
   )
@@ -157,7 +153,7 @@ const ItemIcon = ({ item, onClick }) => {
 
   return (
     <HtmlTooltip
-      placement="top"
+      placement="bottom"
       title={
         <ResourceTitle item={item}/>
       }
@@ -171,7 +167,7 @@ const ItemIcon = ({ item, onClick }) => {
         <div style={overlayStyle}></div>
         <div style={iconStyle}>
           <Icon style={{ width: '100%', height: '100%' }}>
-            <img src={getIcon(item.subtype)} />
+            <img src={getIcon(item.name)} />
           </Icon>
         </div>
         {item.enchantingLevel >0 && <div style={enchantingStyle}>+{item.enchantingLevel}</div>}
