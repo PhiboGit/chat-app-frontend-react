@@ -27,7 +27,7 @@ const AugmentationOverview = () => {
 
   const [profession, setProfession] = useState('');
   const [allRecipes, setAllRecipes] = useState({});
-  const [recipe, setRecipe] = useState('');
+  const [recipeName, setRecipe] = useState('');
   const [upgrades, setUpgrades] = useState([]);
   const [selectedUpgrades, setSelectedUpgrades] = useState([]);
 
@@ -108,7 +108,7 @@ const AugmentationOverview = () => {
       "limit": limit,
       "iterations": parseInt(iterations),
       "args": {
-          "recipe": recipe,
+          "recipe": recipeName,
           "upgrades": selectedUpgrades.filter((value) => value !== "")
       }
     }
@@ -154,6 +154,7 @@ const AugmentationOverview = () => {
             onChange={handleProfession}
           >
             <MenuItem value={'toolsmith'}>Toolsmith</MenuItem>
+            <MenuItem value={'armorer'}>Armorer</MenuItem>
           </Select>
         </FormControl>
         </Box>
@@ -175,8 +176,8 @@ const AugmentationOverview = () => {
           display: 'inline-block', // Make sure the box is inline with the content
           }}
           >
-          {recipe ? (
-            <RecipeIcon profession={profession} recipeName={recipe} onClick={handleClick} />
+          {recipeName ? (
+            <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={handleClick} />
             ) : (
               <RecipeIcon disableTitle onClick={handleClick} />
             )}
@@ -212,7 +213,7 @@ const AugmentationOverview = () => {
             <Grid container spacing={1}>
               {Object.keys(allRecipes).map((recipeName) => (
                   <Grid item key={recipeName}>
-                    <RecipeIcon profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
+                    <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
                   </Grid>
                 ))}
             </Grid>
@@ -222,7 +223,7 @@ const AugmentationOverview = () => {
       </Box>
       </Container>
 
-      {recipe && (
+      {recipeName && (
       <Container maxWidth="xs">
         <Box 
           display="flex"
@@ -231,11 +232,11 @@ const AugmentationOverview = () => {
           sx={{ bgcolor: 'rgba(135, 168, 155, 0.8)'}}
         >
           <h3>Info:</h3>
-          <b>{`Amount: ${allRecipes[recipe].amount} x ${recipe}`}</b>
-          <b>{`Level: ${allRecipes[recipe].level}`}</b>
-          <b>{`Exp: ${allRecipes[recipe].exp}`}</b>
-          <b>{`CharExp: ${allRecipes[recipe].expChar}`}</b>
-          <b>{`Time: ${allRecipes[recipe].time}ms`}</b>
+          <b>{`Amount: ${allRecipes[recipeName].amount} x ${recipeName}`}</b>
+          <b>{`Level: ${allRecipes[recipeName].level}`}</b>
+          <b>{`Exp: ${allRecipes[recipeName].exp}`}</b>
+          <b>{`CharExp: ${allRecipes[recipeName].expChar}`}</b>
+          <b>{`Time: ${allRecipes[recipeName].time}ms`}</b>
         </Box>
       </Container>)}
 
@@ -264,6 +265,9 @@ const AugmentationOverview = () => {
               label="Augment"
               onChange={(event) => handleUpgrades(event, index)}
             >
+              <MenuItem key={"empty"} value={""}>
+                empty
+              </MenuItem>
               {value.slot.map((value, index) => (
                 <MenuItem key={index} value={value.resource}>
                   {value.amount}   {value.resource}

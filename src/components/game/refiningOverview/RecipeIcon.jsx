@@ -91,14 +91,12 @@ const CustomChip = ({rarity, tier}) => {
   );
 };
 
-const CustomTitle = ({profession, recipeName}) => {
+const CustomTitle = ({recipe, profession, recipeName}) => {
 
   const { gameData } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
   const skillData = characterData.skills[profession]
-
-  const recipe = gameData.recipesData[profession][recipeName]
 
   return (
     <React.Fragment>
@@ -122,11 +120,9 @@ const CustomTitle = ({profession, recipeName}) => {
   )
 }
 
-const RecipeIcon = ({disableTitle, profession, recipeName, onClick}) => {
+const RecipeIcon = ({disableTitle, recipe, profession, recipeName, onClick}) => {
   const { gameData } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
-
-  
 
   const [isHovered, setIsHovered] = useState(false);
 
@@ -183,7 +179,7 @@ const RecipeIcon = ({disableTitle, profession, recipeName, onClick}) => {
     <HtmlTooltip
       placement="top"
       title={
-        !disableTitle && <CustomTitle profession={profession} recipeName={recipeName} />
+        !disableTitle && <CustomTitle recipe={recipe} profession={profession} recipeName={recipeName} />
       }
       >
       <Paper

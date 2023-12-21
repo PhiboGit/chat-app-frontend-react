@@ -70,12 +70,12 @@ const CustomChip = ({rarity, tier, soulbound}) => {
   );
 };
 
-const ResourceTitle = ({ item }) => {
+const GatheringToolTitle = ({ item }) => {
   
   return (
     <React.Fragment>
       <Typography color="inherit">{item.name}</Typography>
-      {item.type} {' - '} {item.subtype}
+      {item.type} {' - '} {item.skills}
       <CustomChip rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
       <hr/>
       <b>{`Level: ${item.level}`}</b>
@@ -91,6 +91,60 @@ const ResourceTitle = ({ item }) => {
       <b>{`Luck: ${item.properties.luckBonus}`}</b>
       <br/>
       <b>{`Yield: ${item.properties.yieldMax }`}</b>
+      <br/>
+      <hr/>
+      <b>{`STR: ${item.properties.str}`}</b>   
+      <br/>
+      <b>{`CON: ${item.properties.con}`}</b>   
+      <br/>
+      <b>{`INT: ${item.properties.int}`}</b>   
+      <br/>
+      <b>{`DEX: ${item.properties.dex}`}</b>   
+      <br/>
+      <b>{`FOC: ${item.properties.foc}`}</b>   
+      <br/>
+      <hr/>
+      <b>{`Id: ${item._id }`}</b>
+      
+    </React.Fragment>
+  )
+}
+
+const ArmorTitle = ({ item }) => {
+  
+  return (
+    <React.Fragment>
+      <Typography color="inherit">{item.name}</Typography>
+      {item.type} {' - '} {item.skills}
+      <CustomChip rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
+      <hr/>
+      <b>{`Level: ${item.level}`}</b>
+      <br/>
+      <b>{`Enchanting: +${item.enchantingLevel}`}</b>
+      <hr/>
+      <b>{`Resistance: ${item.properties.resistance}`}</b>   
+      <br/>
+      <b>{`Armor: ${item.properties.armor}`}</b>   
+      <br/>
+      <hr/>
+      <b>{`Speed: ${item.properties.speedBonus * 100}%`}</b>   
+      <br/>
+      <b>{`Exp: ${item.properties.expBonus * 100}%`}</b>
+      <br/>
+      <b>{`Luck: ${item.properties.luckBonus}`}</b>
+      <br/>
+      <b>{`Yield: ${item.properties.yieldMax }`}</b>
+      <br/>
+      <hr/>
+      <b>{`STR: ${item.properties.str}`}</b>   
+      <br/>
+      <b>{`CON: ${item.properties.con}`}</b>   
+      <br/>
+      <b>{`INT: ${item.properties.int}`}</b>   
+      <br/>
+      <b>{`DEX: ${item.properties.dex}`}</b>   
+      <br/>
+      <b>{`FOC: ${item.properties.foc}`}</b>   
       <br/>
       <hr/>
       <b>{`Id: ${item._id }`}</b>
@@ -151,12 +205,22 @@ const ItemIcon = ({ item, onClick }) => {
     if(onClick) onClick(event);
   }
 
+  const title = (item) => {
+    if (item.type === "tool" && item.skills.some(skill => ["woodcutting", "mining", "harvesting"].includes(skill))) {
+      return (
+        <GatheringToolTitle item={item}/>
+      )
+    } else if (["head", "chest", "hands", "legs", "feet"].includes(item.type)) {
+      return (
+        <ArmorTitle item={item}/>
+      )
+    }
+  }
+
   return (
     <HtmlTooltip
       placement="bottom"
-      title={
-        <ResourceTitle item={item}/>
-      }
+      title={ title(item) }
       >
       <Paper
         style={paperStyle}

@@ -25,9 +25,11 @@ const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
+  const refiningRecipes = gameData.refiningRecipes
+
   const [profession, setProfession] = useState('');
   const [allRecipes, setAllRecipes] = useState({});
-  const [recipe, setRecipe] = useState('');
+  const [recipeName, setRecipe] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
@@ -39,7 +41,7 @@ const RefiningOverview = () => {
     setRecipe('');
     setIngredients([]);
     setSelectedIngredients([]);
-    setAllRecipes(gameData.recipesData[newProfession]);
+    setAllRecipes(refiningRecipes[newProfession]);
   };
 
   const handleRecipe = (eventOrRecipeName) => {
@@ -72,7 +74,7 @@ const RefiningOverview = () => {
     setRecipe('');
     setIngredients([]);
     setSelectedIngredients([]);
-    setAllRecipes(gameData.recipesData[selectedProfession]);
+    setAllRecipes(refiningRecipes[selectedProfession]);
   } 
   
   useEffect(() => {
@@ -103,7 +105,7 @@ const RefiningOverview = () => {
       "limit": limit,
       "iterations": parseInt(iterations),
       "args": {
-          "recipe": recipe,
+          "recipe": recipeName,
           "ingredients": selectedIngredients.filter((value) => value !== "")
       }
     }
@@ -171,8 +173,8 @@ const RefiningOverview = () => {
           display: 'inline-block', // Make sure the box is inline with the content
           }}
           >
-          {recipe ? (
-            <RecipeIcon profession={profession} recipeName={recipe} onClick={handleClick} />
+          {recipeName ? (
+            <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={handleClick} />
             ) : (
               <RecipeIcon disableTitle onClick={handleClick} />
             )}
@@ -208,7 +210,7 @@ const RefiningOverview = () => {
             <Grid container spacing={1}>
               {Object.keys(allRecipes).map((recipeName) => (
                   <Grid item key={recipeName}>
-                    <RecipeIcon profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
+                    <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
                   </Grid>
                 ))}
             </Grid>
@@ -218,7 +220,7 @@ const RefiningOverview = () => {
       </Box>
       </Container>
 
-      {recipe && (
+      {recipeName && (
       <Container maxWidth="xs">
         <Box 
           display="flex"
@@ -227,11 +229,11 @@ const RefiningOverview = () => {
           sx={{ bgcolor: 'rgba(135, 168, 155, 0.8)'}}
         >
           <h3>Info:</h3>
-          <b>{`Amount: ${allRecipes[recipe].amount} x ${recipe}`}</b>
-          <b>{`Level: ${allRecipes[recipe].level}`}</b>
-          <b>{`Exp: ${allRecipes[recipe].exp}`}</b>
-          <b>{`CharExp: ${allRecipes[recipe].expChar}`}</b>
-          <b>{`Time: ${allRecipes[recipe].time}ms`}</b>
+          <b>{`Amount: ${allRecipes[recipeName].amount} x ${recipeName}`}</b>
+          <b>{`Level: ${allRecipes[recipeName].level}`}</b>
+          <b>{`Exp: ${allRecipes[recipeName].exp}`}</b>
+          <b>{`CharExp: ${allRecipes[recipeName].expChar}`}</b>
+          <b>{`Time: ${allRecipes[recipeName].time}ms`}</b>
         </Box>
       </Container>)}
 

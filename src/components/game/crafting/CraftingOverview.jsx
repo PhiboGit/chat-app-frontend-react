@@ -30,7 +30,7 @@ const CraftingOverview = () => {
 
   const [profession, setProfession] = useState('');
   const [allRecipes, setAllRecipes] = useState({});
-  const [recipe, setRecipe] = useState('');
+  const [recipeName, setRecipe] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
@@ -70,7 +70,7 @@ const CraftingOverview = () => {
 
   function rarityWeights() {
     const skillLevel = characterData.skills[profession].level
-    const itemLevel = allRecipes[recipe].level
+    const itemLevel = allRecipes[recipeName].level
     const table = gameData.craftingTable.equipments
 
     const rarityWeights = table.rarityWeights
@@ -134,7 +134,7 @@ const CraftingOverview = () => {
       "limit": limit,
       "iterations": parseInt(iterations),
       "args": {
-          "recipe": recipe,
+          "recipe": recipeName,
           "ingredients": selectedIngredients.filter((value) => value !== "")
       }
     }
@@ -179,6 +179,7 @@ const CraftingOverview = () => {
             onChange={handleProfession}
           >
             <MenuItem value={'toolsmith'}>Toolsmith</MenuItem>
+            <MenuItem value={'armorer'}>Armorer</MenuItem>
           </Select>
         </FormControl>
         </Box>
@@ -200,8 +201,8 @@ const CraftingOverview = () => {
           display: 'inline-block', // Make sure the box is inline with the content
           }}
           >
-          {recipe ? (
-            <RecipeIcon profession={profession} recipeName={recipe} onClick={handleClick} />
+          {recipeName ? (
+            <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={handleClick} />
             ) : (
               <RecipeIcon disableTitle onClick={handleClick} />
             )}
@@ -237,7 +238,7 @@ const CraftingOverview = () => {
             <Grid container spacing={1}>
               {Object.keys(allRecipes).map((recipeName) => (
                   <Grid item key={recipeName}>
-                    <RecipeIcon profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
+                    <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
                   </Grid>
                 ))}
             </Grid>
@@ -247,7 +248,7 @@ const CraftingOverview = () => {
       </Box>
       </Container>
 
-      {recipe && (
+      {recipeName && (
       <Container maxWidth="xs">
         <Box 
           display="flex"
@@ -256,11 +257,11 @@ const CraftingOverview = () => {
           sx={{ bgcolor: 'rgba(135, 168, 155, 0.8)'}}
         >
           <h3>Info:</h3>
-          <b>{`Amount: ${allRecipes[recipe].amount} x ${recipe}`}</b>
-          <b>{`Level: ${allRecipes[recipe].level}`}</b>
-          <b>{`Exp: ${allRecipes[recipe].exp}`}</b>
-          <b>{`CharExp: ${allRecipes[recipe].expChar}`}</b>
-          <b>{`Time: ${allRecipes[recipe].time}ms`}</b>
+          <b>{`Amount: ${allRecipes[recipeName].amount} x ${recipeName}`}</b>
+          <b>{`Level: ${allRecipes[recipeName].level}`}</b>
+          <b>{`Exp: ${allRecipes[recipeName].exp}`}</b>
+          <b>{`CharExp: ${allRecipes[recipeName].expChar}`}</b>
+          <b>{`Time: ${allRecipes[recipeName].time}ms`}</b>
         </Box>
       </Container>)}
 
@@ -301,7 +302,7 @@ const CraftingOverview = () => {
         </Box>
       </Container>
 
-      {recipe &&(<Container maxWidth="xs">
+      {recipeName &&(<Container maxWidth="xs">
         <Box 
           display="flex"
           flexDirection='column'
