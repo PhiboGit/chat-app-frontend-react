@@ -82,15 +82,15 @@ const GatheringToolTitle = ({ item }) => {
       <br/>
       <b>{`Enchanting: +${item.enchantingLevel}`}</b>
       <hr/>
-      <b>{`Speed: ${item.properties.baseSpeed * 100}%`}</b>
+      <b>{`BaseSpeed: ${item.properties.baseSpeed}%`}</b>
       <br/>
-      <b>{`SpeedBonus: ${item.properties.speedBonus * 100}%`}</b>
+      <b>{`Speed: ${item.properties.speed}%`}</b>
       <br/>
-      <b>{`Exp: ${item.properties.expBonus * 100}%`}</b>
+      <b>{`Exp: ${item.properties.exp}%`}</b>
       <br/>
-      <b>{`Luck: ${item.properties.luckBonus}`}</b>
+      <b>{`Luck: ${item.properties.luck}`}</b>
       <br/>
-      <b>{`Yield: ${item.properties.yieldMax }`}</b>
+      <b>{`YieldMax: ${item.properties.yieldMax }`}</b>
       <br/>
       <hr/>
       <b>{`STR: ${item.properties.str}`}</b>   
@@ -127,13 +127,13 @@ const ArmorTitle = ({ item }) => {
       <b>{`Armor: ${item.properties.armor}`}</b>   
       <br/>
       <hr/>
-      <b>{`Speed: ${item.properties.speedBonus * 100}%`}</b>   
+      <b>{`Speed: ${item.properties.speed}%`}</b>   
       <br/>
-      <b>{`Exp: ${item.properties.expBonus * 100}%`}</b>
+      <b>{`Exp: ${item.properties.exp}%`}</b>
       <br/>
-      <b>{`Luck: ${item.properties.luckBonus}`}</b>
+      <b>{`Luck: ${item.properties.luck}`}</b>
       <br/>
-      <b>{`Yield: ${item.properties.yieldMax }`}</b>
+      <b>{`YieldMax: ${item.properties.yieldMax }`}</b>
       <br/>
       <hr/>
       <b>{`STR: ${item.properties.str}`}</b>   

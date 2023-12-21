@@ -88,8 +88,6 @@ const ProfessionTitle = ({ profession, skillData }) => {
       <b>{`Level Up: ${expLevel}/${nextExpLevel} Exp`}</b>
       <hr/>
       <b>{`Luck: ${skillData.luck}`}</b>
-      <br/>
-      <b>{`Speed: ${skillData.speed * 100}%`}</b>
       <hr/>
       <b>{`Equipment: `}</b>
       <Grid key={profession} container spacing={1}>

@@ -265,9 +265,11 @@ const AugmentationOverview = () => {
               label="Augment"
               onChange={(event) => handleUpgrades(event, index)}
             >
-              <MenuItem key={"empty"} value={""}>
+              {!value.required && 
+              (<MenuItem key={"empty"} value={""}>
                 empty
-              </MenuItem>
+              </MenuItem>)
+              }
               {value.slot.map((value, index) => (
                 <MenuItem key={index} value={value.resource}>
                   {value.amount}   {value.resource}
