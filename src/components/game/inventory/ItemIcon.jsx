@@ -11,11 +11,28 @@ import Stack from '@mui/material/Stack';
 
 
 import PickaxeSvg from '../../../assets/svg/war-pick.svg'
+import SickleSvg from '../../../assets/svg/sickle.svg'
+import AxeSvg from '../../../assets/svg/wood-axe.svg'
+
+import GlovesSvg from '../../../assets/svg/gloves.svg'
+import BootsSvg from '../../../assets/svg/boots.svg'
+import HatSvg from '../../../assets/svg/pointy-hat.svg'
+import ShirtSvg from '../../../assets/svg/shirt.svg'
+import PantsSvg from '../../../assets/svg/trousers.svg'
+
 import RandomSvg from '../../../assets/svg/random.svg'
 
 
 const iconMappings = {
-  'pickaxe': PickaxeSvg
+  'pickaxe': PickaxeSvg,
+  'sickle': SickleSvg,
+  'axe':AxeSvg,
+
+  'hat': HatSvg,
+  'chestpiece':ShirtSvg,
+  'gloves':GlovesSvg,
+  'pants':PantsSvg,
+  'boots': BootsSvg
   // Add more mappings as needed
 };
 
@@ -49,9 +66,9 @@ const getRarityColor = (rarity) => {
     case 'rare':
       return '#2196f3';
     case 'epic':
-      return '#ff9800';
+      return '#a335ee';
     case 'legendary':
-      return '#ff5722';
+      return '#ff9800';
     default:
       return 'rgba(0, 0, 0, 0.87)';
   }
@@ -156,6 +173,10 @@ const ArmorTitle = ({ item }) => {
 const ItemIcon = ({ item, onClick }) => {
   const [isHovered, setIsHovered] = useState(false);
 
+  
+  const rarity = item.rarity
+  const borderColor = rarity ? getRarityColor(rarity) : 'transparent';
+
   const paperStyle = {
     position: 'relative',
     width: 50,
@@ -165,6 +186,7 @@ const ItemIcon = ({ item, onClick }) => {
     justifyContent: 'center',
     transition: 'opacity 0.3s ease', // Adjust the transition property
     cursor: 'pointer',
+    border: `2px solid ${borderColor}`, // Border style based on rarity
   };
 
   const overlayStyle = {
