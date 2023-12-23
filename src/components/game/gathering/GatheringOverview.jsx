@@ -4,6 +4,8 @@ import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 import ExpBar from '../ExpBar';
 
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+
 import Grid from '@mui/material/Grid';
 
 import Switch from '@mui/material/Switch';
@@ -64,13 +66,28 @@ const GatheringOverview = () => {
 
 
   return (
-    <>
-      <Box sx={{ flexGrow: 1 }}>
+    <Container maxWidth="lg">
+      <Box 
+        display="flex"
+        flexDirection='column'
+        alignItems="center"
+        sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
+      <Container maxWidth="md">
+      <Box sx={{ 
+        
+        bgcolor: 'rgba(169, 150, 230, 0.8)' 
+        }}>
         {Object.keys(gameData.gatheringResourcesData).map((profession) =>(
-        <Box key={profession} sx={{ flexGrow: 1 }}>
+          <Box 
+          key={profession} 
+          sx={{  bgcolor: 'rgba(169, 183, 200, 0.8)', margin: 2  }}>
+          <Container maxWidth="xs">
+          <Box key={profession} sx={{  bgcolor: 'rgba(139, 183, 200, 0.8)', margin: 1  }}>
           <Typography>{profession}: </Typography>
           <GatheringProfessionIcon profession={profession}/>
           <ExpBar profession={profession}></ExpBar> 
+          </Box>
+          </Container>
           <Grid key={profession} container spacing={1}>
             {gameData.gatheringResourcesData[profession].tiers.map((value, index) => {
               const tier = index +1
@@ -88,7 +105,13 @@ const GatheringOverview = () => {
         </Box>
         ))}
       </Box>
-      <div>
+      </Container>
+      <Container maxWidth="xs">
+      <Box 
+        display="flex"
+        flexDirection='column'
+        alignItems="center"
+        sx={{ bgcolor: 'rgba(169, 223, 151, 0.8)'}}>
         <Switch checked={limit} onChange={handleLimit} inputProps={{ 'aria-label': 'controlled' }}/>
         {limit && (<TextField
           label="Iterations"
@@ -99,8 +122,10 @@ const GatheringOverview = () => {
         />)}
         <Button disabled={!selectedItem} onClick={startAction} variant="contained">Start</Button>
         {selectedItem}       
-    </div>
-    </>
+    </Box>
+    </Container>
+    </Box>
+    </Container>
   );
 };
 

@@ -1,8 +1,15 @@
 import React, { useContext, useState, useMemo } from 'react';
 
+import { GameDataContext } from '../dataProviders/GameDataProvider';
+
+
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
+import Popover from '@mui/material/Popover';
+import Popper from '@mui/material/Popper';
+import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Icon from '@mui/material/Icon';
@@ -21,6 +28,7 @@ import ShirtSvg from '../../../assets/svg/shirt.svg'
 import PantsSvg from '../../../assets/svg/trousers.svg'
 
 import RandomSvg from '../../../assets/svg/random.svg'
+import { ClickAwayListener } from '@mui/material';
 
 
 const iconMappings = {
@@ -170,7 +178,9 @@ const ArmorTitle = ({ item }) => {
   )
 }
 
-const ItemIcon = ({ item, onClick }) => {
+const ItemIcon = ({ item, onClick, equippable }) => {
+  const { gameData, send } = useContext(GameDataContext);
+
   const [isHovered, setIsHovered] = useState(false);
 
   
@@ -186,7 +196,7 @@ const ItemIcon = ({ item, onClick }) => {
     justifyContent: 'center',
     transition: 'opacity 0.3s ease', // Adjust the transition property
     cursor: 'pointer',
-    border: `2px solid ${borderColor}`, // Border style based on rarity
+    border: `4px solid ${borderColor}`, // Border style based on rarity
   };
 
   const overlayStyle = {
@@ -224,8 +234,55 @@ const ItemIcon = ({ item, onClick }) => {
   };
 
   const handleClick = (event) => {
-    if(onClick) onClick(event);
+    console.log("Clicked Item!")
+    if(onClick){
+      onClick(event);
+      return
+    } 
+    else if(equippable) {
+      console.log("Open popper...")
+      openPopover(event);
+    }
   }
+
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const openPopover = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closePopover = () => {
+    console.log('closePopover')
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  const handleEquip = (skill) => {
+    const equip = {
+      "type": "equip",
+      "args": {
+        "itemId": item._id,
+        "skill": skill,
+        "slot": item.type
+      }
+    }
+    send(equip)
+    closePopover()
+  }
+
+  const handleSell = (event) => {
+    const sell = {
+      "type": "sell",
+      "args": {
+        "itemId": item._id,
+      }
+    }
+    send(sell)
+    closePopover()
+  }
+
 
   const title = (item) => {
     if (item.type === "tool" && item.skills.some(skill => ["woodcutting", "mining", "harvesting"].includes(skill))) {
@@ -240,8 +297,9 @@ const ItemIcon = ({ item, onClick }) => {
   }
 
   return (
+    <>
     <HtmlTooltip
-      placement="bottom"
+      placement="top"
       title={ title(item) }
       >
       <Paper
@@ -260,6 +318,31 @@ const ItemIcon = ({ item, onClick }) => {
       </Paper>
         
     </HtmlTooltip>
+    {open && <ClickAwayListener onClickAway={closePopover}>
+    <Popper
+      id={id}
+      open={open}
+      anchorEl={anchorEl}
+      placement='bottom'
+    >
+      <Container maxWidth="xs">
+        <Box
+          sx={{
+            bgcolor: 'rgba(160, 177, 186, 0.8)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center', // Optional: Align items in the center horizontally
+          }}
+        >
+          <Button onClick={handleSell} key={"sell"} variant="contained">Sell</Button>
+          {item.skills.map((skill) => (
+            <Button onClick={() => handleEquip(skill)} key={skill} variant="contained">Equip {skill}</Button>
+          ))}
+        </Box>
+      </Container>
+    </Popper>
+    </ClickAwayListener>}
+</>
   );
 };
 

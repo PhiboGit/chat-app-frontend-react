@@ -52,7 +52,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
       }
     });
 
-    console.log("CharData updated");
+    console.log("CharData updated!", characterData);
   }
 
   function changeValue(key, value, operation) {
@@ -100,13 +100,14 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
         }
         break;
       case "$pull":
-        currentObj[lastKey] = currentObj[lastKey].filter(item => item !== value);
+        currentObj[lastKey] = currentObj[lastKey].filter(item => item._id != value);
         break;
       default:
         console.error("Invalid operation: ", operation);
         return;
     }
     setCharacterData({ ...charData });
+    console.log("characterData updated!")
   }
 
   return (

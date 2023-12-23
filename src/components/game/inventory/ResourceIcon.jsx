@@ -145,7 +145,7 @@ const ResourceIcon = ({ amount, name , onClick}) => {
     justifyContent: 'center',
     transition: 'opacity 0.3s ease', // Adjust the transition property
     cursor: 'pointer',
-    border: `2px solid ${borderColor}`, // Border style based on rarity
+    border: `4px solid ${borderColor}`, // Border style based on rarity
   };
 
   const overlayStyle = {

@@ -20,6 +20,7 @@ import TerrainIcon from '@mui/icons-material/Terrain';
 
 import ResourceIcon from './ResourceIcon';
 import ItemIcon from './ItemIcon';
+import { Typography } from '@mui/material';
 
 
 const InventoryOverview = () => {
@@ -27,8 +28,9 @@ const InventoryOverview = () => {
   const { characterData } = useContext(CharacterDataContext);
 
   const resources = useMemo(() => characterData.resources,[characterData.resources])
+  const items = useMemo(() => characterData.items,[characterData.items])
 
-  const idToItemMap = characterData.items.reduce((map, item) => {
+  const idToItemMap = items.reduce((map, item) => {
     map[item._id] = item;
     return map;
   }, {});
@@ -38,6 +40,10 @@ const InventoryOverview = () => {
 
   return (
     <>
+    <Typography>
+      {characterData.characterName} {characterData.level}
+      Gold: {characterData.currency.gold}
+    </Typography>
     Resources: 
     <Box>
       <Grid container spacing={1}>
@@ -58,6 +64,7 @@ const InventoryOverview = () => {
          return(
           <Grid item key={itemId}>
             <ItemIcon
+              equippable
               item={idToItemMap[itemId]}
             />
           </Grid>

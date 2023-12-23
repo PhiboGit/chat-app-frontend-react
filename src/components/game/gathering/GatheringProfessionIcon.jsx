@@ -65,6 +65,26 @@ const CustomChip = ({gatheringData}) => {
   );
 };
 
+function getSkillSheet(skillData, idToItemMap){
+  const skillSheet = {
+    luck: skillData.luck,
+    speed: 0,
+    exp: 0,
+    yieldMax: 0,
+  }
+
+  Object.keys(skillData.equipment).forEach((slot) => {
+    const item = idToItemMap[skillData.equipment[slot]];
+    if (item) {
+      skillSheet.luck += item.properties.luck
+      skillSheet.speed += item.properties.speed + (item.properties.baseSpeed || 0)
+      skillSheet.exp += item.properties.exp
+      skillSheet.yieldMax += item.properties.yieldMax
+    }
+  })
+  return skillSheet
+}
+
 const ProfessionTitle = ({ profession, skillData }) => {
   const { gameData } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
@@ -76,8 +96,10 @@ const ProfessionTitle = ({ profession, skillData }) => {
     }, {});
   }, [characterData.items]);
 
-  const expLevel = skillData.exp - gameData.expTable.Exp[`${skillData.level}`]
-  const nextExpLevel = gameData.expTable.Exp[`${skillData.level + 1}`] - gameData.expTable.Exp[`${skillData.level}`]
+  const expLevel = skillData.exp
+  const nextExpLevel = gameData.expTable.Exp[`${skillData.level + 1}`]
+
+  const skillSheet = getSkillSheet(skillData, idToItemMap)
 
   return (
     <React.Fragment>
@@ -85,9 +107,16 @@ const ProfessionTitle = ({ profession, skillData }) => {
       <hr/>
       <b>{`Exp: ${skillData.exp}`}</b>
       <br/>
-      <b>{`Level Up: ${expLevel}/${nextExpLevel} Exp`}</b>
+      <b>{`Level Up: ${nextExpLevel - expLevel} Exp`}</b>
       <hr/>
-      <b>{`Luck: ${skillData.luck}`}</b>
+      <b>{`Luck: ${skillSheet.luck}`}</b>
+      <br/>
+      <b>{`Speed: ${skillSheet.speed}%`}</b>
+      <br/>
+      <b>{`Exp: ${skillSheet.exp}%`}</b>
+      <br/>
+      <b>{`YieldMax: ${skillSheet.yieldMax}`}</b>
+      <br/>
       <hr/>
       <b>{`Equipment: `}</b>
       <Grid key={profession} container spacing={1}>
