@@ -3,8 +3,10 @@ import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
-import './ActionQueue.css'; // Add your CSS file for styling
+import { Grid, IconButton } from '@mui/material';
+import { Container } from '@mui/material';
 
+import CancelIcon from '@mui/icons-material/Cancel';
 
 const updateTime = 100 // ms update
 
@@ -62,14 +64,15 @@ export default function CurrentAction() {
     setTimer(intervalId);
   }
 
-  function getActionName(){
+  function getActionText(){
     return (
       <>
-        <p>{task} - {actionType}</p>
+        {actionType}
+        <br/>
         {(limit) ? (
-          <p>Iterations left: {iterations}</p>
+          <>Iterations left: {iterations}</>
         ):(
-          <p>Counter: {counter}</p>
+          <>Counter: {counter}</>
         )}
       </>
     )
@@ -83,21 +86,27 @@ export default function CurrentAction() {
   }
 
   return (
-    <div className="action-queue-container">
-      <p>Current Action:</p>
-      {currentAction ? (
-        <>
-          {getActionName()}
-          <div className="action-progress">
-          <Box sx={{ width: '100%' }}>
-            <LinearProgress variant="determinate" value={progress} />
-          </Box>
-          </div>
-          <button onClick={() => cancelAction()}>Cancel</button>
-        </>
-      ) : (
-        <p>empty</p>
-      )}
-    </div>
+    <Container>
+      {currentAction &&
+       <Box
+       sx={{
+         border: '2px solid #333', // Add this line for border styling
+         borderRadius: '4px',
+         bgcolor: 'rgba(160, 177, 186, 0.8)',
+       }}
+      >
+        <LinearProgress variant="determinate" value={progress} />  
+        <Grid container>
+          <Grid item xs={10} sx={{ bgcolor: 'rgba(100, 177, 186, 0.8)'}}>
+            {getActionText()}
+          </Grid>
+          <Grid item xs={2}>
+            <IconButton onClick={() => cancelAction()} aria-label="cancel">
+              <CancelIcon />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Box>}
+    </Container>
   );
 }

@@ -1,10 +1,10 @@
 import React, { useContext, useMemo } from 'react';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import './ActionQueue.css'; // Add your CSS file for styling
 
 import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
+import { Box, Container, Grid } from '@mui/material';
 
 export default function ActionQueue() {
   const { characterData } = useContext(CharacterDataContext);
@@ -20,17 +20,28 @@ export default function ActionQueue() {
   };
 
   return (
-    <div className="action-queue-container">
-      <h2>Action Queue</h2>
-      {actionQueue.map((action, index) => (
-        <div key={index} className="action-item">
-          <p>Task: {action.task}</p>
-          <p>Action Type: {action.actionType}</p>
-          <IconButton onClick={() => cancelAction(index)} aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        </div>
-      ))}
-    </div>
+    <Container>
+      {actionQueue &&
+       <Box
+       sx={{
+         border: '2px solid #333', // Add this line for border styling
+         borderRadius: '4px',
+         bgcolor: 'rgba(160, 177, 186, 0.8)',
+       }}
+      >
+        {actionQueue.map((action, index) => (
+        <Grid container key={index}>
+            <Grid item xs={10} sx={{ bgcolor: 'rgba(100, 177, 186, 0.8)'}}>
+              {`${action.actionType}`}
+            </Grid>
+            <Grid item xs={2} key={index}>
+              <IconButton onClick={() => cancelAction(index)} aria-label="delete">
+                <DeleteIcon />
+              </IconButton>
+            </Grid>
+        </Grid>
+        ))}
+      </Box>}
+    </Container>
   );
 }
