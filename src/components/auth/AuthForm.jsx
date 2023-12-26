@@ -94,7 +94,7 @@ const AuthForm = () => {
           <RegisterForm onRegister={handleRegister} />
         </CustomTabPanel>
         <CustomTabPanel value={view} index={2}>
-          <Button onClick={() => navigate('/game')}>Play</Button>
+          <Button variant="contained" onClick={() => navigate('/game')}>Play</Button>
         </CustomTabPanel>
       </Box>
     </Container>

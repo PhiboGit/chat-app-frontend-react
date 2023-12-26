@@ -1,7 +1,7 @@
 // RegisterForm.jsx
 import React, { useState } from 'react';
 import AuthService from './AuthService';
-import { Button, TextField } from '@mui/material';
+import { Button, Grid, TextField } from '@mui/material';
 
 export default function RegisterForm({ onRegister }) {
   // State for form fields
@@ -25,25 +25,35 @@ export default function RegisterForm({ onRegister }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <TextField
-        label="Character"
-        type="text"
-        value={character}
-        onChange={(e) => setCharacter(e.target.value)}
-      />
-      <TextField
-        label="User"
-        type="text"
-        value={user}
-        onChange={(e) => setUser(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button type="submit">Register</Button>
+      <Grid container spacing={1} direction="column">
+        <Grid item>
+          <TextField
+            label="Character"
+            type="text"
+            value={character}
+            onChange={(e) => setCharacter(e.target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            label="User"
+            type="text"
+            value={user}
+            onChange={(e) => setUser(e.target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <Button variant="contained" type="submit">Register</Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }

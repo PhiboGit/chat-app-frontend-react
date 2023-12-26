@@ -1,7 +1,7 @@
 // LoginForm.jsx
 import React, { useState } from 'react';
 import AuthService from './AuthService';
-import { Button, TextField } from '@mui/material';
+import { Button, TextField, Grid } from '@mui/material';
 
 export default function LoginForm({ onLogin }) {
   // State for form fields
@@ -24,19 +24,29 @@ export default function LoginForm({ onLogin }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <TextField
-        label="User"
-        type="text"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <TextField
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button type="submit">Login</Button>
+      <Grid container spacing={1} direction="column">
+        <Grid item>
+          <TextField
+            label="User"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <TextField
+            label="Password"
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+        </Grid>
+        <Grid item>
+          <Button variant="contained" type="submit">
+            Login
+          </Button>
+        </Grid>
+      </Grid>
     </form>
   );
 }
