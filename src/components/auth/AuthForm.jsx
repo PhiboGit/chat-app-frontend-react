@@ -3,14 +3,58 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
-import Button from '../common/Button';
 
-import './Auth.css'; // Import the CSS file for styling
+import { Button, Container } from '@mui/material';
+import PropTypes from 'prop-types';
+import Tabs from '@mui/material/Tabs';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Tab from '@mui/material/Tab';
+
+
+
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          {children}
+        </Box>
+      )}
+    </div>
+  );
+}
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
 
 const AuthForm = () => {
-  const [view, setView] = useState('login'); // 'login', 'register', 'play'
+  const [view, setView] = React.useState(0);
   const navigate = useNavigate();
   
+  const handleChange = (event, newValue) => {
+    setView(newValue);
+  };
+
   useEffect(() => {
     getToken();
   }, []); // Run once when the component mounts
@@ -18,47 +62,42 @@ const AuthForm = () => {
   function getToken() {
     const storedToken = localStorage.getItem('token');
     if (storedToken) {
-      setView('play');
+      setView(2);
     }
   }
 
   const handleLogin = () => {
     // after successful login, change view to play
     getToken(); // Check for token after login
-    setView('play');
+    setView(2);
   };
 
   const handleRegister = () => {
     // after successful register, change view to login
-    setView('login');
-  };
-
-  const renderView = () => {
-    switch (view) {
-      case 'register':
-        return <RegisterForm onRegister={handleRegister} />;
-      case 'play':
-        return <Button onClick={() => navigate('/game')}>Play</Button>;
-      default:
-        return <LoginForm onLogin={handleLogin} />
-    
-    }
+    setView(0);
   };
 
   return (
-    <div>
-      <nav className="horizontal-navbar">
-        <ul>
-          <li className={view === 'login' ? 'active' : ''} onClick={() => setView('login')}>
-            Login
-          </li>
-          <li className={view === 'register' ? 'active' : ''} onClick={() => setView('register')}>
-            Register
-          </li>
-        </ul>
-      </nav>
-      {renderView()}
-    </div>
+    <Container>
+      <Box>
+        <Box>
+          <Tabs value={view} onChange={handleChange} aria-label="basic tabs example">
+            <Tab label="Login" {...a11yProps(0)} />
+            <Tab label="Register" {...a11yProps(1)} />
+            <Tab label="Play" {...a11yProps(2)} />
+          </Tabs>
+        </Box>
+        <CustomTabPanel value={view} index={0}>
+          <LoginForm onLogin={handleLogin} />
+        </CustomTabPanel>
+        <CustomTabPanel value={view} index={1}>
+          <RegisterForm onRegister={handleRegister} />
+        </CustomTabPanel>
+        <CustomTabPanel value={view} index={2}>
+          <Button onClick={() => navigate('/game')}>Play</Button>
+        </CustomTabPanel>
+      </Box>
+    </Container>
   );
 };
 

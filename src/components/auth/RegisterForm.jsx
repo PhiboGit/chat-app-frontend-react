@@ -1,8 +1,7 @@
 // RegisterForm.jsx
 import React, { useState } from 'react';
-import InputField from '../common/InputField';
-import Button from '../common/Button';
 import AuthService from './AuthService';
+import { Button, TextField } from '@mui/material';
 
 export default function RegisterForm({ onRegister }) {
   // State for form fields
@@ -26,19 +25,19 @@ export default function RegisterForm({ onRegister }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <InputField
+      <TextField
         label="Character"
         type="text"
         value={character}
         onChange={(e) => setCharacter(e.target.value)}
       />
-      <InputField
+      <TextField
         label="User"
         type="text"
         value={user}
         onChange={(e) => setUser(e.target.value)}
       />
-      <InputField
+      <TextField
         label="Password"
         type="password"
         value={password}
