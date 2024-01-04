@@ -3,6 +3,11 @@ import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import ExpBar from '../ExpBar';
+import ItemIcon from '../inventory/ItemIcon';
+
+import Container from '@mui/material/Container';
+import Popover from '@mui/material/Popover';
+
 
 
 import Switch from '@mui/material/Switch';
@@ -78,8 +83,6 @@ const EquipmentOverview = () => {
 
   const skills = characterData.skills
 
-  const [open, setOpen] = React.useState(false);
-
   const [profession, setProfession] = React.useState("");
   const [equipmentSlot, setEquipmentSlot] = React.useState("")
   const [itemId, setItemId] = useState("null")
@@ -91,26 +94,23 @@ const EquipmentOverview = () => {
 
   const getIcon = (slot) => {
     switch (slot) {
-      case 'tool': return CarpenterIcon
+      case 'tool': return HelpCenterIcon
       default:
         return HelpCenterIcon
     }
   }
 
-  function equipItem(profession, slot){
-    setProfession(profession)
-    setEquipmentSlot(slot)
-    setItemId(skills[profession].equipment[slot] ? skills[profession].equipment[slot] : "null" )
-    setOpen(true);
+  const mapFiltered = () => {
+    
+    const filter = new Map(
+      Object.entries(idToItemMap)
+      .filter(([id, item]) => item.skills.includes(profession) && item.type == equipmentSlot )
+    );
+    
+    return filter
   }
 
-  const handleClose = () => {
-    setOpen(false);
-    setItemId("null")
-  };
-
-  const handleItem = (event) => {
-    const itemId = event.target.value;
+  const handleItem = (itemId) => {
 
     const item = idToItemMap[itemId]
     console.log("selected Item: ", item)
@@ -128,68 +128,101 @@ const EquipmentOverview = () => {
     }
     send(equip)
     setItemId("null")
-    setOpen(false)
+    handleClose()
   };
+
+  const getEquipItem =(profession, slot) => {
+    return idToItemMap[skills[profession].equipment[slot]]
+  }
   
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  function equipItem(event, profession, slot){
+    setProfession(profession)
+    setEquipmentSlot(slot)
+    setItemId(skills[profession].equipment[slot] ? skills[profession].equipment[slot] : "null" )
+    setAnchorEl(event.currentTarget);
+  }
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
 
   return (
-    <div>
-      <Box sx={{ flexGrow: 1 }}>
+    <Container maxWidth="sm">
+      <Box 
+        display="flex"
+        flexDirection='column'
+        alignItems="center"
+        sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
+      
       {Object.keys(skills).map((profession) => (
-        <div key={profession}>
-          <h3>{profession}</h3>
-          <div>{JSON.stringify(skills[profession])}</div>
+        <Box key={profession} margin={1} sx={{ flexGrow: 1, bgcolor: 'rgba(169, 203, 251, 0.8)' }}>
+          <>{profession}</>
           <Grid key={profession} container spacing={1}>
             {Object.keys(skills[profession].equipment).map((slot) => (
               <Grid key={slot} item >
+                {(getEquipItem(profession, slot) ?
+                <ItemIcon
+                item={getEquipItem(profession, slot)}
+                onClick={(event) => equipItem(event, profession, slot)}
+                />
+                :
                 <Item
-                icon={getIcon(slot)}
-                onClick={() => equipItem(profession, slot)}
-              />
+                  icon={getIcon(slot)}
+                  onClick={(event) => equipItem(event, profession, slot)}
+                />)}
               </Grid>
             ))}
           </Grid>
-        </div>
+        </Box>
       ))}
-    </Box>
-    <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {`Select ${equipmentSlot} for ${profession}: `}
-        </DialogTitle>
-        <DialogContent>
-          <FormControl sx={{ m: 1, minWidth: 80 }}>
-            <InputLabel id="item-label">Item</InputLabel>
-            <Select
-              labelId="item-label"
-              id="item"
-              value={itemId}
-              label="Item"
-              onChange={handleItem}
+    
+    <Popover
+            id={id}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={handleClose}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'center',
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'center',
+            }}
+            slotProps={{
+              paper: {
+                sx: {
+                  width: 'auto',
+                  height: 'auto', // Set a fixed height or adjust as needed
+                  overflowY: 'auto', // Allow vertical overflow
+                },
+              },
+            }}
+          >
+          <Container maxWidth="xs">
+            <Box
+              sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
             >
-              <MenuItem key="null" value="null">
-                "null"
-              </MenuItem>
-              {Object.keys(idToItemMap).map((key) => (
-                <MenuItem key={key} value={key}>
-                  {key}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleClose} autoFocus>
-            Agree
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+            <Grid container spacing={1}>
+              {[...mapFiltered()].map(([itemId, item]) => (
+                  <Grid item key={itemId}>
+                    <ItemIcon item={item} onClick={() => handleItem(itemId)}/>
+                  </Grid>
+                ))}
+            </Grid>
+            </Box>
+          </Container>
+        </Popover>
+    </Box>
+    </Container>
   );
 };
 
