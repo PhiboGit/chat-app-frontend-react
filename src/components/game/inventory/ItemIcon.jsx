@@ -6,7 +6,6 @@ import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { styled } from '@mui/material/styles';
 import Button from '@mui/material/Button';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import Popover from '@mui/material/Popover';
 import Popper from '@mui/material/Popper';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';

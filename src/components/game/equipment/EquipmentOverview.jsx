@@ -6,8 +6,8 @@ import ExpBar from '../ExpBar';
 import ItemIcon from '../inventory/ItemIcon';
 
 import Container from '@mui/material/Container';
-import Popover from '@mui/material/Popover';
-
+import Popper from '@mui/material/Popper';
+import { ClickAwayListener } from '@mui/material';
 
 
 import Switch from '@mui/material/Switch';
@@ -183,12 +183,11 @@ const EquipmentOverview = () => {
           </Grid>
         </Box>
       ))}
-    
-    <Popover
+    {open && <ClickAwayListener onClickAway={handleClose}>
+    <Popper
             id={id}
             open={open}
             anchorEl={anchorEl}
-            onClose={handleClose}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'center',
@@ -220,7 +219,8 @@ const EquipmentOverview = () => {
             </Grid>
             </Box>
           </Container>
-        </Popover>
+        </Popper>
+        </ClickAwayListener>}
     </Box>
     </Container>
   );

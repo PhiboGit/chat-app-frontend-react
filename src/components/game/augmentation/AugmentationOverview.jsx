@@ -11,7 +11,8 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel'
 import { Grid } from '@mui/material';
 import Button from '@mui/material/Button';
-import Popover from '@mui/material/Popover';
+import Popper from '@mui/material/Popper';
+import { ClickAwayListener } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import InputLabel from '@mui/material/InputLabel';
@@ -127,7 +128,7 @@ const AugmentationOverview = () => {
   };
 
   const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
+  const id = open ? 'simple-popper' : undefined;
 
 
 
@@ -183,11 +184,11 @@ const AugmentationOverview = () => {
             )}
           </Box>
           }
-          <Popover
+          {open && <ClickAwayListener onClickAway={handleClose}>
+            <Popper
             id={id}
             open={open}
             anchorEl={anchorEl}
-            onClose={handleClose}
             anchorOrigin={{
               vertical: 'bottom',
               horizontal: 'center',
@@ -219,7 +220,8 @@ const AugmentationOverview = () => {
             </Grid>
             </Box>
           </Container>
-        </Popover>
+        </Popper>
+        </ClickAwayListener>}
       </Box>
       </Container>
 
