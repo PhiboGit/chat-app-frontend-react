@@ -213,23 +213,7 @@ const CraftingOverview = () => {
             id={id}
             open={open}
             anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            slotProps={{
-              paper: {
-                sx: {
-                  width: 'auto',
-                  height: 'auto', // Set a fixed height or adjust as needed
-                  overflowY: 'auto', // Allow vertical overflow
-                },
-              },
-            }}
+            placement='bottom'
           >
           <Container maxWidth="xs">
             <Box

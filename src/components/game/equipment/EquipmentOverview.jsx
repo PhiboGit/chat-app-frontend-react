@@ -24,7 +24,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
-
+import BlockIcon from '@mui/icons-material/Block';
 
 import { styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -95,6 +95,7 @@ const EquipmentOverview = () => {
   const getIcon = (slot) => {
     switch (slot) {
       case 'tool': return HelpCenterIcon
+      case 'unequip': return BlockIcon
       default:
         return HelpCenterIcon
     }
@@ -188,29 +189,16 @@ const EquipmentOverview = () => {
             id={id}
             open={open}
             anchorEl={anchorEl}
-            anchorOrigin={{
-              vertical: 'bottom',
-              horizontal: 'center',
-            }}
-            transformOrigin={{
-              vertical: 'top',
-              horizontal: 'center',
-            }}
-            slotProps={{
-              paper: {
-                sx: {
-                  width: 'auto',
-                  height: 'auto', // Set a fixed height or adjust as needed
-                  overflowY: 'auto', // Allow vertical overflow
-                },
-              },
-            }}
+            placement='bottom'
           >
           <Container maxWidth="xs">
             <Box
               sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
             >
             <Grid container spacing={1}>
+              <Grid item key={"unequip"}>
+                <Item icon={getIcon('unequip')} onClick={() => handleItem("null")}/>
+              </Grid>
               {[...mapFiltered()].map(([itemId, item]) => (
                   <Grid item key={itemId}>
                     <ItemIcon item={item} onClick={() => handleItem(itemId)}/>
