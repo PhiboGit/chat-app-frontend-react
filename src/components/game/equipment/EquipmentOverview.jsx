@@ -99,13 +99,12 @@ const EquipmentOverview = () => {
   }, {});
 
 
-  const mapFiltered = () => {
-    
-    const filter = new Map(
+  const ItemsFiltered = () => {
+    const filter = 
       Object.entries(idToItemMap)
-      .filter(([id, item]) => item.skills.includes(profession) && item.type == equipmentSlot )
-    );
-    
+      .filter(([id, item]) => item.skills.includes(profession) && item.type == equipmentSlot)
+      .map(([id,item]) => item)
+    console.log('Filtered items', filter)
     return filter
   }
 
@@ -140,6 +139,7 @@ const EquipmentOverview = () => {
     setAnchorEl(event.currentTarget);
   };
   function equipItem(event, profession, slot){
+    console.log('Clicked', profession, slot);
     setProfession(profession)
     setEquipmentSlot(slot)
     setItemId(skills[profession].equipment[slot] ? skills[profession].equipment[slot] : "null" )
@@ -183,23 +183,7 @@ const EquipmentOverview = () => {
         </Box>
       ))}
       <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-        
-          <Container maxWidth="xs">
-            <Box
-              sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-            >
-            <Grid container spacing={1}>
-              <Grid item key={"unequip"}>
-                <Item icon={getIcon('unequip')} onClick={() => handleItem("null")}/>
-              </Grid>
-              {[...mapFiltered()].map(([itemId, item]) => (
-                  <Grid item key={itemId}>
-                    <ItemIcon item={item} onClick={() => handleItem(itemId)}/>
-                  </Grid>
-                ))}
-            </Grid>
-            </Box>
-          </Container>
+        <ItemSelector items={ItemsFiltered()} hasNullValue={true} onItemClick={handleItem}/>
       </ClickAwayPopper>
     </Box>
     </Container>

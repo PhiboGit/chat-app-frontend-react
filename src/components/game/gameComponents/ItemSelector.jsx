@@ -12,7 +12,7 @@ const ItemSelector = ({ items, hasNullValue, onItemClick }) => {
       <Box sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)' }}>
         <Grid container spacing={1}>
           {hasNullValue && <Grid item key={"null"}>
-            <BasicIcon icon={getIcon('null')} onClick={() => onItemClick("null")}/>
+            <BasicIcon iconName={"null"} onClick={() => onItemClick("null")}/>
           </Grid>}
           {items.map((item) => (
             <Grid item key={item._id}>
