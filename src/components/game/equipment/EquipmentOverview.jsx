@@ -57,7 +57,7 @@ const EquipmentOverview = () => {
     return idToItemMap[skills[profession].equipment[slot]]
   }
 
-  const ItemsFiltered = () => {
+  const filteredItems = () => {
     const filter = 
       Object.entries(idToItemMap)
       .filter(([id, item]) => item.skills.includes(profession) && item.type == equipmentSlot)
@@ -128,7 +128,7 @@ const EquipmentOverview = () => {
         </Box>
       ))}
       <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-        <ItemSelector items={ItemsFiltered()} hasNullValue={true} onItemClick={handleItem}/>
+        <ItemSelector items={filteredItems()} hasNullValue={true} onItemClick={handleItem}/>
       </ClickAwayPopper>
     </Box>
     </Container>
