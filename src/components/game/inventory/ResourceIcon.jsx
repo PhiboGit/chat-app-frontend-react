@@ -159,11 +159,6 @@ const ResourceIcon = ({ amount, name , onClick}) => {
     transition: 'opacity 0.3s ease', // Adjust the transition property
   };
 
-  const iconStyle = {
-    width: '100%',
-    height: '100%',
-  };
-
   const valueStyle = {
     position: 'absolute',
     bottom: 0,
@@ -199,12 +194,10 @@ const ResourceIcon = ({ amount, name , onClick}) => {
         onMouseLeave={handleLeave}
         onClick={handleClick}
       >
-        <div style={overlayStyle}></div>
-        <div style={iconStyle}>
-          <Icon style={{ width: '100%', height: '100%' }}>
-            <img src={getIcon(name)} />
-          </Icon>
-        </div>
+        <div style={overlayStyle}/>
+        <Icon style={{ width: '100%', height: '100%' }}>
+          <img src={getIcon(name)} />
+        </Icon>
         {amount && <div style={valueStyle}>{amount}</div>}
       </Paper>
         

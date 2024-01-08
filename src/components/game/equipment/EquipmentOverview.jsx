@@ -34,6 +34,17 @@ import { Key } from '@mui/icons-material';
 
 import CarpenterIcon from '@mui/icons-material/Carpenter';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import ClickAwayPopper from '../../common/ClickAwayPopper';
+import ItemSelector from '../gameComponents/ItemSelector';
+
+const getIcon = (slot) => {
+  switch (slot) {
+    case 'tool': return HelpCenterIcon
+    case 'unequip': return BlockIcon
+    default:
+      return HelpCenterIcon
+  }
+}
 
 const Item = ({ icon: IconComponent, onClick  }) => {
   const [backgroundColor, setBackgroundColor] = useState('white');
@@ -47,11 +58,6 @@ const Item = ({ icon: IconComponent, onClick  }) => {
     transition: 'background-color 0.3s ease',
     cursor: 'pointer',
     backgroundColor: backgroundColor,
-  };
-
-  const iconStyle = {
-    width: '100%',
-    height: '100%',
   };
 
   const handleHover = () => {
@@ -69,9 +75,9 @@ const Item = ({ icon: IconComponent, onClick  }) => {
       onMouseLeave={handleLeave}
       onClick={onClick}
     >
-      <div style={iconStyle}>
-        {IconComponent && <IconComponent style={{ width: '100%', height: '100%' }} />}
-      </div>
+      
+      {IconComponent && <IconComponent style={{ width: '100%', height: '100%' }} />}
+      
     </Paper>
   );
 };
@@ -92,14 +98,6 @@ const EquipmentOverview = () => {
     return map;
   }, {});
 
-  const getIcon = (slot) => {
-    switch (slot) {
-      case 'tool': return HelpCenterIcon
-      case 'unequip': return BlockIcon
-      default:
-        return HelpCenterIcon
-    }
-  }
 
   const mapFiltered = () => {
     
@@ -184,13 +182,8 @@ const EquipmentOverview = () => {
           </Grid>
         </Box>
       ))}
-    {open && <ClickAwayListener onClickAway={handleClose}>
-    <Popper
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            placement='bottom'
-          >
+      <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
+        
           <Container maxWidth="xs">
             <Box
               sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
@@ -207,8 +200,7 @@ const EquipmentOverview = () => {
             </Grid>
             </Box>
           </Container>
-        </Popper>
-        </ClickAwayListener>}
+      </ClickAwayPopper>
     </Box>
     </Container>
   );

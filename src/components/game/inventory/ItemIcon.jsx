@@ -28,6 +28,7 @@ import PantsSvg from '../../../assets/svg/trousers.svg'
 
 import RandomSvg from '../../../assets/svg/random.svg'
 import { ClickAwayListener } from '@mui/material';
+import ClickAwayPopper from '../../common/ClickAwayPopper';
 
 
 const iconMappings = {
@@ -209,11 +210,6 @@ const ItemIcon = ({ item, onClick, equippable }) => {
     transition: 'opacity 0.3s ease', // Adjust the transition property
   };
 
-  const iconStyle = {
-    width: '100%',
-    height: '100%',
-  };
-
   const enchantingStyle = {
     position: 'absolute',
     top: 0,
@@ -255,9 +251,6 @@ const ItemIcon = ({ item, onClick, equippable }) => {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
-
   const handleEquip = (skill) => {
     const equip = {
       "type": "equip",
@@ -285,13 +278,10 @@ const ItemIcon = ({ item, onClick, equippable }) => {
 
   const title = (item) => {
     if (item.type === "tool" && item.skills.some(skill => ["woodcutting", "mining", "harvesting"].includes(skill))) {
-      return (
-        <GatheringToolTitle item={item}/>
-      )
+      return <GatheringToolTitle item={item}/>
     } else if (["head", "chest", "hands", "legs", "feet"].includes(item.type)) {
-      return (
-        <ArmorTitle item={item}/>
-      )
+      return <ArmorTitle item={item}/>
+      
     }
   }
 
@@ -308,22 +298,16 @@ const ItemIcon = ({ item, onClick, equippable }) => {
         onClick={handleClick}
       >
         <div style={overlayStyle}></div>
-        <div style={iconStyle}>
-          <Icon style={{ width: '100%', height: '100%' }}>
-            <img src={getIcon(item.name)} />
-          </Icon>
-        </div>
+        
+        <Icon style={{ width: '100%', height: '100%' }}>
+          <img src={getIcon(item.name)} />
+        </Icon>
+        
         {item.enchantingLevel >0 && <div style={enchantingStyle}>+{item.enchantingLevel}</div>}
       </Paper>
         
     </HtmlTooltip>
-    {open && <ClickAwayListener onClickAway={closePopover}>
-    <Popper
-      id={id}
-      open={open}
-      anchorEl={anchorEl}
-      placement='bottom'
-    >
+    <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
       <Container maxWidth="xs">
         <Box
           sx={{
@@ -339,8 +323,7 @@ const ItemIcon = ({ item, onClick, equippable }) => {
           ))}
         </Box>
       </Container>
-    </Popper>
-    </ClickAwayListener>}
+    </ClickAwayPopper>
 </>
   );
 };
