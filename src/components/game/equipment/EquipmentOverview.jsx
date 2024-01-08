@@ -44,16 +44,18 @@ const EquipmentOverview = () => {
   const { characterData } = useContext(CharacterDataContext);
 
   const skills = characterData.skills
-
+  
   const [profession, setProfession] = React.useState("");
   const [equipmentSlot, setEquipmentSlot] = React.useState("")
-  const [itemId, setItemId] = useState("null")
-
+  
   const idToItemMap = characterData.items.reduce((map, item) => {
     map[item._id] = item;
     return map;
   }, {});
-
+  
+  const getEquipItem =(profession, slot) => {
+    return idToItemMap[skills[profession].equipment[slot]]
+  }
 
   const ItemsFiltered = () => {
     const filter = 
@@ -65,12 +67,9 @@ const EquipmentOverview = () => {
   }
 
   const handleItem = (itemId) => {
-
+    // can also be "null", then it is unequip
     const item = idToItemMap[itemId]
     console.log("selected Item: ", item)
-
-    
-    setItemId(itemId);
     
     const equip = {
       "type": "equip",
@@ -81,20 +80,13 @@ const EquipmentOverview = () => {
       }
     }
     send(equip)
-    setItemId("null")
     handleClose()
   };
 
-  const getEquipItem =(profession, slot) => {
-    return idToItemMap[skills[profession].equipment[slot]]
-  }
   
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  function equipItem(event, profession, slot){
+  function openItemSelector(event, profession, slot){
     console.log('Clicked', profession, slot);
     setProfession(profession)
     setEquipmentSlot(slot)
@@ -105,9 +97,6 @@ const EquipmentOverview = () => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popover' : undefined;
 
   return (
     <Container maxWidth="sm">
@@ -126,12 +115,12 @@ const EquipmentOverview = () => {
                 {(getEquipItem(profession, slot) ?
                 <ItemIcon
                 item={getEquipItem(profession, slot)}
-                onClick={(event) => equipItem(event, profession, slot)}
+                onClick={(event) => openItemSelector(event, profession, slot)}
                 />
                 :
                 <BasicIcon
                   iconName={slot}
-                  onClick={(event) => equipItem(event, profession, slot)}
+                  onClick={(event) => openItemSelector(event, profession, slot)}
                 />)}
               </Grid>
             ))}
