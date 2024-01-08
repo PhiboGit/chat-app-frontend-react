@@ -36,51 +36,7 @@ import CarpenterIcon from '@mui/icons-material/Carpenter';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemSelector from '../gameComponents/ItemSelector';
-
-const getIcon = (slot) => {
-  switch (slot) {
-    case 'tool': return HelpCenterIcon
-    case 'unequip': return BlockIcon
-    default:
-      return HelpCenterIcon
-  }
-}
-
-const Item = ({ icon: IconComponent, onClick  }) => {
-  const [backgroundColor, setBackgroundColor] = useState('white');
-
-  const paperStyle = {
-    width: 60,
-    height: 60,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'background-color 0.3s ease',
-    cursor: 'pointer',
-    backgroundColor: backgroundColor,
-  };
-
-  const handleHover = () => {
-    setBackgroundColor('lightgray');
-  };
-
-  const handleLeave = () => {
-    setBackgroundColor('white');
-  };
-
-  return (
-    <Paper
-      style={paperStyle}
-      onMouseEnter={handleHover}
-      onMouseLeave={handleLeave}
-      onClick={onClick}
-    >
-      
-      {IconComponent && <IconComponent style={{ width: '100%', height: '100%' }} />}
-      
-    </Paper>
-  );
-};
+import BasicIcon from '../gameComponents/Icons/BasicIcon';
 
 
 const EquipmentOverview = () => {
@@ -173,8 +129,8 @@ const EquipmentOverview = () => {
                 onClick={(event) => equipItem(event, profession, slot)}
                 />
                 :
-                <Item
-                  icon={getIcon(slot)}
+                <BasicIcon
+                  iconName={slot}
                   onClick={(event) => equipItem(event, profession, slot)}
                 />)}
               </Grid>

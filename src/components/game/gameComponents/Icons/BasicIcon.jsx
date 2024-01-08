@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Paper from '@mui/material/Paper'
 
-import HelpCenterIcon from '@mui/icons-material/HelpCenter';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import BlockIcon from '@mui/icons-material/Block';
 
 
@@ -10,7 +10,7 @@ const getIcon = (iconName) => {
   switch (iconName) {
     case 'null': return BlockIcon
     default:
-      return HelpCenterIcon
+      return QuestionMarkIcon
   }
 }
 
@@ -28,7 +28,7 @@ const BasicIcon = ({ iconName, onClick  }) => {
     justifyContent: 'center',
     transition: 'opacity 0.3s ease', // Adjust the transition property
     cursor: 'pointer',
-    border: `4px solid red`, // Border style based on rarity
+    border: `4px solid black`, // Border style rgba(0, 0, 0, 0.0)
   };
 
   const overlayStyle = {

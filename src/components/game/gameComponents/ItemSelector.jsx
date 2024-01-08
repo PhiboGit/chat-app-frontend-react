@@ -9,7 +9,7 @@ import BasicIcon from './Icons/BasicIcon';
 const ItemSelector = ({ items, hasNullValue, onItemClick }) => {
   return (
     <Container maxWidth="xs">
-      <Box sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)' }}>
+      <Box sx={{ bgcolor: 'rgba(160, 157, 146, 0.8)' }}>
         <Grid container spacing={1}>
           {hasNullValue && <Grid item key={"null"}>
             <BasicIcon iconName={"null"} onClick={() => onItemClick("null")}/>
