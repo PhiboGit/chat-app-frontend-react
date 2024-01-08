@@ -90,7 +90,6 @@ const EquipmentOverview = () => {
     console.log('Clicked', profession, slot);
     setProfession(profession)
     setEquipmentSlot(slot)
-    setItemId(skills[profession].equipment[slot] ? skills[profession].equipment[slot] : "null" )
     setAnchorEl(event.currentTarget);
   }
 
