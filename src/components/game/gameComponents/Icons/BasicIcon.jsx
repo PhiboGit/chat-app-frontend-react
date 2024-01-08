@@ -17,37 +17,57 @@ const getIcon = (iconName) => {
 const BasicIcon = ({ iconName, onClick  }) => {
   const [backgroundColor, setBackgroundColor] = useState('white');
 
+  const [isHovered, setIsHovered] = useState(false);
+
   const paperStyle = {
-    width: 60,
-    height: 60,
+    position: 'relative',
+    width: 50,
+    height: 50,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    transition: 'background-color 0.3s ease',
+    transition: 'opacity 0.3s ease', // Adjust the transition property
     cursor: 'pointer',
-    backgroundColor: backgroundColor,
+    border: `4px solid red`, // Border style based on rarity
+  };
+
+  const overlayStyle = {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(169, 169, 169, 0.4)', // Light gray with 0.3 opacity
+    opacity: isHovered ? 1 : 0, // Show overlay on hover
+    transition: 'opacity 0.3s ease', // Adjust the transition property
   };
 
   const handleHover = () => {
-    setBackgroundColor('lightgray');
+    setIsHovered(true);
   };
 
   const handleLeave = () => {
-    setBackgroundColor('white');
+    setIsHovered(false);
   };
 
-  const IconComponent = () => {
-    return getIcon(iconName)
+  const handleClick = (event) => {
+    console.log("Clicked BasicIcon!")
+    if(onClick){
+      onClick(event);
+      return
+    }
   }
 
+  
+  const IconComponent = getIcon(iconName);
   return (
     <Paper
       style={paperStyle}
       onMouseEnter={handleHover}
       onMouseLeave={handleLeave}
-      onClick={onClick}
+      onClick={handleClick}
     >
-      
+      <div style={overlayStyle}/>
       <IconComponent style={{ width: '100%', height: '100%' }} />
       
     </Paper>
