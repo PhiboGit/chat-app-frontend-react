@@ -1,69 +1,16 @@
 import React, { useContext, useState, useMemo } from 'react';
 
-import { GameDataContext } from '../dataProviders/GameDataProvider';
-
-
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
-import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
-import Popper from '@mui/material/Popper';
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import Icon from '@mui/material/Icon';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
 
+import { GameDataContext } from '../dataProviders/GameDataProvider';
+import HtmlTooltip from '../../common/HtmlToolTip';
+import TooltipTitleGatheringTool from '../gameComponents/TooltipTitleGatheringTool';
+import TooltipTitleArmor from '../gameComponents/TooltipTitleArmor';
+import getIcon from '../gameComponents/Icons/iconSvgMapping';
 
-import PickaxeSvg from '../../../assets/svg/war-pick.svg'
-import SickleSvg from '../../../assets/svg/sickle.svg'
-import AxeSvg from '../../../assets/svg/wood-axe.svg'
-
-import GlovesSvg from '../../../assets/svg/gloves.svg'
-import BootsSvg from '../../../assets/svg/boots.svg'
-import HatSvg from '../../../assets/svg/pointy-hat.svg'
-import ShirtSvg from '../../../assets/svg/shirt.svg'
-import PantsSvg from '../../../assets/svg/trousers.svg'
-
-import RandomSvg from '../../../assets/svg/random.svg'
-import { ClickAwayListener } from '@mui/material';
-import ClickAwayPopper from '../../common/ClickAwayPopper';
-
-
-const iconMappings = {
-  'pickaxe': PickaxeSvg,
-  'sickle': SickleSvg,
-  'axe':AxeSvg,
-
-  'hat': HatSvg,
-  'chestpiece':ShirtSvg,
-  'gloves':GlovesSvg,
-  'pants':PantsSvg,
-  'boots': BootsSvg
-  // Add more mappings as needed
-};
-
-const getIcon = (itemName) => {
-  const icon = iconMappings[itemName]
-  if(icon){
-    return icon
-  }
-
-  return RandomSvg;
-};
-
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#f5f5f9',
-    color: 'rgba(0, 0, 0, 0.87)',
-    maxWidth: 220,
-    fontSize: theme.typography.pxToRem(12),
-    border: '1px solid #dadde9',
-  },
-}));
 
 const getRarityColor = (rarity) => {
   switch (rarity) {
@@ -82,101 +29,6 @@ const getRarityColor = (rarity) => {
   }
 };
 
-const CustomChip = ({rarity, tier, soulbound}) => {
-  return (
-    <Stack direction="row" spacing={1}>
-      {/* Small Chip with custom color */}
-      {rarity && <Chip label={rarity} size="small" style={{ backgroundColor: getRarityColor(rarity),  color: 'white', }} />}
-      {tier && <Chip label={`T${tier}`} size="small" style={{ backgroundColor: 'rgba(220, 220, 220, 1)',  color: 'black', }} />}
-      {soulbound && <Chip label={`soulbound`} size="small" style={{ backgroundColor: 'red',  color: 'black', }} />}
-      {!soulbound && <Chip label={`bind on equip`} size="small" style={{ backgroundColor: 'green',  color: 'black', }} />}
-
-    </Stack>
-  );
-};
-
-const GatheringToolTitle = ({ item }) => {
-  
-  return (
-    <React.Fragment>
-      <Typography color="inherit">{item.name}</Typography>
-      {item.type} {' - '} {item.skills}
-      <CustomChip rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
-      <hr/>
-      <b>{`Level: ${item.level}`}</b>
-      <br/>
-      <b>{`Enchanting: +${item.enchantingLevel}`}</b>
-      <hr/>
-      <b>{`BaseSpeed: ${item.properties.baseSpeed}%`}</b>
-      <br/>
-      <b>{`Speed: ${item.properties.speed}%`}</b>
-      <br/>
-      <b>{`Exp: ${item.properties.exp}%`}</b>
-      <br/>
-      <b>{`Luck: ${item.properties.luck}`}</b>
-      <br/>
-      <b>{`YieldMax: ${item.properties.yieldMax }`}</b>
-      <br/>
-      <hr/>
-      <b>{`STR: ${item.properties.str}`}</b>   
-      <br/>
-      <b>{`CON: ${item.properties.con}`}</b>   
-      <br/>
-      <b>{`INT: ${item.properties.int}`}</b>   
-      <br/>
-      <b>{`DEX: ${item.properties.dex}`}</b>   
-      <br/>
-      <b>{`FOC: ${item.properties.foc}`}</b>   
-      <br/>
-      <hr/>
-      <b>{`Id: ${item._id }`}</b>
-      
-    </React.Fragment>
-  )
-}
-
-const ArmorTitle = ({ item }) => {
-  
-  return (
-    <React.Fragment>
-      <Typography color="inherit">{item.name}</Typography>
-      {item.type} {' - '} {item.skills}
-      <CustomChip rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
-      <hr/>
-      <b>{`Level: ${item.level}`}</b>
-      <br/>
-      <b>{`Enchanting: +${item.enchantingLevel}`}</b>
-      <hr/>
-      <b>{`Resistance: ${item.properties.resistance}`}</b>   
-      <br/>
-      <b>{`Armor: ${item.properties.armor}`}</b>   
-      <br/>
-      <hr/>
-      <b>{`Speed: ${item.properties.speed}%`}</b>   
-      <br/>
-      <b>{`Exp: ${item.properties.exp}%`}</b>
-      <br/>
-      <b>{`Luck: ${item.properties.luck}`}</b>
-      <br/>
-      <b>{`YieldMax: ${item.properties.yieldMax }`}</b>
-      <br/>
-      <hr/>
-      <b>{`STR: ${item.properties.str}`}</b>   
-      <br/>
-      <b>{`CON: ${item.properties.con}`}</b>   
-      <br/>
-      <b>{`INT: ${item.properties.int}`}</b>   
-      <br/>
-      <b>{`DEX: ${item.properties.dex}`}</b>   
-      <br/>
-      <b>{`FOC: ${item.properties.foc}`}</b>   
-      <br/>
-      <hr/>
-      <b>{`Id: ${item._id }`}</b>
-      
-    </React.Fragment>
-  )
-}
 
 const ItemIcon = ({ item, onClick, equippable }) => {
   const { gameData, send } = useContext(GameDataContext);
@@ -234,59 +86,18 @@ const ItemIcon = ({ item, onClick, equippable }) => {
       onClick(event);
       return
     } 
-    else if(equippable) {
-      console.log("Open popper...")
-      openPopover(event);
-    }
-  }
-
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const openPopover = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const closePopover = () => {
-    console.log('closePopover')
-    setAnchorEl(null);
-  };
-
-  const handleEquip = (skill) => {
-    const equip = {
-      "type": "equip",
-      "args": {
-        "itemId": item._id,
-        "skill": skill,
-        "slot": item.type
-      }
-    }
-    send(equip)
-    closePopover()
-  }
-
-  const handleSell = (event) => {
-    const sell = {
-      "type": "sell",
-      "args": {
-        "itemId": item._id,
-      }
-    }
-    send(sell)
-    closePopover()
   }
 
 
   const title = (item) => {
     if (item.type === "tool" && item.skills.some(skill => ["woodcutting", "mining", "harvesting"].includes(skill))) {
-      return <GatheringToolTitle item={item}/>
+      return <TooltipTitleGatheringTool item={item}/>
     } else if (["head", "chest", "hands", "legs", "feet"].includes(item.type)) {
-      return <ArmorTitle item={item}/>
-      
+      return <TooltipTitleArmor item={item}/>
     }
   }
 
   return (
-    <>
     <HtmlTooltip
       placement="top"
       title={ title(item) }
@@ -304,27 +115,8 @@ const ItemIcon = ({ item, onClick, equippable }) => {
         </Icon>
         
         {item.enchantingLevel >0 && <div style={enchantingStyle}>+{item.enchantingLevel}</div>}
-      </Paper>
-        
+      </Paper>    
     </HtmlTooltip>
-    <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-      <Container maxWidth="xs">
-        <Box
-          sx={{
-            bgcolor: 'rgba(160, 177, 186, 0.8)',
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center', // Optional: Align items in the center horizontally
-          }}
-        >
-          <Button onClick={handleSell} key={"sell"} variant="contained">Sell</Button>
-          {item.skills.map((skill) => (
-            <Button onClick={() => handleEquip(skill)} key={skill} variant="contained">Equip {skill}</Button>
-          ))}
-        </Box>
-      </Container>
-    </ClickAwayPopper>
-</>
   );
 };
 

@@ -8,6 +8,7 @@ const ClickAwayPopper = ({ children, anchorEl, setAnchorEl }) => {
   const open = Boolean(anchorEl);
 
   const closePopper = () => {
+    console.log('ClickAwayPopper closePopper')
     setAnchorEl(null);
   };
   
