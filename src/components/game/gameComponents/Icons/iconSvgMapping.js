@@ -21,7 +21,6 @@ const iconMappings = {
   'gloves':GlovesSvg,
   'pants':PantsSvg,
   'boots': BootsSvg
-  // Add more mappings as needed
 };
 
 const getIcon = (itemName) => {

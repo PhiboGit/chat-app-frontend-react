@@ -10,6 +10,7 @@ import HtmlTooltip from '../../common/HtmlToolTip';
 import TooltipTitleGatheringTool from '../gameComponents/TooltipTitleGatheringTool';
 import TooltipTitleArmor from '../gameComponents/TooltipTitleArmor';
 import getIcon from '../gameComponents/Icons/iconSvgMapping';
+import ClickableIcon from '../gameComponents/Icons/ClickableIcon';
 
 
 const getRarityColor = (rarity) => {
@@ -31,63 +32,8 @@ const getRarityColor = (rarity) => {
 
 
 const ItemIcon = ({ item, onClick }) => {
-  const { gameData, send } = useContext(GameDataContext);
-
-  const [isHovered, setIsHovered] = useState(false);
-
-  
   const rarity = item.rarity
   const borderColor = rarity ? getRarityColor(rarity) : 'transparent';
-
-  const paperStyle = {
-    position: 'relative',
-    width: 50,
-    height: 50,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'opacity 0.3s ease', // Adjust the transition property
-    cursor: 'pointer',
-    border: `4px solid ${borderColor}`, // Border style based on rarity
-  };
-
-  const overlayStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(169, 169, 169, 0.4)', // Light gray with 0.3 opacity
-    opacity: isHovered ? 1 : 0, // Show overlay on hover
-    transition: 'opacity 0.3s ease', // Adjust the transition property
-  };
-
-  const enchantingStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    padding: '2px 4px',
-    borderRadius: '4px',
-    fontSize: '12px',
-  };
-
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleLeave = () => {
-    setIsHovered(false);
-  };
-
-  const handleClick = (event) => {
-    console.log("Clicked Item!")
-    if(onClick){
-      onClick(event);
-      return
-    } 
-  }
-
 
   const title = (item) => {
     if (item.type === "tool" && item.skills.some(skill => ["woodcutting", "mining", "harvesting"].includes(skill))) {
@@ -97,26 +43,20 @@ const ItemIcon = ({ item, onClick }) => {
     }
   }
 
+  const IconComponent = () => (
+    <Icon style={{ width: '100%', height: '100%' }}>
+      <img src={getIcon(item.name)} />
+    </Icon>
+  )
+
   return (
-    <HtmlTooltip
-      placement="top"
-      title={ title(item) }
-      >
-      <Paper
-        style={paperStyle}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleLeave}
-        onClick={handleClick}
-      >
-        <div style={overlayStyle}/>
-        
-        <Icon style={{ width: '100%', height: '100%' }}>
-          <img src={getIcon(item.name)} />
-        </Icon>
-        
-        {item.enchantingLevel >0 && <div style={enchantingStyle}>+{item.enchantingLevel}</div>}
-      </Paper>    
-    </HtmlTooltip>
+    <ClickableIcon 
+      icon={IconComponent} 
+      onClick={onClick} 
+      tooltipTitle={title(item)}
+      borderColor={borderColor}
+      topLeftText={item.enchantingLevel >0 ? `+${item.enchantingLevel}` : ''}
+    />
   );
 };
 

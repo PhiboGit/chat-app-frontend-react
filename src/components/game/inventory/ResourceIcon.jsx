@@ -25,6 +25,8 @@ import ShirtSvg from '../../../assets/svg/shirt.svg'
 import PantsSvg from '../../../assets/svg/trousers.svg'
 import AxeSvg from '../../../assets/svg/wood-axe.svg'
 import RandomSvg from '../../../assets/svg/random.svg'
+import ClickableIcon from '../gameComponents/Icons/ClickableIcon';
+import TooltipTitleResource from '../gameComponents/TooltipTitleResource';
 
 
 const iconMappings = {
@@ -63,18 +65,6 @@ const getIcon = (resourceName) => {
   return RandomSvg;
 };
 
-const HtmlTooltip = styled(({ className, ...props }) => (
-  <Tooltip {...props} classes={{ popper: className }} />
-))(({ theme }) => ({
-  [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#f5f5f9',
-    color: 'rgba(0, 0, 0, 0.87)',
-    maxWidth: 220,
-    fontSize: theme.typography.pxToRem(12),
-    border: '1px solid #dadde9',
-  },
-}));
-
 const getRarityColor = (rarity) => {
   switch (rarity) {
     case 'common':
@@ -92,18 +82,7 @@ const getRarityColor = (rarity) => {
   }
 };
 
-const CustomChip = ({rarity, tier}) => {
-  return (
-    <Stack direction="row" spacing={1}>
-      {/* Small Chip with custom color */}
-      {tier && <Chip label={`T${tier}`} size="small" style={{ backgroundColor: 'rgba(220, 220, 220, 1)',  color: 'black', }} />}
-      {rarity && <Chip label={rarity} size="small" style={{ backgroundColor: getRarityColor(rarity),  color: 'white', }} />}
-
-    </Stack>
-  );
-};
-
-const ResourceTitle = ({name, amount}) => {
+const ResourceIcon = ({ amount, name , onClick}) => {
   const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
    // "woodT1_common"
    //matchResult[0] "woodT1_common"
@@ -113,95 +92,24 @@ const ResourceTitle = ({name, amount}) => {
    //matchResult[4] "_common"
    //matchResult[5] "common"
 
-  const resourceName = matchResult[1]
-  const tier = parseInt(matchResult[3]) ? parseInt(matchResult[3]) : undefined
-  const rarity = matchResult[5]
-
-  return (
-    <React.Fragment>
-      <Typography color="inherit">{resourceName}</Typography>
-      {amount && <b>Amount: {amount}</b>} 
-      <CustomChip rarity={rarity} tier={tier}/>
-      <hr/>
-      <u>{'amazing content'}</u>.
-      {"It's very engaging. Right?"}
-    </React.Fragment>
-  )
-}
-
-const ResourceIcon = ({ amount, name , onClick}) => {
-  const [isHovered, setIsHovered] = useState(false);
-
-  const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
   const rarity = matchResult[5]
   const borderColor = rarity ? getRarityColor(rarity) : 'transparent';
 
-  const paperStyle = {
-    position: 'relative',
-    width: 50,
-    height: 50,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'opacity 0.3s ease', // Adjust the transition property
-    cursor: 'pointer',
-    border: `4px solid ${borderColor}`, // Border style based on rarity
-  };
 
-  const overlayStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(169, 169, 169, 0.4)', // Light gray with 0.3 opacity
-    opacity: isHovered ? 1 : 0, // Show overlay on hover
-    transition: 'opacity 0.3s ease', // Adjust the transition property
-  };
-
-  const valueStyle = {
-    position: 'absolute',
-    bottom: 0,
-    right: 0,
-    backgroundColor: 'rgba(255, 255, 255, 0.8)',
-    padding: '2px 4px',
-    borderRadius: '4px',
-    fontSize: '12px',
-  };
-
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleLeave = () => {
-    setIsHovered(false);
-  };
-
-  const handleClick = (event) => {
-    if(onClick) onClick(event);
-  }
+  const IconComponent = () => (
+    <Icon style={{ width: '100%', height: '100%' }}>
+      <img src={getIcon(name)} />
+    </Icon>
+  )
 
   return (
-    <HtmlTooltip
-      placement="top"
-      title={
-        <ResourceTitle name={name} amount={amount}/>
-      }
-      >
-      <Paper
-        style={paperStyle}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleLeave}
-        onClick={handleClick}
-      >
-        <div style={overlayStyle}/>
-        <Icon style={{ width: '100%', height: '100%' }}>
-          <img src={getIcon(name)} />
-        </Icon>
-        {amount && <div style={valueStyle}>{amount}</div>}
-      </Paper>
-        
-    </HtmlTooltip>
+    <ClickableIcon 
+      icon={IconComponent} 
+      onClick={onClick} 
+      tooltipTitle={<TooltipTitleResource name={name} amount={amount}/>}
+      borderColor={borderColor}
+      bottomRightText={amount}
+    />
   );
 };
 
