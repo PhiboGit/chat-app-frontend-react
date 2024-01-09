@@ -30,7 +30,7 @@ const getRarityColor = (rarity) => {
 };
 
 
-const ItemIcon = ({ item, onClick, equippable }) => {
+const ItemIcon = ({ item, onClick }) => {
   const { gameData, send } = useContext(GameDataContext);
 
   const [isHovered, setIsHovered] = useState(false);

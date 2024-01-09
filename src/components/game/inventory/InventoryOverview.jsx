@@ -10,6 +10,7 @@ import ResourceIcon from './ResourceIcon';
 import ItemIcon from './ItemIcon';
 import { Button, Container, Typography } from '@mui/material';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
+import ItemActionMenu from './ItemActionMenu';
 
 
 const InventoryOverview = () => {
@@ -18,6 +19,7 @@ const InventoryOverview = () => {
 
   const resources = useMemo(() => characterData.resources,[characterData.resources])
   const items = useMemo(() => characterData.items,[characterData.items])
+  const [selectedItem, setSelectedItem] = useState()
 
   const idToItemMap = items.reduce((map, item) => {
     map[item._id] = item;
@@ -26,40 +28,17 @@ const InventoryOverview = () => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const openPopover = (event) => {
+  const openPopper = (event, item) => {
     console.log('openPopper')
+    setSelectedItem(item)
     setAnchorEl(event.currentTarget);
   };
 
-  const closePopover = () => {
+  const closePopper = () => {
     console.log('closePopper')
+    setSelectedItem(null)
     setAnchorEl(null);
   };
-
-  const handleEquip = (item, skill) => {
-    const equip = {
-      "type": "equip",
-      "args": {
-        "itemId": item._id,
-        "skill": skill,
-        "slot": item.type
-      }
-    }
-    send(equip)
-    closePopover()
-  }
-
-  const handleSell = (item) => {
-    const sell = {
-      "type": "sell",
-      "args": {
-        "itemId": item._id,
-      }
-    }
-    send(sell)
-    closePopover()
-  }
-
 
   return (
     <>
@@ -67,8 +46,8 @@ const InventoryOverview = () => {
       {characterData.characterName} {characterData.level}
       Gold: {characterData.currency.gold}
     </Typography>
-    Resources: 
     <Box>
+    Resources: 
       <Grid container spacing={1}>
         {Object.entries(resources).map(([name, value]) => {
           if (resources[name] > 0) return(
@@ -81,35 +60,23 @@ const InventoryOverview = () => {
         )})}          
       </Grid>
     </Box>
-    Items:
-    <Grid container spacing={1}>
-      {Object.entries(idToItemMap).map(([itemId, item]) => {
-        return(
-        <Grid item key={itemId}>
-          <ItemIcon
-            item={idToItemMap[itemId]}
-            onClick={openPopover}
-          />
-          <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-            <Container maxWidth="xs">
-              <Box
-                sx={{
-                  bgcolor: 'rgba(160, 177, 186, 0.8)',
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center', // Optional: Align items in the center horizontally
-                }}
-              >
-                <Button onClick={() => handleSell(item)} key={"sell"} variant="contained">Sell</Button>
-                {item.skills.map((skill) => (
-                  <Button onClick={() => handleEquip(item, skill)} key={skill} variant="contained">Equip {skill}</Button>
-                ))}
-              </Box>
-            </Container>
-          </ClickAwayPopper>
-        </Grid>
-      )})}          
-    </Grid>
+    <Box>
+      Items:
+      <Grid container spacing={1}>
+        {Object.entries(idToItemMap).map(([itemId, item]) => {
+          return(
+            <Grid item key={itemId}>
+            <ItemIcon
+              item={idToItemMap[itemId]}
+              onClick={(event) => openPopper(event, item)}
+              />
+          </Grid>
+        )})}          
+      </Grid>
+      <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
+        <ItemActionMenu item={selectedItem} closeMenu={closePopper}/>
+      </ClickAwayPopper>
+    </Box>
     </>
   );
 };
