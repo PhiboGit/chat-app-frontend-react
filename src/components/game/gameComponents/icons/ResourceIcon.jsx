@@ -3,7 +3,7 @@ import React from 'react';
 import Icon from '@mui/material/Icon';
 import getIcon from './iconSvgMapping';
 import ClickableIcon from './ClickableIcon';
-import TooltipTitleResource from '../TooltipTitleResource';
+import TooltipTitleResource from '../tooltips/TooltipTitleResource';
 
 const getRarityColor = (rarity) => {
   switch (rarity) {

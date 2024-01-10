@@ -20,8 +20,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ResourceIcon from '../gameComponents/Icons/ResourceIcon';
-import RecipeIcon from '../gameComponents/Icons/RecipeIcon';
+import ResourceIcon from '../gameComponents/icons/ResourceIcon';
+import RecipeIcon from '../gameComponents/icons/RecipeIcon';
 import RarityDistribution from './RarityDistribution';
 
 const CraftingOverview = () => {

@@ -1,8 +1,8 @@
 import React, { useContext, useState, useMemo } from 'react';
 import Typography from '@mui/material/Typography';
 
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
-import { GameDataContext } from '../dataProviders/GameDataProvider';
+import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
 
 
 const TooltipTitleRecipe = ({recipe, profession, recipeName}) => {

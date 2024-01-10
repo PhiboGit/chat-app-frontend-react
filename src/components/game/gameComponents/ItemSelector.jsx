@@ -3,8 +3,8 @@ import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
-import ItemIcon from './Icons/ItemIcon';
-import BasicIcon from './Icons/BasicIcon';
+import ItemIcon from './icons/ItemIcon';
+import BasicIcon from './icons/BasicIcon';
 
 const ItemSelector = ({ items, hasNullValue, onItemClick }) => {
   return (

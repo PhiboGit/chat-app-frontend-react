@@ -7,8 +7,8 @@ import Icon from '@mui/material/Icon';
 
 import { GameDataContext } from '../../dataProviders/GameDataProvider';
 import HtmlTooltip from '../../../common/HtmlToolTip';
-import TooltipTitleGatheringTool from '../TooltipTitleGatheringTool';
-import TooltipTitleArmor from '../TooltipTitleArmor';
+import TooltipTitleGatheringTool from '../tooltips/TooltipTitleGatheringTool';
+import TooltipTitleArmor from '../tooltips/TooltipTitleArmor';
 import getIcon from './iconSvgMapping';
 import ClickableIcon from './ClickableIcon';
 

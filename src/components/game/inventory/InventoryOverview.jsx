@@ -6,11 +6,11 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 
 
-import ResourceIcon from '../gameComponents/Icons/ResourceIcon';
+import ResourceIcon from '../gameComponents/icons/ResourceIcon';
 import { Button, Container, Typography } from '@mui/material';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemActionMenu from './ItemActionMenu';
-import ItemIcon from '../gameComponents/Icons/ItemIcon';
+import ItemIcon from '../gameComponents/icons/ItemIcon';
 
 
 const InventoryOverview = () => {

@@ -13,7 +13,7 @@ import Stack from '@mui/material/Stack';
 
 
 import getIcon from './iconSvgMapping';
-import TooltipTitleRecipe from '../TooltipTitleRecipe';
+import TooltipTitleRecipe from '../tooltips/TooltipTitleRecipe';
 import ClickableIcon from './ClickableIcon';
 
 

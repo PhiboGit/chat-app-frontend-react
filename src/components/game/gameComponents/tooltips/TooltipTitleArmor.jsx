@@ -1,9 +1,11 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 
-import ChipStack from "./ChipStack"
 
-const TooltipTitleGatheringTool = ({ item }) => {
+
+import ChipStack from "../ChipStack"
+
+const TooltipTitleArmor = ({ item }) => {
   
   return (
     <React.Fragment>
@@ -15,9 +17,12 @@ const TooltipTitleGatheringTool = ({ item }) => {
       <br/>
       <b>{`Enchanting: +${item.enchantingLevel}`}</b>
       <hr/>
-      <b>{`BaseSpeed: ${item.properties.baseSpeed}%`}</b>
+      <b>{`Resistance: ${item.properties.resistance}`}</b>   
       <br/>
-      <b>{`Speed: ${item.properties.speed}%`}</b>
+      <b>{`Armor: ${item.properties.armor}`}</b>   
+      <br/>
+      <hr/>
+      <b>{`Speed: ${item.properties.speed}%`}</b>   
       <br/>
       <b>{`Exp: ${item.properties.exp}%`}</b>
       <br/>
@@ -43,4 +48,4 @@ const TooltipTitleGatheringTool = ({ item }) => {
   )
 }
 
-export default TooltipTitleGatheringTool;
+export default TooltipTitleArmor;

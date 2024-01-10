@@ -3,7 +3,7 @@ import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import ExpBar from '../ExpBar';
-import ItemIcon from '../gameComponents/Icons/ItemIcon';
+import ItemIcon from '../gameComponents/icons/ItemIcon';
 
 import Container from '@mui/material/Container';
 import Popper from '@mui/material/Popper';
@@ -36,7 +36,7 @@ import CarpenterIcon from '@mui/icons-material/Carpenter';
 import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemSelector from '../gameComponents/ItemSelector';
-import BasicIcon from '../gameComponents/Icons/BasicIcon';
+import BasicIcon from '../gameComponents/icons/BasicIcon';
 
 
 const EquipmentOverview = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 
-import ChipStack from "./ChipStack"
+import ChipStack from "../ChipStack"
 
 const TooltipTitleResource = ({name, amount}) => {
   const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
