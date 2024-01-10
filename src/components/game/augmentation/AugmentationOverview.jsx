@@ -20,7 +20,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ResourceIcon from '../gameComponents/Icons/ResourceIcon';
-import RecipeIcon from '../refiningOverview/RecipeIcon';
+import RecipeIcon from '../gameComponents/Icons/RecipeIcon';
 
 const AugmentationOverview = () => {
   const { gameData, send } = useContext(GameDataContext);

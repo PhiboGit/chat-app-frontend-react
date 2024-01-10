@@ -3,7 +3,6 @@ import Paper from '@mui/material/Paper'
 
 import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import BlockIcon from '@mui/icons-material/Block';
-import HtmlTooltip from '../../../common/HtmlToolTip';
 import { Typography } from '@mui/material';
 import ClickableIcon from './ClickableIcon';
 

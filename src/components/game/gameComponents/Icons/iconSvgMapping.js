@@ -18,7 +18,7 @@ import FlaxSvg from '../../../../assets/svg/flax.svg'
 import ClothSvg from '../../../../assets/svg/rolled-cloth.svg'
 import IngotSvg from '../../../../assets/svg/metal-bar.svg'
 
-
+import ScrollSvg from '../../../../assets/svg/scroll.svg'
 import RandomSvg from '../../../../assets/svg/random.svg'
 
 const iconMappings = {
@@ -40,23 +40,22 @@ const iconMappings = {
   'linen': ClothSvg,
   'ingot': IngotSvg,
 
-  'pickaxe': PickaxeSvg,
-  'sickle': SickleSvg,
-  'axe':AxeSvg,
+  'scroll': ScrollSvg,
 };
 
 const getIcon = (SvgIconName) => {
-  const icon = iconMappings[SvgIconName]
-  if(icon){
-    return icon
-  }
+  if (SvgIconName){
+    const icon = iconMappings[SvgIconName]
+    if(icon){
+      return icon
+    }
 
-  for (const key in iconMappings) {
-    if (SvgIconName.startsWith(key)) {
-      return iconMappings[key];
+    for (const key in iconMappings) {
+      if (SvgIconName.startsWith(key)) {
+        return iconMappings[key];
+      }
     }
   }
-
   return RandomSvg;
 };
 

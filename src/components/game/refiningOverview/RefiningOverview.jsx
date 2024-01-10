@@ -20,7 +20,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import ResourceIcon from '../gameComponents/Icons/ResourceIcon';
-import RecipeIcon from './RecipeIcon';
+import RecipeIcon from '../gameComponents/Icons/RecipeIcon';
 
 const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -177,7 +177,7 @@ const RefiningOverview = () => {
           {recipeName ? (
             <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={handleClick} />
             ) : (
-              <RecipeIcon disableTitle onClick={handleClick} />
+              <RecipeIcon disableTitle recipeName={"scroll"} onClick={handleClick} />
             )}
           </Box>
           }
