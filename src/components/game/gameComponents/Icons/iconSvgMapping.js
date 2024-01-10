@@ -9,6 +9,16 @@ import HatSvg from '../../../../assets/svg/pointy-hat.svg'
 import ShirtSvg from '../../../../assets/svg/shirt.svg'
 import PantsSvg from '../../../../assets/svg/trousers.svg'
 
+
+import OreSvg from '../../../../assets/svg/ore.svg'
+import PlankSvg from '../../../../assets/svg/wood-beam.svg'
+import LogSvg from '../../../../assets/svg/log.svg'
+import RockSvg from '../../../../assets/svg/rock.svg'
+import FlaxSvg from '../../../../assets/svg/flax.svg'
+import ClothSvg from '../../../../assets/svg/rolled-cloth.svg'
+import IngotSvg from '../../../../assets/svg/metal-bar.svg'
+
+
 import RandomSvg from '../../../../assets/svg/random.svg'
 
 const iconMappings = {
@@ -20,13 +30,31 @@ const iconMappings = {
   'chestpiece':ShirtSvg,
   'gloves':GlovesSvg,
   'pants':PantsSvg,
-  'boots': BootsSvg
+  'boots': BootsSvg,
+
+  'ore': OreSvg,
+  'wood': LogSvg,
+  'plank': PlankSvg,
+  'coal':RockSvg,
+  'fiber': FlaxSvg,
+  'linen': ClothSvg,
+  'ingot': IngotSvg,
+
+  'pickaxe': PickaxeSvg,
+  'sickle': SickleSvg,
+  'axe':AxeSvg,
 };
 
-const getIcon = (itemName) => {
-  const icon = iconMappings[itemName]
+const getIcon = (SvgIconName) => {
+  const icon = iconMappings[SvgIconName]
   if(icon){
     return icon
+  }
+
+  for (const key in iconMappings) {
+    if (SvgIconName.startsWith(key)) {
+      return iconMappings[key];
+    }
   }
 
   return RandomSvg;

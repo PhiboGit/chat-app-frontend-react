@@ -5,12 +5,12 @@ import Container from '@mui/material/Container';
 import Paper from '@mui/material/Paper';
 import Icon from '@mui/material/Icon';
 
-import { GameDataContext } from '../dataProviders/GameDataProvider';
-import HtmlTooltip from '../../common/HtmlToolTip';
-import TooltipTitleGatheringTool from '../gameComponents/TooltipTitleGatheringTool';
-import TooltipTitleArmor from '../gameComponents/TooltipTitleArmor';
-import getIcon from '../gameComponents/Icons/iconSvgMapping';
-import ClickableIcon from '../gameComponents/Icons/ClickableIcon';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
+import HtmlTooltip from '../../../common/HtmlToolTip';
+import TooltipTitleGatheringTool from '../TooltipTitleGatheringTool';
+import TooltipTitleArmor from '../TooltipTitleArmor';
+import getIcon from './iconSvgMapping';
+import ClickableIcon from './ClickableIcon';
 
 
 const getRarityColor = (rarity) => {

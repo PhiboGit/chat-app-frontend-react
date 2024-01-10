@@ -21,7 +21,7 @@ import LoggingSvg from '../../../assets/svg/logging.svg'
 
 
 import RandomSvg from '../../../assets/svg/random.svg'
-import ItemIcon from '../inventory/ItemIcon';
+import ItemIcon from '../gameComponents/Icons/ItemIcon';
 
 
 const iconMappings = {

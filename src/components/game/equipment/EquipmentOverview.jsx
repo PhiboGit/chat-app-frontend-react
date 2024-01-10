@@ -3,7 +3,7 @@ import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import ExpBar from '../ExpBar';
-import ItemIcon from '../inventory/ItemIcon';
+import ItemIcon from '../gameComponents/Icons/ItemIcon';
 
 import Container from '@mui/material/Container';
 import Popper from '@mui/material/Popper';
