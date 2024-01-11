@@ -10,7 +10,7 @@ const TooltipTitleArmor = ({ item }) => {
   return (
     <React.Fragment>
       <Typography color="inherit">{item.name}</Typography>
-      {item.type} {' - '} {item.skills}
+      {item.equipmentType} {' - '} {item.equipmentSkills}
       <ChipStack rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
       <hr/>
       <b>{`Level: ${item.level}`}</b>

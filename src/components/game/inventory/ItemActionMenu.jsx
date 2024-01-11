@@ -15,7 +15,7 @@ const ItemActionMenu = ({item, closeMenu}) => {
       "args": {
         "itemId": item._id,
         "skill": skill,
-        "slot": item.type
+        "slot": item.equipmentType
       }
     }
     send(equip)
@@ -44,7 +44,7 @@ const ItemActionMenu = ({item, closeMenu}) => {
         }}
       >
         <Button onClick={() => handleSell(item)} key={"sell"} variant="contained">Sell</Button>
-        {item.skills.map((skill) => (
+        {item.equipmentSkills.map((skill) => (
           <Button onClick={() => handleEquip(item, skill)} key={skill} variant="contained">Equip {skill}</Button>
         ))}
       </Box>

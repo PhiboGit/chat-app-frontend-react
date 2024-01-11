@@ -36,13 +36,13 @@ const getRarityColor = (rarity) => {
 
 
 
-const RecipeIcon = ({disableTitle, recipe, profession, recipeName, onClick}) => {
+const RecipeIcon = ({disableTitle, recipe, onClick}) => {
   const { gameData } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
   const IconComponent = () => (
     <Icon style={{ width: '100%', height: '100%' }}>
-      <img src={getIcon(recipeName)} />
+      <img src={getIcon(recipe ? recipe.name : "scroll")} />
     </Icon>
   )
 
@@ -51,7 +51,7 @@ const RecipeIcon = ({disableTitle, recipe, profession, recipeName, onClick}) => 
       icon={IconComponent} 
       onClick={onClick} 
       tooltipTitle={!disableTitle ? 
-        <TooltipTitleRecipe recipe={recipe} profession={profession} recipeName={recipeName}/> 
+        <TooltipTitleRecipe recipe={recipe}/> 
         : <React.Fragment><Typography>{"Select Recipe!"}</Typography></React.Fragment>}
     />
   );

@@ -60,7 +60,7 @@ const EquipmentOverview = () => {
   const filteredItems = () => {
     const filter = 
       Object.entries(idToItemMap)
-      .filter(([id, item]) => item.skills.includes(profession) && item.type == equipmentSlot)
+      .filter(([id, item]) => item.equipmentSkills.includes(profession) && item.equipmentType == equipmentSlot)
       .map(([id,item]) => item)
     console.log('Filtered items', filter)
     return filter

@@ -202,7 +202,7 @@ const CraftingOverview = () => {
           }}
           >
           {recipeName ? (
-            <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={handleClick} />
+            <RecipeIcon recipe={allRecipes[recipeName]} onClick={handleClick} />
             ) : (
               <RecipeIcon disableTitle onClick={handleClick} />
             )}
@@ -222,7 +222,7 @@ const CraftingOverview = () => {
             <Grid container spacing={1}>
               {Object.keys(allRecipes).map((recipeName) => (
                   <Grid item key={recipeName}>
-                    <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
+                    <RecipeIcon recipe={allRecipes[recipeName]} onClick={() => handleRecipe(recipeName)}/>
                   </Grid>
                 ))}
             </Grid>

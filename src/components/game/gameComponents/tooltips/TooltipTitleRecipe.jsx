@@ -5,16 +5,16 @@ import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider'
 import { GameDataContext } from '../../dataProviders/GameDataProvider';
 
 
-const TooltipTitleRecipe = ({recipe, profession, recipeName}) => {
+const TooltipTitleRecipe = ({recipe}) => {
 
   const { gameData } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
-  const skillData = characterData.skills[profession]
+  const skillData = characterData.skills[recipe.profession]
 
   return (
     <React.Fragment>
-      <Typography color="inherit">{recipe.amount} x {recipeName}</Typography>
+      <Typography color="inherit">{recipe.amount} x {recipe.name}</Typography>
       <hr/>
       <b>
         <span style={{ color: recipe.level > skillData.level ? 'red' : 'green' }}>

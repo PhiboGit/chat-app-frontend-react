@@ -26,9 +26,9 @@ const EnchantingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
-  const [itemId, setItemId] = useState("")
+  const [itemId, setItemId] = useState('')
   const [validEnchantingResources, setValidEnchantingResources] = useState([])
-  const [selectedEnchantingResource, setSelectedEnchantingResource] = useState("")
+  const [selectedEnchantingResource, setSelectedEnchantingResource] = useState('')
   const [enchantingLimit, setEnchantingLimit] = useState(1)
 
   const idToItemMap = characterData.items.reduce((map, item) => {
@@ -40,7 +40,7 @@ const EnchantingOverview = () => {
     const item = idToItemMap[newItemId]
     console.log("selected Item: ", item)
 
-    const validItems = Object.keys(characterData.resources).filter((resource) => resource.includes(`${item.name}T${item.tier}`))
+    const validItems = Object.keys(characterData.resources).filter((resource) => resource.includes(`${item.name}`))
 
     // Set the selected recipe and its ingredients
     setItemId(newItemId);

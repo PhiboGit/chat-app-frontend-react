@@ -22,6 +22,8 @@ import Select from '@mui/material/Select';
 import ResourceIcon from '../gameComponents/icons/ResourceIcon';
 import RecipeIcon from '../gameComponents/icons/RecipeIcon';
 
+import ClickAwayPopper from '../../common/ClickAwayPopper'
+
 const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
@@ -58,7 +60,7 @@ const RefiningOverview = () => {
     }
     setIngredients(allRecipes[newRecipe]?.ingredients || []);
     setSelectedIngredients(allRecipes[newRecipe]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || [] );
-    handleClose()
+    closePopper()
   };
 
   const handleIngredients = (event, index) => {
@@ -116,16 +118,16 @@ const RefiningOverview = () => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const handleClick = (event) => {
+  const openPopper = (event) => {
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const closePopper = () => {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
+  
+  
 
 
   return (
@@ -167,42 +169,33 @@ const RefiningOverview = () => {
         >
           <div>Select a Recipe:</div>
           
-          {<Box
+          <Box
             sx={{
-          border: '2px dashed #000', // Adjust the border styles
+          border: '2px dashed black', // Adjust the border styles
           padding: 0.3, // Optional: Add padding to the box
-          display: 'inline-block', // Make sure the box is inline with the content
           }}
           >
           {recipeName ? (
-            <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={handleClick} />
+            <RecipeIcon recipe={allRecipes[recipeName]} onClick={openPopper} />
             ) : (
-              <RecipeIcon disableTitle recipeName={"scroll"} onClick={handleClick} />
+              <RecipeIcon disableTitle recipeName={"scroll"} onClick={openPopper} />
             )}
-          </Box>
-          }
-          {open && <ClickAwayListener onClickAway={handleClose}>
-            <Popper
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            placement='bottom'
-          >
-          <Container maxWidth="xs">
-            <Box
-              sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-            >
-            <Grid container spacing={1}>
-              {Object.keys(allRecipes).map((recipeName) => (
-                  <Grid item key={recipeName}>
-                    <RecipeIcon recipe={allRecipes[recipeName]} profession={profession} recipeName={recipeName} onClick={() => handleRecipe(recipeName)}/>
-                  </Grid>
-                ))}
-            </Grid>
-            </Box>
-          </Container>
-          </Popper>
-        </ClickAwayListener>}
+            <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
+              <Container maxWidth="xs">
+                <Box
+                  sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
+                >
+                <Grid container spacing={1}>
+                  {Object.keys(allRecipes).map((recipeName) => (
+                      <Grid item key={recipeName}>
+                        <RecipeIcon recipe={allRecipes[recipeName]} onClick={() => handleRecipe(recipeName)}/>
+                      </Grid>
+                    ))}
+                </Grid>
+                </Box>
+              </Container>
+            </ClickAwayPopper>
+          </Box>   
       </Box>
       </Container>
 

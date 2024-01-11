@@ -36,9 +36,9 @@ const ItemIcon = ({ item, onClick }) => {
   const borderColor = rarity ? getRarityColor(rarity) : 'transparent';
 
   const title = (item) => {
-    if (item.type === "tool" && item.skills.some(skill => ["woodcutting", "mining", "harvesting"].includes(skill))) {
+    if (item.equipmentType === "tool" && item.equipmentSkills.some(skill => ["woodcutting", "mining", "harvesting"].includes(skill))) {
       return <TooltipTitleGatheringTool item={item}/>
-    } else if (["head", "chest", "hands", "legs", "feet"].includes(item.type)) {
+    } else if (["head", "chest", "hands", "legs", "feet"].includes(item.equipmentType)) {
       return <TooltipTitleArmor item={item}/>
     }
   }
