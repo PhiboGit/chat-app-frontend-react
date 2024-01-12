@@ -26,6 +26,7 @@ import ClickAwayPopper from '../../common/ClickAwayPopper'
 import ProfessionSelector from './ProfessionSelector';
 import RecipeSelector from './RecipeSelector';
 import RecipeInfo from './RecipeInfo';
+import IngredientSelector from './IngredientSelector';
 
 const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -39,9 +40,8 @@ const RefiningOverview = () => {
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const handleProfession = (event) => {
-    const newProfession = event.target.value;
-
+  const handleProfession = (newProfession) => {
+    console.log('selected Profession', newProfession)
     // Reset recipe and ingredients when the profession changes
     setProfession(newProfession);
     setRecipe('');
@@ -50,24 +50,18 @@ const RefiningOverview = () => {
     setAllRecipes(refiningRecipes[newProfession]);
   };
 
-  const handleRecipe = (eventOrRecipeName) => {
-    let newRecipe
-    // Check if it's an event (coming from the Select component)
-    if (eventOrRecipeName instanceof Event) {
-      newRecipe = eventOrRecipeName.target.value;
-      setRecipe(newRecipe);
-    } else {
-      // It's a recipe name (coming from the ResourceIcon)
-      newRecipe = eventOrRecipeName
-      setRecipe(eventOrRecipeName);
-    }
-    setIngredients(allRecipes[newRecipe]?.ingredients || []);
-    setSelectedIngredients(allRecipes[newRecipe]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || [] );
+  const handleRecipe = (newRecipeName) => {
+    console.log("selected Recipe: ", newRecipeName)
+    setRecipe(newRecipeName);
+    setIngredients(allRecipes[newRecipeName]?.ingredients || []);
+    const newSelectedIngredients = allRecipes[newRecipeName]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || []
+    setSelectedIngredients(newSelectedIngredients);
+    console.log("selected Ingredients: ", newSelectedIngredients)
   };
 
-  const handleIngredients = (event, index) => {
+  const handleIngredients = (ingredientName, slotIndex) => {
     const newSelectedIngredients = [...selectedIngredients];
-    newSelectedIngredients[index] = event.target.value;
+    newSelectedIngredients[slotIndex] = ingredientName
     console.log("selected Ingredients: ", newSelectedIngredients);
     setSelectedIngredients(newSelectedIngredients);
   };
@@ -135,64 +129,32 @@ const RefiningOverview = () => {
           recipeMap={allRecipes}
           onChange={handleRecipe}
         />
-
-      {recipeName && <RecipeInfo recipe={allRecipes[recipeName]}/>}
-
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
-        >
-          <p>Required Ingredients:</p>
+        {recipeName && <RecipeInfo recipe={allRecipes[recipeName]}/>}
+        <IngredientSelector
+          selectedIngredients={selectedIngredients}
+          ingredients={ingredients}
+          onChange={handleIngredients}
+        />
+      
+        <Container maxWidth="xs">
           <Box 
-          display="flex"
-          flexDirection='row'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
-        >
-          {ingredients.map((value, index) => (
-            
-          <FormControl key={index} sx={{ m: 1, minWidth: 80 }}>
-            <InputLabel id="ingredient-label">Ingredient</InputLabel>
-            <Select
-              labelId="ingredient-label"
-              id="ingredient"
-              value={selectedIngredients[index] || (value.required ? value.slot[0].resource : "")}
-              label="Ingredient"
-              onChange={(event) => handleIngredients(event, index)}
+              display="flex"
+              flexDirection='column'
+              alignItems="center"
+              sx={{ bgcolor: 'rgba(91, 91, 91, 0.8)'}}
             >
-              {value.slot.map((value, index) => (
-                <MenuItem key={index} value={value.resource}>
-                  {value.amount}   {value.resource}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          ))}
+              <FormControlLabel control={<Switch checked={limit} onChange={handleLimit}/>} label="Limit" />
+            
+            {limit && (<TextField
+              label="Iterations"
+              id="outlined-size-small"
+              defaultValue= {iterations}
+              size="small"
+              onChange={handleIterations}
+            />)}
+            <Button disabled={selectedIngredients.filter((value) => value !== "").length < 1} onClick={handleStart} variant="contained">Start</Button>
           </Box>
-        </Box>
-      </Container>
-      <Container maxWidth="xs">
-        <Box 
-            display="flex"
-            flexDirection='column'
-            alignItems="center"
-            sx={{ bgcolor: 'rgba(91, 91, 91, 0.8)'}}
-          >
-            <FormControlLabel control={<Switch checked={limit} onChange={handleLimit}/>} label="Limit" />
-          
-          {limit && (<TextField
-            label="Iterations"
-            id="outlined-size-small"
-            defaultValue= {iterations}
-            size="small"
-            onChange={handleIterations}
-          />)}
-          <Button disabled={selectedIngredients.filter((value) => value !== "").length < 1} onClick={handleStart} variant="contained">Start</Button>
-        </Box>
-      </Container>
+        </Container>
       </Box>
     </Container>
   );

@@ -19,6 +19,10 @@ const ProfessionSelector = ({selectedProfession, professions, onChange}) => {
     armorer: 'Armorer',
   };
 
+  const onChangeProfession = (profession) => {
+    onChange(profession)
+  }
+
 return (
   <Container maxWidth="xs">
     <Box 
@@ -33,7 +37,7 @@ return (
         id="profession"
         value={selectedProfession}
         label="Profession"
-        onChange={onChange}
+        onChange={(event) => onChangeProfession(event.target.value)}
       >
         {professions.map(profession => (
           <MenuItem key={profession} value={profession}>
