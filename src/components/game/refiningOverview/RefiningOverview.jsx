@@ -27,6 +27,7 @@ import ProfessionSelector from './ProfessionSelector';
 import RecipeSelector from './RecipeSelector';
 import RecipeInfo from './RecipeInfo';
 import IngredientSelector from './IngredientSelector';
+import StartActionController from './StartActionController';
 
 const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -84,16 +85,12 @@ const RefiningOverview = () => {
 
   const handleLimit = (event) => {
     setLimit(event.target.checked);
-    if (event.target.checked) {
-      setIterations(1);
-    } else {
-      setIterations(1);
-    }
+    setIterations(1);
   };
 
   const [iterations, setIterations] = useState(1);
-  const handleIterations = (event) => {
-    setIterations(parseInt(event.target.value))
+  const handleIterations = (number) => {
+    setIterations(number)
   }
   
   function handleStart(){
@@ -136,25 +133,14 @@ const RefiningOverview = () => {
           onChange={handleIngredients}
         />
       
-        <Container maxWidth="xs">
-          <Box 
-              display="flex"
-              flexDirection='column'
-              alignItems="center"
-              sx={{ bgcolor: 'rgba(91, 91, 91, 0.8)'}}
-            >
-              <FormControlLabel control={<Switch checked={limit} onChange={handleLimit}/>} label="Limit" />
-            
-            {limit && (<TextField
-              label="Iterations"
-              id="outlined-size-small"
-              defaultValue= {iterations}
-              size="small"
-              onChange={handleIterations}
-            />)}
-            <Button disabled={selectedIngredients.filter((value) => value !== "").length < 1} onClick={handleStart} variant="contained">Start</Button>
-          </Box>
-        </Container>
+        <StartActionController
+          hasLimit={limit}
+          onChangeLimit={handleLimit}
+          iterations={iterations}
+          onChangeIterations={handleIterations}
+          startDisabled={selectedIngredients.filter((value) => value !== "").length < 1}
+          onClickStart={handleStart}
+        />
       </Box>
     </Container>
   );
