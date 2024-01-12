@@ -23,6 +23,8 @@ import ResourceIcon from '../gameComponents/icons/ResourceIcon';
 import RecipeIcon from '../gameComponents/icons/RecipeIcon';
 
 import ClickAwayPopper from '../../common/ClickAwayPopper'
+import ProfessionSelector from './ProfessionSelector';
+import RecipeSelector from './RecipeSelector';
 
 const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -60,7 +62,6 @@ const RefiningOverview = () => {
     }
     setIngredients(allRecipes[newRecipe]?.ingredients || []);
     setSelectedIngredients(allRecipes[newRecipe]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || [] );
-    closePopper()
   };
 
   const handleIngredients = (event, index) => {
@@ -116,20 +117,6 @@ const RefiningOverview = () => {
     send(crafting)
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const openPopper = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const closePopper = () => {
-    setAnchorEl(null);
-  };
-
-  
-  
-
-
   return (
     <Container maxWidth="sm">
       <Box 
@@ -137,67 +124,16 @@ const RefiningOverview = () => {
         flexDirection='column'
         alignItems="center"
         sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(198, 221, 233, 0.8)'}}>
-        <FormControl sx={{ m: 1, minWidth: 80 }}>
-          <InputLabel id="profession-label">Profession</InputLabel>
-          <Select
-            labelId="profession-label"
-            id="profession"
-            value={profession}
-            label="Profession"
-            onChange={handleProfession}
-          >
-            <MenuItem value={'woodworking'}>Woodworking</MenuItem>
-            <MenuItem value={'smelting'}>Smelting</MenuItem>
-            <MenuItem value={'weaving'}>Weaving</MenuItem>
-          </Select>
-        </FormControl>
-        </Box>
-      </Container>
-
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-        >
-          <div>Select a Recipe:</div>
-          
-          <Box
-            sx={{
-          border: '2px dashed black', // Adjust the border styles
-          padding: 0.3, // Optional: Add padding to the box
-          }}
-          >
-          {recipeName ? (
-            <RecipeIcon recipe={allRecipes[recipeName]} onClick={openPopper} />
-            ) : (
-              <RecipeIcon disableTitle recipeName={"scroll"} onClick={openPopper} />
-            )}
-            <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-              <Container maxWidth="xs">
-                <Box
-                  sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-                >
-                <Grid container spacing={1}>
-                  {Object.keys(allRecipes).map((recipeName) => (
-                      <Grid item key={recipeName}>
-                        <RecipeIcon recipe={allRecipes[recipeName]} onClick={() => handleRecipe(recipeName)}/>
-                      </Grid>
-                    ))}
-                </Grid>
-                </Box>
-              </Container>
-            </ClickAwayPopper>
-          </Box>   
-      </Box>
-      </Container>
+        <ProfessionSelector 
+          professions={['woodworking', 'smelting', 'weaving']}
+          selectedProfession={profession}
+          onChange={handleProfession} 
+        />
+        <RecipeSelector
+          selectedRecipeName={recipeName}
+          recipeMap={allRecipes}
+          onChange={handleRecipe}
+        />
 
       {recipeName && (
       <Container maxWidth="xs">
