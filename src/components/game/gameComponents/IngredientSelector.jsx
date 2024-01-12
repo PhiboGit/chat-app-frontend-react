@@ -19,8 +19,8 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ResourceIcon from '../gameComponents/icons/ResourceIcon';
-import RecipeIcon from '../gameComponents/icons/RecipeIcon';
+import ResourceIcon from './icons/ResourceIcon';
+import RecipeIcon from './icons/RecipeIcon';
 
 import ClickAwayPopper from '../../common/ClickAwayPopper'
 

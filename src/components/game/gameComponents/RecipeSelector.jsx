@@ -4,7 +4,7 @@ import Container from '@mui/material/Container';
 import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 
-import RecipeIcon from '../gameComponents/icons/RecipeIcon';
+import RecipeIcon from './icons/RecipeIcon';
 import ClickAwayPopper from '../../common/ClickAwayPopper'
 
 const RecipeSelector = ({selectedRecipeName, recipeMap, onChange}) => {
