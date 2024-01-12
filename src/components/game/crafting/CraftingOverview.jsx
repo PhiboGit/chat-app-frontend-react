@@ -2,6 +2,12 @@ import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
+import ProfessionSelector from '../gameComponents/ProfessionSelector';
+import RecipeSelector from '../gameComponents/RecipeSelector';
+import RecipeInfo from '../gameComponents/RecipeInfo';
+import IngredientSelector from '../gameComponents/IngredientSelector';
+import StartActionController from '../gameComponents/StartActionController';
+
 import adjustWeights from './Wheights';
 
 import ExpBar from '../ExpBar';
@@ -34,9 +40,8 @@ const CraftingOverview = () => {
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const handleProfession = (event) => {
-    const newProfession = event.target.value;
-
+  const handleProfession = (newProfession) => {
+    console.log('selected Profession', newProfession)
     // Reset recipe and ingredients when the profession changes
     setProfession(newProfession);
     setRecipe('');
@@ -45,30 +50,31 @@ const CraftingOverview = () => {
     setAllRecipes(gameData.recipesData[newProfession]);
   };
 
-  const handleRecipe = (eventOrRecipeName) => {
-    let newRecipe
-    // Check if it's an event (coming from the Select component)
-    if (eventOrRecipeName instanceof Event) {
-      newRecipe = eventOrRecipeName.target.value;
-      setRecipe(newRecipe);
-    } else {
-      // It's a recipe name (coming from the ResourceIcon)
-      newRecipe = eventOrRecipeName
-      setRecipe(eventOrRecipeName);
-    }
-    setIngredients(allRecipes[newRecipe]?.ingredients || []);
-    setSelectedIngredients(allRecipes[newRecipe]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || [] );
-    handleClose()
+  const handleRecipe = (newRecipeName) => {
+    console.log("selected Recipe: ", newRecipeName)
+    setRecipe(newRecipeName);
+    setIngredients(allRecipes[newRecipeName]?.ingredients || []);
+    const newSelectedIngredients = allRecipes[newRecipeName]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || []
+    setSelectedIngredients(newSelectedIngredients);
+    console.log("selected Ingredients: ", newSelectedIngredients)
   };
 
-  const handleIngredients = (event, index) => {
+  const handleIngredients = (ingredientName, slotIndex) => {
     const newSelectedIngredients = [...selectedIngredients];
-    newSelectedIngredients[index] = event.target.value;
+    newSelectedIngredients[slotIndex] = ingredientName
     console.log("selected Ingredients: ", newSelectedIngredients);
     setSelectedIngredients(newSelectedIngredients);
   };
 
-  function rarityWeights() {
+  const [rarityWeights, setRarityWeights] = useState([0,0,0,0,0])
+
+  useEffect(() => {
+    if (selectedIngredients.length > 0){
+      calculateRarityWeights();
+    }
+  }, [selectedIngredients]);
+
+  function calculateRarityWeights() {
     const skillLevel = characterData.skills[profession].level
     const itemLevel = allRecipes[recipeName].level
     const table = gameData.craftingTable.equipments
@@ -93,7 +99,7 @@ const CraftingOverview = () => {
     const weights = adjustWeights(rarityWeights, startWindow, endWindow)
 
     console.log("Weights: ", weights)
-    return weights
+    setRarityWeights(weights)
   }
 
   function init(){
@@ -112,18 +118,15 @@ const CraftingOverview = () => {
 
   const [limit, setLimit] = React.useState(true);
 
-  const handleLimit = (event) => {
-    setLimit(event.target.checked);
-    if (event.target.checked) {
-      setIterations(1);
-    } else {
-      setIterations(1);
-    }
+  const handleLimit = (checked) => {
+    console.log('limit', checked);
+    setLimit(checked);
+    setIterations(1);
   };
 
   const [iterations, setIterations] = useState(1);
-  const handleIterations = (event) => {
-    setIterations(parseInt(event.target.value))
+  const handleIterations = (number) => {
+    setIterations(number)
   }
   
   function handleStart(){
@@ -142,19 +145,6 @@ const CraftingOverview = () => {
     send(crafting)
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
-
 
   return (
     <Container maxWidth="sm">
@@ -163,163 +153,47 @@ const CraftingOverview = () => {
         flexDirection='column'
         alignItems="center"
         sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(198, 221, 233, 0.8)'}}>
-        <FormControl sx={{ m: 1, minWidth: 80 }}>
-          <InputLabel id="profession-label">Profession</InputLabel>
-          <Select
-            labelId="profession-label"
-            id="profession"
-            value={profession}
-            label="Profession"
-            onChange={handleProfession}
-          >
-            <MenuItem value={'toolsmith'}>Toolsmith</MenuItem>
-            <MenuItem value={'armorer'}>Armorer</MenuItem>
-          </Select>
-        </FormControl>
-        </Box>
-      </Container>
 
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-        >
-          <div>Select a Recipe:</div>
-          
-          {<Box
-            sx={{
-          border: '2px dashed #000', // Adjust the border styles
-          padding: 0.3, // Optional: Add padding to the box
-          display: 'inline-block', // Make sure the box is inline with the content
-          }}
-          >
-          {recipeName ? (
-            <RecipeIcon recipe={allRecipes[recipeName]} onClick={handleClick} />
-            ) : (
-              <RecipeIcon disableTitle onClick={handleClick} />
-            )}
-          </Box>
-          }
-          {open && <ClickAwayListener onClickAway={handleClose}>
-            <Popper
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            placement='bottom'
-          >
-          <Container maxWidth="xs">
-            <Box
-              sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-            >
-            <Grid container spacing={1}>
-              {Object.keys(allRecipes).map((recipeName) => (
-                  <Grid item key={recipeName}>
-                    <RecipeIcon recipe={allRecipes[recipeName]} onClick={() => handleRecipe(recipeName)}/>
-                  </Grid>
-                ))}
-            </Grid>
-            </Box>
-          </Container>
-          </Popper>
-        </ClickAwayListener>}
-      </Box>
-      </Container>
+        <ProfessionSelector 
+          professions={['toolsmith', 'armorer']}
+          selectedProfession={profession}
+          onChange={handleProfession} 
+        />
 
-      {recipeName && (
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 155, 0.8)'}}
-        >
-          <h3>Info:</h3>
-          <b>{`Amount: ${allRecipes[recipeName].amount} x ${recipeName}`}</b>
-          <b>{`Level: ${allRecipes[recipeName].level}`}</b>
-          <b>{`Exp: ${allRecipes[recipeName].exp}`}</b>
-          <b>{`CharExp: ${allRecipes[recipeName].expChar}`}</b>
-          <b>{`Time: ${allRecipes[recipeName].time}ms`}</b>
-        </Box>
-      </Container>)}
+        <RecipeSelector
+          selectedRecipeName={recipeName}
+          recipeMap={allRecipes}
+          onChange={handleRecipe}
+        />
 
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
-        >
-          
+        {recipeName && <RecipeInfo recipe={allRecipes[recipeName]}/>}
+
+        <IngredientSelector
+          selectedIngredients={selectedIngredients}
+          ingredients={ingredients}
+          onChange={handleIngredients}
+        />
+
+        {recipeName &&(<Container maxWidth="xs">
           <Box 
-          display="flex"
-          flexDirection='row'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
-        >
-          {ingredients.map((value, index) => (
-            
-          <FormControl key={index} sx={{ m: 1, minWidth: 80 }}>
-            <InputLabel id="ingredient-label">Ingredient</InputLabel>
-            <Select
-              labelId="ingredient-label"
-              id="ingredient"
-              value={selectedIngredients[index] || (value.required ? value.slot[0].resource : "")}
-              label="Ingredient"
-              onChange={(event) => handleIngredients(event, index)}
-            >
-              {value.slot.map((value, index) => (
-                <MenuItem key={index} value={value.resource}>
-                  {value.amount}   {value.resource}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          ))}
-          </Box>
-        </Box>
-      </Container>
-
-      {recipeName &&(<Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(91, 91, 200, 0.8)'}}>
-          <h3>Rarity chances:</h3>
-          <RarityDistribution values={rarityWeights()} />
-        
-          
-        </Box>
-      </Container>)}
-
-
-      <Container maxWidth="xs">
-        <Box 
             display="flex"
             flexDirection='column'
             alignItems="center"
-            sx={{ bgcolor: 'rgba(91, 91, 91, 0.8)'}}
-          >
-            <FormControlLabel control={<Switch checked={limit} onChange={handleLimit}/>} label="Limit" />
-          
-          {limit && (<TextField
-            label="Iterations"
-            id="outlined-size-small"
-            defaultValue= {iterations}
-            size="small"
-            onChange={handleIterations}
-          />)}
-          <Button disabled={selectedIngredients.filter((value) => value !== "").length < 1} onClick={handleStart} variant="contained">Start</Button>
-        </Box>
-      </Container>
+            sx={{ bgcolor: 'rgba(91, 91, 200, 0.8)'}}>
+            <h3>Rarity chances:</h3>
+            <RarityDistribution values={rarityWeights} />
+          </Box>
+        </Container>)}
+      
+        <StartActionController
+          hasLimit={limit}
+          onChangeLimit={handleLimit}
+          iterations={iterations}
+          onChangeIterations={handleIterations}
+          startDisabled={selectedIngredients.filter((value) => value !== "").length < 1}
+          onClickStart={handleStart}
+        />
+
       </Box>
     </Container>
   );

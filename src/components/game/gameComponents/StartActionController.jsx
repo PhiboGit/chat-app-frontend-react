@@ -16,7 +16,7 @@ const StartActionController = ({hasLimit, onChangeLimit, iterations, onChangeIte
           alignItems="center"
           sx={{ bgcolor: 'rgba(91, 91, 91, 0.8)'}}
         >
-          <FormControlLabel control={<Switch checked={hasLimit} onChange={onChangeLimit}/>} label="Limit" />
+          <FormControlLabel control={<Switch checked={hasLimit} onChange={(event) => onChangeLimit(event.target.checked)}/>} label="Limit" />
         
         {hasLimit && (<TextField
           label="Iterations"

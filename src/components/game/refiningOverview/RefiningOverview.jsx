@@ -65,8 +65,9 @@ const RefiningOverview = () => {
 
   const [limit, setLimit] = React.useState(true);
 
-  const handleLimit = (event) => {
-    setLimit(event.target.checked);
+  const handleLimit = (checked) => {
+    console.log('limit', checked);
+    setLimit(checked);
     setIterations(1);
   };
 
