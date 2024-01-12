@@ -25,6 +25,7 @@ import RecipeIcon from '../gameComponents/icons/RecipeIcon';
 import ClickAwayPopper from '../../common/ClickAwayPopper'
 import ProfessionSelector from './ProfessionSelector';
 import RecipeSelector from './RecipeSelector';
+import RecipeInfo from './RecipeInfo';
 
 const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -135,22 +136,7 @@ const RefiningOverview = () => {
           onChange={handleRecipe}
         />
 
-      {recipeName && (
-      <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 155, 0.8)'}}
-        >
-          <h3>Info:</h3>
-          <b>{`Amount: ${allRecipes[recipeName].amount} x ${recipeName}`}</b>
-          <b>{`Level: ${allRecipes[recipeName].level}`}</b>
-          <b>{`Exp: ${allRecipes[recipeName].exp}`}</b>
-          <b>{`CharExp: ${allRecipes[recipeName].expChar}`}</b>
-          <b>{`Time: ${allRecipes[recipeName].time}ms`}</b>
-        </Box>
-      </Container>)}
+      {recipeName && <RecipeInfo recipe={allRecipes[recipeName]}/>}
 
       <Container maxWidth="xs">
         <Box 
