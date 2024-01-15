@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
@@ -22,7 +22,7 @@ const RefiningOverview = () => {
   const [recipeName, setRecipe] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-  
+
   const [limit, setLimit] = React.useState(true);
   const [iterations, setIterations] = useState(1);
   

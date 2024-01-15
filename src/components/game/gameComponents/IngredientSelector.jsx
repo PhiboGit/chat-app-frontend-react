@@ -57,6 +57,10 @@ const IngredientSelector = ({selectedIngredients, ingredients, onChange}) => {
               label="Ingredient"
               onChange={(event) => onChangeIngredient(event.target.value, slotIndex)}
             >
+              {!ingredientSlot.required && 
+                <MenuItem key={"empty"} value={""}>
+                  empty
+                </MenuItem>}
               {ingredientSlot.slot.map((ingredient, index) => (
                 <MenuItem key={index} value={ingredient.resource}>
                   {ingredient.amount}   {ingredient.resource}
