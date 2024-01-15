@@ -21,6 +21,9 @@ import Select from '@mui/material/Select';
 import ResourceIcon from '../gameComponents/icons/ResourceIcon';
 import RecipeIcon from '../gameComponents/icons/RecipeIcon';
 import ItemIcon from '../gameComponents/icons/ItemIcon'
+import StartActionController from '../gameComponents/StartActionController';
+import ClickAwayPopper from '../../common/ClickAwayPopper';
+import ItemSelector from '../gameComponents/ItemSelector';
 
 const EnchantingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
@@ -30,6 +33,9 @@ const EnchantingOverview = () => {
   const [validEnchantingResources, setValidEnchantingResources] = useState([])
   const [selectedEnchantingResource, setSelectedEnchantingResource] = useState('')
   const [enchantingLimit, setEnchantingLimit] = useState(1)
+
+  const [limit, setLimit] = React.useState(true);
+  const [iterations, setIterations] = useState(1);
 
   const idToItemMap = characterData.items.reduce((map, item) => {
     map[item._id] = item;
@@ -57,20 +63,14 @@ const EnchantingOverview = () => {
     setSelectedEnchantingResource(event.target.value);
   };
 
-  const [limit, setLimit] = React.useState(true);
-
-  const handleLimit = (event) => {
-    setLimit(event.target.checked);
-    if (event.target.checked) {
-      setIterations(1);
-    } else {
-      setIterations(1);
-    }
+  const handleLimit = (checked) => {
+    console.log('limit', checked);
+    setLimit(checked);
+    setIterations(1);
   };
 
-  const [iterations, setIterations] = useState(1);
-  const handleIterations = (event) => {
-    setIterations(parseInt(event.target.value))
+  const handleIterations = (number) => {
+    setIterations(number)
   }
   
   function handleStart(){
@@ -94,7 +94,7 @@ const EnchantingOverview = () => {
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-  };
+  }
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -121,14 +121,13 @@ const EnchantingOverview = () => {
         >
           <div>Select an Item:</div>
           
-          {<Box
+          <Box
             sx={{
-          border: '2px dashed #000', // Adjust the border styles
-          padding: 0.3, // Optional: Add padding to the box
-          display: 'inline-block', // Make sure the box is inline with the content
-          bgcolor: 'rgba(160, 177, 6, 0.8)'
-          
-          }}
+              border: '2px dashed #000', // Adjust the border styles
+              padding: 0.3, // Optional: Add padding to the box
+              display: 'inline-block', // Make sure the box is inline with the content
+              bgcolor: 'rgba(160, 177, 6, 0.8)'
+            }}
           >
           {itemId ? (
             <ItemIcon item={idToItemMap[itemId]} onClick={handleClick}/>
@@ -136,29 +135,9 @@ const EnchantingOverview = () => {
               <RecipeIcon disableTitle onClick={handleClick} />
             )}
           </Box>
-          }
-          {open && <ClickAwayListener onClickAway={handleClose}>
-            <Popper
-            id={id}
-            open={open}
-            anchorEl={anchorEl}
-            placement='bottom'
-          >
-          <Container maxWidth="xs">
-            <Box
-              sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-            >
-            <Grid container spacing={1}>
-              {Object.keys(idToItemMap).map((itemId) => (
-                  <Grid item key={itemId}>
-                    <ItemIcon item={idToItemMap[itemId]} onClick={() => handleItem(itemId)}/>
-                  </Grid>
-                ))}
-            </Grid>
-            </Box>
-          </Container>
-          </Popper>
-        </ClickAwayListener>}
+          <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
+            <ItemSelector items={Object.entries(idToItemMap).map(([key, value]) => value)} onItemClick={handleItem}/>
+          </ClickAwayPopper>
 
         <TextField
               label="Enchanting Limit"
@@ -219,25 +198,14 @@ const EnchantingOverview = () => {
           </Box>
         </Box>
       </Container>
-      <Container maxWidth="xs">
-        <Box 
-            display="flex"
-            flexDirection='column'
-            alignItems="center"
-            sx={{ bgcolor: 'rgba(91, 91, 91, 0.8)'}}
-          >
-            <FormControlLabel control={<Switch checked={limit} onChange={handleLimit}/>} label="Limit" />
-          
-          {limit && (<TextField
-            label="Iterations"
-            id="outlined-size-small"
-            defaultValue= {iterations}
-            size="small"
-            onChange={handleIterations}
-          />)}
-          <Button disabled={!selectedEnchantingResource} onClick={handleStart} variant="contained">Start</Button>
-        </Box>
-      </Container>
+      <StartActionController
+          hasLimit={limit}
+          onChangeLimit={handleLimit}
+          iterations={iterations}
+          onChangeIterations={handleIterations}
+          startDisabled={!selectedEnchantingResource}
+          onClickStart={handleStart}
+        />
       </Box>
     </Container>
   );
