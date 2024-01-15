@@ -8,8 +8,6 @@ import RecipeInfo from '../gameComponents/RecipeInfo';
 import IngredientSelector from '../gameComponents/IngredientSelector';
 import StartActionController from '../gameComponents/StartActionController';
 
-import adjustWeights from './Wheights';
-
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
@@ -50,43 +48,7 @@ const CraftingOverview = () => {
     console.log("selected Ingredients: ", newSelectedIngredients);
     setSelectedIngredients(newSelectedIngredients);
   };
-
-  const [rarityWeights, setRarityWeights] = useState([0,0,0,0,0])
-
-  useEffect(() => {
-    if (selectedIngredients.length > 0){
-      calculateRarityWeights();
-    }
-  }, [selectedIngredients]);
-
-  function calculateRarityWeights() {
-    const skillLevel = characterData.skills[profession].level
-    const itemLevel = allRecipes[recipeName].level
-    const table = gameData.craftingTable.equipments
-
-    const rarityWeights = table.rarityWeights
-    const defaultWindow = table.defaultWindow
-
-    let startBonus = 0
-    let endBonus = 0
-    
-    for (const selectedItem of selectedIngredients) {
-      const item = gameData.craftingMaterials[selectedItem]
-      if (!item) continue
-      if (item["craftingBonus"]){
-        startBonus += item["craftingBonus"]
-      }
-    }
   
-    let startWindow = defaultWindow[0] + (skillLevel * table.professionLevel.start) + (itemLevel * table.itemLevel.start) + startBonus
-    let endWindow = defaultWindow[1] + (skillLevel * table.professionLevel.end) + (itemLevel * table.itemLevel.end) + endBonus
-
-    const weights = adjustWeights(rarityWeights, startWindow, endWindow)
-
-    console.log("Weights: ", weights)
-    setRarityWeights(weights)
-  }
-
   function init(){
     const selectedProfession = 'toolsmith'
 
@@ -159,16 +121,7 @@ const CraftingOverview = () => {
           onChange={handleIngredients}
         />
 
-        {recipeName &&(<Container maxWidth="xs">
-          <Box 
-            display="flex"
-            flexDirection='column'
-            alignItems="center"
-            sx={{ bgcolor: 'rgba(91, 91, 200, 0.8)'}}>
-            <h3>Rarity chances:</h3>
-            <RarityDistribution values={rarityWeights} />
-          </Box>
-        </Container>)}
+        {recipeName &&(<RarityDistribution recipe={allRecipes[recipeName]} selectedIngredients={selectedIngredients}/>)}
       
         <StartActionController
           hasLimit={limit}

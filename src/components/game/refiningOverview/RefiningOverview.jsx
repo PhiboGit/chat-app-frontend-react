@@ -22,33 +22,10 @@ const RefiningOverview = () => {
   const [recipeName, setRecipe] = useState('');
   const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
-
-  const handleProfession = (newProfession) => {
-    console.log('selected Profession', newProfession)
-    // Reset recipe and ingredients when the profession changes
-    setProfession(newProfession);
-    setRecipe('');
-    setIngredients([]);
-    setSelectedIngredients([]);
-    setAllRecipes(refiningRecipes[newProfession]);
-  };
-
-  const handleRecipe = (newRecipeName) => {
-    console.log("selected Recipe: ", newRecipeName)
-    setRecipe(newRecipeName);
-    setIngredients(allRecipes[newRecipeName]?.ingredients || []);
-    const newSelectedIngredients = allRecipes[newRecipeName]?.ingredients.map((value) => value.required ? value.slot[0].resource : "") || []
-    setSelectedIngredients(newSelectedIngredients);
-    console.log("selected Ingredients: ", newSelectedIngredients)
-  };
-
-  const handleIngredients = (ingredientName, slotIndex) => {
-    const newSelectedIngredients = [...selectedIngredients];
-    newSelectedIngredients[slotIndex] = ingredientName
-    console.log("selected Ingredients: ", newSelectedIngredients);
-    setSelectedIngredients(newSelectedIngredients);
-  };
-
+  
+  const [limit, setLimit] = React.useState(true);
+  const [iterations, setIterations] = useState(1);
+  
   function init(){
     const selectedProfession = 'woodworking'
 
@@ -63,7 +40,35 @@ const RefiningOverview = () => {
     init();
   }, []);
 
-  const [limit, setLimit] = React.useState(true);
+
+  const handleProfession = (newProfession) => {
+    console.log('selected Profession', newProfession)
+    setProfession(newProfession);
+    // Reset recipe and ingredients when the profession changes
+    setRecipe('');
+    setIngredients([]);
+    setSelectedIngredients([]);
+    setAllRecipes(refiningRecipes[newProfession]);
+  };
+
+  const handleRecipe = (newRecipeName) => {
+    console.log("selected Recipe: ", newRecipeName)
+    setRecipe(newRecipeName);
+    // find the ingredients
+    const recipeIngredients = allRecipes[newRecipeName]?.ingredients || []
+    setIngredients(recipeIngredients);
+    // and pre-select the ingredient
+    const newSelectedIngredients = recipeIngredients.map((value) => value.required ? value.slot[0].resource : "")
+    setSelectedIngredients(newSelectedIngredients);
+    console.log("selected Ingredients: ", newSelectedIngredients)
+  };
+
+  const handleIngredients = (ingredientName, slotIndex) => {
+    const newSelectedIngredients = [...selectedIngredients];
+    newSelectedIngredients[slotIndex] = ingredientName
+    console.log("selected Ingredients: ", newSelectedIngredients);
+    setSelectedIngredients(newSelectedIngredients);
+  };
 
   const handleLimit = (checked) => {
     console.log('limit', checked);
@@ -71,7 +76,6 @@ const RefiningOverview = () => {
     setIterations(1);
   };
 
-  const [iterations, setIterations] = useState(1);
   const handleIterations = (number) => {
     setIterations(number)
   }
