@@ -53,7 +53,6 @@ const EnchantingOverview = () => {
     setValidEnchantingResources(validItems);
     setSelectedEnchantingResource(validItems[0]);
     setEnchantingLimit(item.enchantingLevel)
-    handleClose()
   };
 
   const handleEnchantingLimit = (event) => {
@@ -90,19 +89,6 @@ const EnchantingOverview = () => {
     send(enchanting)
   }
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  }
-
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
-
-  const open = Boolean(anchorEl);
-  const id = open ? 'simple-popper' : undefined;
-
 
   return (
     <Container maxWidth="sm">
@@ -129,15 +115,12 @@ const EnchantingOverview = () => {
               bgcolor: 'rgba(160, 177, 6, 0.8)'
             }}
           >
-          {itemId ? (
-            <ItemIcon item={idToItemMap[itemId]} onClick={handleClick}/>
-            ) : (
-              <RecipeIcon disableTitle onClick={handleClick} />
-            )}
+            <ItemSelector 
+              selectedItem={idToItemMap[itemId]} 
+              items={Object.entries(idToItemMap).map(([key, value]) => value)} 
+              onChange={handleItem}
+            />
           </Box>
-          <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-            <ItemSelector items={Object.entries(idToItemMap).map(([key, value]) => value)} onItemClick={handleItem}/>
-          </ClickAwayPopper>
 
         <TextField
               label="Enchanting Limit"
@@ -179,7 +162,7 @@ const EnchantingOverview = () => {
           
             
           <FormControl sx={{ m: 1, minWidth: 80 }}>
-            <InputLabel id="ingredient-label">Consumed Essence</InputLabel>
+            <InputLabel id="ingredient-label">Consumed Precursor</InputLabel>
             <Select
               labelId="ingredient-label"
               id="ingredient"
