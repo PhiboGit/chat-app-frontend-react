@@ -93,12 +93,19 @@ const EquipmentOverview = () => {
           <Grid key={profession} container spacing={1}>
             {Object.keys(skills[profession].equipment).map((slot) => (
               <Grid key={slot} item >
-                <ItemSelector 
-                  selectedItem={getEquipItem(profession, slot)}
-                  items={filteredItems(profession, slot)} 
-                  hasNullValue={true} 
-                  onChange={(itemId) => handleItem(itemId, profession, slot)}
-                />                
+                <Box
+                  sx={{
+                    border: '2px dashed #000', // Adjust the border styles
+                    padding: 0.3, // Optional: Add padding to the box
+                  }}
+                >
+                  <ItemSelector 
+                    selectedItem={getEquipItem(profession, slot)}
+                    items={filteredItems(profession, slot)} 
+                    hasNullValue={true} 
+                    onChange={(itemId) => handleItem(itemId, profession, slot)}
+                  />                
+                </Box>
               </Grid>
             ))}
           </Grid>

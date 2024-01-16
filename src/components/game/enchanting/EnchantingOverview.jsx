@@ -111,8 +111,6 @@ const EnchantingOverview = () => {
             sx={{
               border: '2px dashed #000', // Adjust the border styles
               padding: 0.3, // Optional: Add padding to the box
-              display: 'inline-block', // Make sure the box is inline with the content
-              bgcolor: 'rgba(160, 177, 6, 0.8)'
             }}
           >
             <ItemSelector 

@@ -36,9 +36,9 @@ return (
           
           <Box
             sx={{
-          border: '2px dashed black', // Adjust the border styles
-          padding: 0.3, // Optional: Add padding to the box
-          }}
+              border: '2px dashed black', // Adjust the border styles
+              padding: 0.3, // Optional: Add padding to the box
+            }}
           >
           {selectedRecipeName ? (
             <RecipeIcon recipe={recipeMap[selectedRecipeName]} onClick={openPopper} />
