@@ -119,15 +119,24 @@ const EnchantingOverview = () => {
               onChange={handleItem}
             />
           </Box>
+        </Box>
+      </Container>
 
-        <TextField
+      <Container maxWidth="xs">
+        <Box 
+          display="flex"
+          flexDirection='column'
+          alignItems="center"
+          sx={{ bgcolor: 'rgba(160, 160, 186, 0.8)'}}
+        >
+          <TextField
               label="Enchanting Limit"
               id="levelLimit"
               defaultValue= {enchantingLimit}
               size="small"
               onChange={handleEnchantingLimit}
             />
-      </Box>
+        </Box>
       </Container>
 
       {itemId && (
