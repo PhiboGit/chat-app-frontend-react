@@ -7,6 +7,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
 
   const charData = initCharData.character
   const [characterData, setCharacterData] = useState(charData);
+  const [marketplaceOrderBook, setMarketplaceOrderBook] = useState();
 
 
   useEffect(() => {
@@ -14,15 +15,26 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     messageReceiver.addEventListener('update_char', updateChar);
     messageReceiver.addEventListener('action_manager', updateChar);
     messageReceiver.addEventListener('items', updateItems);
-    
+    messageReceiver.addEventListener('marketplace' , updateMarketplace)
+
     return () => {
       
       console.log("removing event listener")
       messageReceiver.removeEventListener('update_char', updateChar)
       messageReceiver.removeEventListener('action_manager', updateChar)
       messageReceiver.removeEventListener('items', updateItems);
+      messageReceiver.removeEventListener('marketplace', updateMarketplace);
     };
   }, [])
+
+  function updateMarketplace(event){
+    const receivedData = event.detail; // Access the data from the detail property
+    console.log("Marketplace update: ", receivedData);
+
+    if (receivedData.hasOwnProperty("orderBook")){
+      setMarketplaceOrderBook(receivedData.orderBook)
+    }
+  }
 
   useEffect(() => {
     setCharacterData(charData);
@@ -111,7 +123,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
   }
 
   return (
-    <CharacterDataContext.Provider value={{ characterData }}>
+    <CharacterDataContext.Provider value={{ characterData, marketplaceOrderBook }}>
       {children}
     </CharacterDataContext.Provider>
   );
