@@ -46,6 +46,9 @@ const MarketplaceOverview = () => {
               <Grid item key={"fiberT1"}>
                 <ResourceIcon name={"fiberT1"} onClick={() => setResource("fiberT1")}/>
               </Grid>
+              <Grid item key={"plankT1"}>
+                <ResourceIcon name={"plankT1"} onClick={() => setResource("plankT1")}/>
+              </Grid>
             </Grid>
           </Box>
         </Container>

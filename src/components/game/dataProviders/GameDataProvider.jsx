@@ -5,6 +5,7 @@ export const GameDataContext = createContext();
 
 export const GameDataProvider = ({children, initGameData, send }) => {
   const [gameData, setGameData] = useState({
+    resourcesInfo: initGameData.resourcesInfo,
     expTable: initGameData.expTable,
     gatheringResourcesData: initGameData.gatheringResourcesData,
     recipesData: initGameData.recipesData,

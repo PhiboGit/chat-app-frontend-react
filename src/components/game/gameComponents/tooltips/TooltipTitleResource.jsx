@@ -1,9 +1,14 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
 import Typography from '@mui/material/Typography';
 
 import ChipStack from "../ChipStack"
 
 const TooltipTitleResource = ({name, amount}) => {
+  const { gameData } = useContext(GameDataContext);
+
+  const resourceInfo = gameData.resourcesInfo[name]
+
   const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
    // "woodT1_common"
    //matchResult[0] "woodT1_common"
@@ -13,7 +18,7 @@ const TooltipTitleResource = ({name, amount}) => {
    //matchResult[4] "_common"
    //matchResult[5] "common"
 
-  const resourceName = matchResult[1]
+  const resourceName = resourceInfo.displayName || name
   const tier = parseInt(matchResult[3]) ? parseInt(matchResult[3]) : undefined
   const rarity = matchResult[5]
 
@@ -23,8 +28,7 @@ const TooltipTitleResource = ({name, amount}) => {
       {amount && <b>Amount: {amount}</b>} 
       <ChipStack rarity={rarity} tier={tier}/>
       <hr/>
-      <u>{'amazing content'}</u>.
-      {"It's very engaging. Right?"}
+      {JSON.stringify(resourceInfo)}
     </React.Fragment>
   )
 }
