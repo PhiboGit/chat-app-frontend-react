@@ -17,6 +17,7 @@ import Typography from '@mui/material/Typography';
 
 import ResourceIcon from '../gameComponents/icons/ResourceIcon';
 import OrderBook from './OrderBook';
+import MyOrders from './MyOrders';
 
 
 
@@ -25,40 +26,47 @@ const MarketplaceOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
+  const [view, setView] = useState('listing')
+
+  
+
+  const resourcesInfo = gameData.resourcesInfo
+
   const [resource, setResource] = React.useState(null);
 
   return (
     <Container maxWidth="lg">
-      <Box 
+      <Button variant='contained' onClick={() => setView('listing')}>Marketplace Listing</Button>
+      <Button variant='contained' onClick={() => setView('my_orders')}>My Orders</Button>
+      {view == 'listing' &&<Box 
         display="flex"
         flexDirection='column'
         alignItems="center"
         sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
-        <Container maxWidth="md">
+        {!resource &&<Container maxWidth="md">
           <Box sx={{ bgcolor: 'rgba(169, 150, 230, 0.8)' }}>
             <Grid container spacing={0.2}>
-              <Grid item key={"woodT1"}>
-                <ResourceIcon name={"woodT1"} onClick={() => setResource("woodT1")}/>
-              </Grid>
-              <Grid item key={"oreT1"}>
-                <ResourceIcon name={"oreT1"} onClick={() => setResource("oreT1")}/>
-              </Grid>
-              <Grid item key={"fiberT1"}>
-                <ResourceIcon name={"fiberT1"} onClick={() => setResource("fiberT1")}/>
-              </Grid>
-              <Grid item key={"plankT1"}>
-                <ResourceIcon name={"plankT1"} onClick={() => setResource("plankT1")}/>
-              </Grid>
+              {Object.keys(resourcesInfo).map((key) => 
+                <Grid item key={key}>
+                  <ResourceIcon name={key} onClick={() => setResource(key)}/>
+                </Grid>
+              )}
             </Grid>
           </Box>
-        </Container>
+        </Container>}
 
         {resource &&<Container maxWidth="md">
           <Box sx={{ bgcolor: 'rgba(169, 150, 230, 0.8)' }}>
+            <Button variant='contained' onClick={() => setResource(null)}>View all Resources</Button>
             <OrderBook resource={resource}/>
           </Box>
         </Container>}
-      </Box>
+      </Box>}
+
+      {view == 'my_orders' && <Box>
+        <MyOrders/>
+
+      </Box>}
     </Container>
   );
 };

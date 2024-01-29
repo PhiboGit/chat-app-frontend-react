@@ -17,6 +17,9 @@ import Typography from '@mui/material/Typography';
 
 import ResourceIcon from '../gameComponents/icons/ResourceIcon';
 import OrderBookTable from './OrderBookTable';
+import ClickAwayPopper from '../../common/ClickAwayPopper';
+import SellOrderMenu from './SellOrderMenu';
+import BuyOrderMenu from './BuyOrderMenu';
 
 
 
@@ -36,6 +39,7 @@ const OrderBook = ({resource}) => {
 
   useEffect(() => {
     if(!resource) return
+    setOrderBook(null)
     getOrderBook()
   },[resource])
 
@@ -56,11 +60,15 @@ const OrderBook = ({resource}) => {
   const refresh = () => {
     getOrderBook()
   }
-  const buy = () => {
 
+  const [anchorElBuy, setAnchorElBuy] = React.useState(null);
+  const [anchorElSell, setAnchorElSell] = React.useState(null);
+
+  const openBuy = (event) => {
+    setAnchorElBuy(event.target)
   }
-  const sell = () => {
-
+  const openSell = (event) => {
+    setAnchorElSell(event.target)
   }
 
   return (
@@ -69,15 +77,20 @@ const OrderBook = ({resource}) => {
         <Box sx={{ bgcolor: 'rgba(169, 150, 230, 0.8)' }}>
           <Typography variant="h6">Order Book for {resource}</Typography>
           <Button variant='contained' onClick={refresh}>Refresh</Button>
-          <Button variant='contained' onClick={buy}>Buy</Button>
-          <Button variant='contained' onClick={sell}>Sell</Button>
+          <Button variant='contained' onClick={openBuy}>Buy</Button>
+          <Button variant='contained' onClick={openSell}>Sell</Button>
         </Box>
-        {orderBook && <Box display="flex" flexDirection="row" justifyContent="space-between" alignItems="flex-start">
-          {/* Order Book Selling Table */}
-          <OrderBookTable orderBook={orderBook.orderBookSelling}/>
-
-          {/* Order Book Buying Table */}
-          <OrderBookTable orderBook={orderBook.orderBookBuying}/>
+        <SellOrderMenu resource={resource} anchorEl={anchorElSell} setAnchorEl={setAnchorElSell}/>
+        <BuyOrderMenu resource={resource} anchorEl={anchorElBuy} setAnchorEl={setAnchorElBuy}/>
+        {orderBook && <Box display="flex" flexDirection="row" alignItems="flex-start">
+          <Box sx={{ bgcolor: 'rgba(169, 150, 230, 0.8)', padding: 2, margin: 2 }}>
+            <Typography variant="h6">Order Book Selling</Typography>
+            <OrderBookTable orderBook={orderBook.orderBookSelling}/>
+          </Box>
+          <Box sx={{ bgcolor: 'rgba(169, 150, 230, 0.8)', padding: 2, margin: 2 }}>
+            <Typography variant="h6">Order Book Buying</Typography>
+            <OrderBookTable orderBook={orderBook.orderBookBuying}/>
+          </Box>
         </Box>}
       </Paper>
     </Container>

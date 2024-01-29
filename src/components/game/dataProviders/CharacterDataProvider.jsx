@@ -1,11 +1,13 @@
 // CharacterDataProvider.jsx
-import { createContext, useEffect, useState } from 'react';
+import { createContext, useEffect, useState, useRef } from 'react';
 
 export const CharacterDataContext = createContext();
 
 export const CharacterDataProvider = ({children, initCharData, messageReceiver }) => {
 
   const charData = initCharData.character
+  const orderMapRef= useRef({})
+  const [idToOrderMap, setIdToOrderMap] = useState(orderMapRef)
   const [characterData, setCharacterData] = useState(charData);
   const [marketplaceOrderBook, setMarketplaceOrderBook] = useState();
 
@@ -16,6 +18,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     messageReceiver.addEventListener('action_manager', updateChar);
     messageReceiver.addEventListener('items', updateItems);
     messageReceiver.addEventListener('marketplace' , updateMarketplace)
+    messageReceiver.addEventListener('order' , updateOrder)
 
     return () => {
       
@@ -24,6 +27,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
       messageReceiver.removeEventListener('action_manager', updateChar)
       messageReceiver.removeEventListener('items', updateItems);
       messageReceiver.removeEventListener('marketplace', updateMarketplace);
+      messageReceiver.removeEventListener('order', updateOrder);
     };
   }, [])
 
@@ -39,6 +43,35 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
   useEffect(() => {
     setCharacterData(charData);
   }, [charData]);
+
+
+  useEffect(() => {
+    populateIdToOrderMap(initCharData.character.orders)
+  }, [initCharData]);
+
+  function populateIdToOrderMap(orders){
+    console.log("Populate Order Map");
+    const newIdToOrderMap = {...orderMapRef.current};
+    for (const order of orders) {
+      newIdToOrderMap[order._id] = order;
+    }
+    orderMapRef.current = newIdToOrderMap;
+    setIdToOrderMap(orderMapRef.current)
+  }
+
+  function updateOrder(event) {
+    const receivedData = event.detail; // Access the data from the detail property
+    console.log("Order update: ", receivedData);
+    console.log("Order update: ", idToOrderMap);
+    
+    const order = receivedData.order;
+    const newIdToOrderMap = {...orderMapRef.current};
+    
+    newIdToOrderMap[order._id] = order;
+    
+    orderMapRef.current = newIdToOrderMap;
+    setIdToOrderMap(orderMapRef.current)
+  }
 
   function updateItems(event){
     const receivedData = event.detail; // Access the data from the detail property
@@ -123,7 +156,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
   }
 
   return (
-    <CharacterDataContext.Provider value={{ characterData, marketplaceOrderBook }}>
+    <CharacterDataContext.Provider value={{ characterData, marketplaceOrderBook, idToOrderMap }}>
       {children}
     </CharacterDataContext.Provider>
   );
