@@ -19,9 +19,9 @@ const ItemSelector = ({ selectedItem, items, hasNullValue, onChange }) => {
     setAnchorEl(null);
   };
 
-  const onChangeItem = (recipeName) => {
+  const onChangeItem = (itemId) => {
     closePopper()
-    onChange(recipeName)
+    onChange(itemId)
   }
 
   return (

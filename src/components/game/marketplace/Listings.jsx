@@ -18,19 +18,13 @@ import Typography from '@mui/material/Typography';
 import ResourceIcon from '../gameComponents/icons/ResourceIcon';
 import OrderBook from './OrderBook';
 import MyOrders from './MyOrders';
-import Listings from './Listings';
-import ItemListings from './itemMarketplace/ItemListings';
 
 
 
 
-const MarketplaceOverview = () => {
+const Listings = () => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
-
-  const [view, setView] = useState('listing')
-
-  
 
   const resourcesInfo = gameData.resourcesInfo
 
@@ -38,18 +32,32 @@ const MarketplaceOverview = () => {
 
   return (
     <Container maxWidth="lg">
-      <Button variant='contained' onClick={() => setView('listing')}>Marketplace Listing</Button>
-      <Button variant='contained' onClick={() => setView('item_listing')}>Marketplace Item Listing</Button>
-      <Button variant='contained' onClick={() => setView('my_orders')}>My Orders</Button>
-      {view == 'listing' && <Listings/>}
-      {view == 'item_listing' && <ItemListings/>}
+      <Box 
+        display="flex"
+        flexDirection='column'
+        alignItems="center"
+        sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
+        {!resource &&<Container maxWidth="md">
+          <Box sx={{ bgcolor: 'rgba(169, 150, 230, 0.8)' }}>
+            <Grid container spacing={0.2}>
+              {Object.keys(resourcesInfo).map((key) => 
+                <Grid item key={key}>
+                  <ResourceIcon name={key} onClick={() => setResource(key)}/>
+                </Grid>
+              )}
+            </Grid>
+          </Box>
+        </Container>}
 
-      {view == 'my_orders' && <Box>
-        <MyOrders/>
-
-      </Box>}
+        {resource &&<Container maxWidth="md">
+          <Box sx={{ bgcolor: 'rgba(169, 150, 230, 0.8)' }}>
+            <Button variant='contained' onClick={() => setResource(null)}>View all Resources</Button>
+            <OrderBook resource={resource}/>
+          </Box>
+        </Container>}
+      </Box>
     </Container>
   );
 };
 
-export default MarketplaceOverview;
+export default Listings;
