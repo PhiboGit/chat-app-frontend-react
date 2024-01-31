@@ -16,8 +16,6 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
 import ResourceIcon from '../../gameComponents/icons/ResourceIcon';
-import OrderBook from './ItemOrderBook';
-import MyOrders from './MyOrders';
 import ItemOrderBook from './ItemOrderBook';
 
 

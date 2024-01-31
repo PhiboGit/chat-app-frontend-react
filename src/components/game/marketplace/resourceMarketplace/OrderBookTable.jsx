@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
+import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -15,7 +15,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 
-import ResourceIcon from '../gameComponents/icons/ResourceIcon';
+import ResourceIcon from '../../gameComponents/icons/ResourceIcon';
 
 
 

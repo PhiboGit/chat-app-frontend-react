@@ -2,7 +2,11 @@ import React, { useContext, useEffect, useState } from 'react';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, styled } from '@mui/material';
 import CheckIcon from '@mui/icons-material/Check'; 
 import CancelIcon from '@mui/icons-material/Cancel';
-import { GameDataContext } from '../dataProviders/GameDataProvider';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
+import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
+
+import ItemIcon from '../../gameComponents/icons/ItemIcon';
+import ResourceIcon from '../../gameComponents/icons/ResourceIcon';
 
 const CompactTable = styled(Table)({
   minWidth: 400,
@@ -19,9 +23,11 @@ const CollectButton = styled(IconButton)({
   },
 });
 
-const MyOrdersTable = ({ orders }) => {
+const MyItemOrdersTable = ({ orders }) => {
 
   const { gameData, send } = useContext(GameDataContext);
+  const { characterData } = useContext(CharacterDataContext);
+
 
 
   const handleCollectClick = (order) => {
@@ -29,9 +35,9 @@ const MyOrdersTable = ({ orders }) => {
     console.log('Collect clicked for order:', order._id);
 
     const collectOrder = {
-      "type": "marketplace/collect",
+      "type": "item_marketplace/collect",
       "args": {
-          "orderId": order._id
+          "item_orderId": order._id
       }
     }
     send(collectOrder)
@@ -42,44 +48,47 @@ const MyOrdersTable = ({ orders }) => {
     console.log('Cancel clicked for order:', order._id);
 
     const cancelOrder = {
-      "type": "marketplace/cancel",
+      "type": "item_marketplace/cancel",
       "args": {
-          "orderId": order._id
+          "item_orderId": order._id
       }
     }
     send(cancelOrder)
   };
+
+  const ableToCollect = (order) => {
+    if(order.sellerCharacter == characterData.characterName && order.status == 'complete' && !order.goldCollected){
+      return true
+    }
+    if(order.buyerCharacter == characterData.characterName && order.status == 'complete' && !order.itemCollected){
+      return true
+    }
+    if(order.sellerCharacter == characterData.characterName && order.status == 'canceled' && !order.itemCollected){
+      return true
+    }
+    return false
+  }
 
   return (
     <TableContainer component={Paper}>
       <CompactTable>
         <TableHead>
           <TableRow>
-            <CompactTableCell>Resource</CompactTableCell>
+            <CompactTableCell>Item</CompactTableCell>
             <CompactTableCell>Price</CompactTableCell>
-            <CompactTableCell>Progress</CompactTableCell>
-            <CompactTableCell>Collect Units</CompactTableCell>
-            <CompactTableCell>Collect Gold</CompactTableCell>
+            <CompactTableCell>Collect</CompactTableCell>
             <CompactTableCell>Status</CompactTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {Object.values(orders).map((order) => (
             <TableRow key={order._id}>
-              <CompactTableCell>{order.resource}</CompactTableCell>
-              <CompactTableCell>{order.price}</CompactTableCell>
-              <CompactTableCell>{order.units} / {order.unitsInit}</CompactTableCell>
               <CompactTableCell>
-                {order.unitsToCollect}
-                {order.unitsToCollect > 0 && (
-                  <CollectButton onClick={() => handleCollectClick(order)}>
-                    <CheckIcon fontSize="small" color="primary" />
-                  </CollectButton>
-                )}
+                {order.item ?<ItemIcon item={order.item}/> : order.itemName}
               </CompactTableCell>
+              <CompactTableCell>{order.price}</CompactTableCell>
               <CompactTableCell>
-                {order.goldToCollect}
-                {order.goldToCollect > 0 && (
+                {ableToCollect(order) && (
                   <CollectButton onClick={() => handleCollectClick(order)}>
                     <CheckIcon fontSize="small" color="primary" />
                   </CollectButton>
@@ -101,4 +110,4 @@ const MyOrdersTable = ({ orders }) => {
   );
 };
 
-export default MyOrdersTable;
+export default MyItemOrdersTable;

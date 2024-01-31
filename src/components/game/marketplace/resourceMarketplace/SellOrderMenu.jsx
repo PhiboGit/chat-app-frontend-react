@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
+import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
 
-import ClickAwayPopper from '../../common/ClickAwayPopper';
+import ClickAwayPopper from '../../../common/ClickAwayPopper';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
