@@ -26,16 +26,16 @@ import BuyOrderMenu from './BuyOrderMenu';
 
 const OrderBook = ({resource}) => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData, itemMarketplaceOrderBook } = useContext(CharacterDataContext);
+  const { characterData, marketplaceOrderBook } = useContext(CharacterDataContext);
 
   const [orderBook, setOrderBook] = useState()
 
   useEffect(() => {
-    console.log(itemMarketplaceOrderBook)
-    if(itemMarketplaceOrderBook){
-      setOrderBook(itemMarketplaceOrderBook)
+    console.log(marketplaceOrderBook)
+    if(marketplaceOrderBook){
+      setOrderBook(marketplaceOrderBook)
     }
-  },[itemMarketplaceOrderBook])
+  },[marketplaceOrderBook])
 
   useEffect(() => {
     if(!resource) return
