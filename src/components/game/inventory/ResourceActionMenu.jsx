@@ -5,28 +5,15 @@ import Button from '@mui/material/Button'
 
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
-const ItemActionMenu = ({item, closeMenu}) => {
+const ResourceActionMenu = ({resource, closeMenu}) => {
   const { gameData, send } = useContext(GameDataContext);
-
-
-  const handleEquip = (item, skill) => {
-    const equip = {
-      "type": "equip",
-      "args": {
-        "itemId": item._id,
-        "skill": skill,
-        "slot": item.equipmentType
-      }
-    }
-    send(equip)
-    closeMenu()
-  }
 
   const handleSell = (item) => {
     const sell = {
-      "type": "sell/item",
+      "type": "sell/resource",
       "args": {
-        "itemId": item._id,
+        "resourceName": resource,
+        "amount": 1
       }
     }
     send(sell)
@@ -43,13 +30,10 @@ const ItemActionMenu = ({item, closeMenu}) => {
           alignItems: 'center', // Optional: Align items in the center horizontally
         }}
       >
-        <Button onClick={() => handleSell(item)} key={"sell"} variant="contained">Sell</Button>
-        {item.equipmentSkills.map((skill) => (
-          <Button onClick={() => handleEquip(item, skill)} key={skill} variant="contained">Equip {skill}</Button>
-        ))}
+        <Button onClick={() => handleSell(resource)} key={"sell"} variant="contained">Sell</Button>
       </Box>
     </Container>
   )
 }
 
-export default ItemActionMenu
+export default ResourceActionMenu

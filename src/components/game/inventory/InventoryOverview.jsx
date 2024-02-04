@@ -11,6 +11,7 @@ import { Button, Container, Typography } from '@mui/material';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemActionMenu from './ItemActionMenu';
 import ItemIcon from '../gameComponents/icons/ItemIcon';
+import ResourceActionMenu from './ResourceActionMenu';
 
 
 const InventoryOverview = () => {
@@ -20,6 +21,7 @@ const InventoryOverview = () => {
   const resources = useMemo(() => characterData.resources,[characterData.resources])
   const items = useMemo(() => characterData.items,[characterData.items])
   const [selectedItem, setSelectedItem] = useState()
+  const [selectedResource, setSelectedResource] = useState()
 
   const idToItemMap = items.reduce((map, item) => {
     map[item._id] = item;
@@ -28,15 +30,22 @@ const InventoryOverview = () => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 
-  const openPopper = (event, item) => {
+  const openPopperItem = (event, item) => {
     console.log('openPopper')
     setSelectedItem(item)
+    setAnchorEl(event.currentTarget);
+  };
+
+  const openPopperResource = (event, resourceName) => {
+    console.log('openPopper')
+    setSelectedResource(resourceName)
     setAnchorEl(event.currentTarget);
   };
 
   const closePopper = () => {
     console.log('closePopper')
     setSelectedItem(null)
+    setSelectedResource(null)
     setAnchorEl(null);
   };
 
@@ -55,6 +64,7 @@ const InventoryOverview = () => {
             <ResourceIcon
               amount={value}
               name={name}
+              onClick={(event) => openPopperResource(event, name)}
             />
           </Grid>
         )})}          
@@ -68,13 +78,14 @@ const InventoryOverview = () => {
             <Grid item key={itemId}>
             <ItemIcon
               item={idToItemMap[itemId]}
-              onClick={(event) => openPopper(event, item)}
+              onClick={(event) => openPopperItem(event, item)}
               />
           </Grid>
         )})}          
       </Grid>
       <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
-        <ItemActionMenu item={selectedItem} closeMenu={closePopper}/>
+        {selectedItem && <ItemActionMenu item={selectedItem} closeMenu={closePopper}/>}
+        {selectedResource && <ResourceActionMenu resource={selectedResource} closeMenu={closePopper}/>}
       </ClickAwayPopper>
     </Box>
     </>
