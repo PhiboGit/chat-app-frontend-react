@@ -4,43 +4,50 @@ import Typography from '@mui/material/Typography';
 import ChipStack from "../ChipStack"
 
 const TooltipTitleGatheringTool = ({ item }) => {
-  
+  const renderStat = (stat, label) => {
+    if (item.properties.gearScores && item.properties.gearScores[stat]) {
+      return (
+        <React.Fragment>
+          <b>{`${label}: ${item.properties.gearScores[stat]}`}</b>
+          <br/>
+        </React.Fragment>
+      );
+    }
+    return null;
+  };
+
+  const renderGearScoreStats = (type) => {
+    const stats = ['speed', 'luck', 'yieldMax', 'exp'];
+    return stats.map(stat => renderStat(`${stat}_${type}`, `${type.charAt(0).toUpperCase()}${type.slice(1)} ${stat.charAt(0).toUpperCase()}${stat.slice(1)}`));
+  };
+
   return (
     <React.Fragment>
       <Typography color="inherit">{item.name}</Typography>
-      {item.equipmentType} {' - '} {item.equipmentSkills}
+      {`${item.equipmentType} - ${item.equipmentSkills}`}
       <ChipStack rarity={item.rarity} tier={item.tier} soulbound={item.soulbound} />
       <hr/>
       <b>{`Level: ${item.level}`}</b>
       <br/>
       <b>{`Enchanting: +${item.enchantingLevel}`}</b>
       <hr/>
-      <b>{`BaseSpeed: ${item.properties.baseSpeed}%`}</b>
+
+      <b>{`GearScore: ${item.properties.totalGearScore}`}</b>
       <br/>
-      <b>{`Speed: ${item.properties.speed}%`}</b>
-      <br/>
-      <b>{`Exp: ${item.properties.exp}%`}</b>
-      <br/>
-      <b>{`Luck: ${item.properties.luck}`}</b>
-      <br/>
-      <b>{`YieldMax: ${item.properties.yieldMax }`}</b>
-      <br/>
+
+      {renderGearScoreStats('mining')}
+      {renderGearScoreStats('woodcutting')}
+      {renderGearScoreStats('harvesting')}
+
+      {renderStat('str', 'STR')}
+      {renderStat('con', 'CON')}
+      {renderStat('int', 'INT')}
+      {renderStat('dex', 'DEX')}
+      {renderStat('foc', 'FOC')}
       <hr/>
-      <b>{`STR: ${item.properties.str}`}</b>   
-      <br/>
-      <b>{`CON: ${item.properties.con}`}</b>   
-      <br/>
-      <b>{`INT: ${item.properties.int}`}</b>   
-      <br/>
-      <b>{`DEX: ${item.properties.dex}`}</b>   
-      <br/>
-      <b>{`FOC: ${item.properties.foc}`}</b>   
-      <br/>
-      <hr/>
-      <b>{`Id: ${item._id }`}</b>
-      
+      <b>{`Id: ${item._id}`}</b>
     </React.Fragment>
-  )
-}
+  );
+};
 
 export default TooltipTitleGatheringTool;
