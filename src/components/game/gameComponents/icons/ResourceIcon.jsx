@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
 
 import Icon from '@mui/material/Icon';
 import getIcon from './iconSvgMapping';
@@ -23,6 +25,9 @@ const getRarityColor = (rarity) => {
 };
 
 const ResourceIcon = ({ amount, name , onClick}) => {
+  const { gameData, send } = useContext(GameDataContext);
+  const resourcesInfo = gameData.resourcesInfo;
+  const info = resourcesInfo[name]
   const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
    // "woodT1_common"
    //matchResult[0] "woodT1_common"
@@ -32,7 +37,7 @@ const ResourceIcon = ({ amount, name , onClick}) => {
    //matchResult[4] "_common"
    //matchResult[5] "common"
 
-  const rarity = matchResult[5]
+  const rarity = info.rarity
   const borderColor = rarity ? getRarityColor(rarity) : 'transparent';
 
 
