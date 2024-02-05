@@ -56,6 +56,7 @@ const ItemIcon = ({ item, onClick }) => {
       tooltipTitle={title(item)}
       borderColor={borderColor}
       topLeftText={item.enchantingLevel >0 ? `+${item.enchantingLevel}` : ''}
+      bottomRightText={`GS: ${item.properties.totalGearScore}`}
     />
   );
 };
