@@ -74,7 +74,7 @@ export default function GamePage() {
         </>
       ) : (
         <div style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>
-        Please reload the page.
+        Please reload the page. You lost Websocket connection to the server!
         </div>
       )}
     </>
