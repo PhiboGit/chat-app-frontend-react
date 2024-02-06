@@ -9,7 +9,7 @@ const TooltipTitleArmor = ({ item }) => {
   const renderStat = (stat, label) => {
     if (item.properties.gearScores && item.properties.gearScores[stat]) {
       return (
-        <React.Fragment>
+        <React.Fragment key={stat}>
           <b>{`${label}: ${item.properties.gearScores[stat]}`}</b>
           <br/>
         </React.Fragment>
