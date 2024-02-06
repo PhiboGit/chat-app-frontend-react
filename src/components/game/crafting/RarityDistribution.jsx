@@ -1,4 +1,4 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { Fragment, useContext, useMemo, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
@@ -50,6 +50,8 @@ const RarityDistribution = ({ recipe, selectedIngredients }) => {
   const { gameData, send } = useContext(GameDataContext);
   const { characterData } = useContext(CharacterDataContext);
 
+  const characterSkillData = useMemo(() => characterData.skills[recipe.profession], [characterData.skills[recipe.profession]])
+
   const [rarityWeights, setRarityWeights] = useState([0,0,0,0,0])
   useEffect(() => {
     if (selectedIngredients.length > 0){
@@ -60,7 +62,7 @@ const RarityDistribution = ({ recipe, selectedIngredients }) => {
   const sum = rarityWeights.reduce((acc, val) => acc + val, 0);
 
   const calculateRarityWeights = () => {
-    const skillLevel = characterData.skills[recipe.profession].level
+    const skillLevel = characterSkillData.level
     const itemLevel = recipe.level
     const table = gameData.craftingTable.equipments
 
