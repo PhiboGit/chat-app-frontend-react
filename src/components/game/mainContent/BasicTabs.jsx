@@ -11,6 +11,8 @@ import AugmentationOverview from '../augmentation/AugmentationOverview';
 import EnchantingOverview from '../enchanting/EnchantingOverview';
 import EquipmentOverview from '../equipment/EquipmentOverview';
 import MarketplaceOverview from '../marketplace/MarketplaceOverview';
+import RegionOverview from '../regions/RegionOverview';
+import MapOverview from '../regions/MapOverview';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -56,34 +58,38 @@ export default function BasicTabs() {
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
-          <Tab label="Gathering" {...a11yProps(0)} />
-          <Tab label="Refining" {...a11yProps(1)} />
-          <Tab label="Crafting" {...a11yProps(2)} />
-          <Tab label="Augmentation" {...a11yProps(3)} />
-          <Tab label="Enchanting" {...a11yProps(4)} />
-          <Tab label="Equipment" {...a11yProps(5)} />
-          <Tab label="Market" {...a11yProps(6)} />
+          <Tab label="Map" {...a11yProps(0)} />
+          <Tab label="Gathering" {...a11yProps(1)} />
+          <Tab label="Refining" {...a11yProps(2)} />
+          <Tab label="Crafting" {...a11yProps(3)} />
+          <Tab label="Augmentation" {...a11yProps(4)} />
+          <Tab label="Enchanting" {...a11yProps(5)} />
+          <Tab label="Equipment" {...a11yProps(6)} />
+          <Tab label="Market" {...a11yProps(7)} />
         </Tabs>
       </Box>
       <CustomTabPanel value={value} index={0}>
-        <GatheringOverview />
+        <MapOverview />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={1}>
-        <RefiningOverview />
+        <GatheringOverview />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={2}>
-        <CraftingOverview/>
+        <RefiningOverview />
       </CustomTabPanel>
       <CustomTabPanel value={value} index={3}>
-        <AugmentationOverview/>
+        <CraftingOverview/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={4}>
-        <EnchantingOverview/>
+        <AugmentationOverview/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={5}>
-        <EquipmentOverview/>
+        <EnchantingOverview/>
       </CustomTabPanel>
       <CustomTabPanel value={value} index={6}>
+        <EquipmentOverview/>
+      </CustomTabPanel>
+      <CustomTabPanel value={value} index={7}>
         <MarketplaceOverview/>
       </CustomTabPanel>
     </Box>

@@ -11,7 +11,8 @@ export const GameDataProvider = ({children, initGameData, send }) => {
     recipesData: initGameData.recipesData,
     refiningRecipes: initGameData.refiningRecipes,
     craftingTable: initGameData.craftingTable,
-    craftingMaterials: initGameData.craftingMaterials
+    craftingMaterials: initGameData.craftingMaterials,
+    regionData: initGameData.regionData
   });
 
   return (
