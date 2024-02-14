@@ -18,6 +18,7 @@ import { Typography } from '@mui/material';
 import ProfessionIcon from './ProfessionIcon';
 import NodeIcon from './NodeIcon';
 import RegionOverview from './RegionOverview';
+import ReactFlowMap from './ReactFlowMap';
 
 
 const MapOverview = () => {
@@ -47,14 +48,15 @@ const MapOverview = () => {
           ))}
         </Grid>
 
-        <Grid container direction="row" justifyContent="flex-start" alignItems="flex-start" spacing={1} sx={{ bgcolor: 'rgba(130, 150, 230, 0.8)' }}>
+        <Grid container direction="row" justifyContent="center" alignItems="flex-start" spacing={1} sx={{ bgcolor: 'rgba(130, 150, 230, 0.8)' }}>
           {Object.entries(regionData).map(([regionName, regionInfo]) => (
             <Button key={regionName} variant='contained' onClick={() => setSetlectedRegion(regionName)}>{regionName}</Button>
             ))}
         </Grid>
         {selectedRegion && <RegionOverview regionName={selectedRegion}/>}
+      <ReactFlowMap></ReactFlowMap>
     </Box>
-    </Container>
+  </Container>
   );
 };
 
