@@ -39,10 +39,13 @@ export default function GamePage() {
         {(initGameData && initCharData) ? (
           <GameDataProvider initGameData={initGameData} send={sendWebsocket}>
             <CharacterDataProvider initCharData={initCharData} messageReceiver={messageReceiver}>
+              {/* makes it single page that does not scroll the page */}
               <Box height="100vh" display="flex" flexDirection="column">
+                {/* header takes 7% view */}
                 <Box height={"7vh"}>
                   <GameHeader/>
                 </Box>
+                {/* the rest of the horizontal space for the gameContent */}
                 <Box flex={1} overflow={"hidden"}>
                   <GameContent/>
                 </Box>
