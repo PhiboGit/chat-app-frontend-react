@@ -8,6 +8,7 @@ import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
 import ActionOverview from './actionOverview/ActionOverview';
 import BasicTabs from './mainContent/BasicTabs';
 import InventoryOverview from './inventory/InventoryOverview';
+import InventoryTabs from './inventory/InventoryTabs';
 
 const messageReceiver = new EventTarget()
 
@@ -22,7 +23,7 @@ export default function GameContent() {
         </Grid>
         {/* row with sm, else column with xs when too small ,scrollable item */}
         <Grid item xs={12} sm={4} style={{height: '100%', overflow: 'auto'}}>     
-          <InventoryOverview />
+          <InventoryTabs />
         </Grid>
       </Grid>
     
