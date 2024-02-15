@@ -8,6 +8,8 @@ import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
 import ActionOverview from './actionOverview/ActionOverview';
 import BasicTabs from './mainContent/BasicTabs';
 import InventoryOverview from './inventory/InventoryOverview';
+import GameHeader from './GameHeader';
+import GameContent from './GameContent';
 
 const messageReceiver = new EventTarget()
 
@@ -34,49 +36,29 @@ export default function GamePage() {
     <>
       {isWebSocketOpen ? (
         <>
-          {(initGameData && initCharData) ? (
-            <GameDataProvider initGameData={initGameData} send={sendWebsocket}>
-              <CharacterDataProvider initCharData={initCharData} messageReceiver={messageReceiver}>
-                <Container maxWidth="false" style={{ height: '100vh' }}>
-                  <Grid container style={{ height: '100%' }}   >
-
-                    {/* Main Content */}
-                    <Grid item xs={12} md={9}>
-                      <Box style={{ backgroundColor: '#f0f0f0', height: '100%' }}>
-                        <BasicTabs/>
-                      </Box>
-                    </Grid>
-                    {/* Right Side */}
-                    <Grid item xs={12} md={3}>
-                      <Grid container direction="column" style={{ height: '100%' }}>
-                        {/* Inventory */}
-                        <Grid item style={{ flex: 3 }}>
-                          <Box style={{ backgroundColor: '#ddd', height: '100%' }}>
-                            <InventoryOverview />
-                          </Box>
-                        </Grid>
-
-                        {/* Action Queue */}
-                        <Grid item style={{ flex: 1 }}>
-                          <Box style={{ backgroundColor: '#bbb', height: '100%' }}>
-                            <ActionOverview />
-                          </Box>
-                        </Grid>
-                      </Grid>
-                    </Grid>
-                  </Grid>
-                </Container>
-              </CharacterDataProvider>
-            </GameDataProvider>
+        {(initGameData && initCharData) ? (
+          <GameDataProvider initGameData={initGameData} send={sendWebsocket}>
+            <CharacterDataProvider initCharData={initCharData} messageReceiver={messageReceiver}>
+              <Box height="100vh" display="flex" flexDirection="column">
+                <Box height={"7vh"}>
+                  <GameHeader/>
+                </Box>
+                <Box flex={1} overflow={"hidden"}>
+                  <GameContent/>
+                </Box>
+                
+              </Box>
+            </CharacterDataProvider>
+          </GameDataProvider>
           ) : (
             <div>loading...</div>
-          )}
+            )}
         </>
       ) : (
         <div style={{ color: 'red', textAlign: 'center', marginTop: '10px' }}>
         Please reload the page. You lost Websocket connection to the server!
         </div>
-      )}
+      )}  
     </>
   );
 }
