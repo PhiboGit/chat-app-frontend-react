@@ -42,7 +42,7 @@ export default function GamePage() {
               {/* makes it single page that does not scroll the page */}
               <Box height="100vh" display="flex" flexDirection="column">
                 {/* header takes 7% view */}
-                <Box height={"7vh"}>
+                <Box height={"7vh"} overflow={"hidden"}>
                   <GameHeader/>
                 </Box>
                 {/* the rest of the horizontal space for the gameContent */}

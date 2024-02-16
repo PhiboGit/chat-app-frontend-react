@@ -6,9 +6,15 @@ import { Box } from '@mui/material';
 
 const actionOverview = () => {
   return (
-    <Box >
-      <CurrentAction />
-      <ActionQueue />
+    <Box display={"flex"} flexDirection={"row"}>
+      <Box flex={1} >
+        <CurrentAction />
+
+      </Box>
+      <Box flex={1} >
+        <ActionQueue />
+
+      </Box>
     </Box>
   );
 };

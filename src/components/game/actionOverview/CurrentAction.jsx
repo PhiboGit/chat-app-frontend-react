@@ -86,8 +86,12 @@ export default function CurrentAction() {
   }
 
   return (
-    <Container>
-      {currentAction &&
+    <Box>
+      {!currentAction ? 
+      <>
+      Empty Action
+      </>
+      :
        <Box
        sx={{
          border: '2px solid #333', // Add this line for border styling
@@ -107,6 +111,6 @@ export default function CurrentAction() {
           </Grid>
         </Grid>
       </Box>}
-    </Container>
+    </Box>
   );
 }
