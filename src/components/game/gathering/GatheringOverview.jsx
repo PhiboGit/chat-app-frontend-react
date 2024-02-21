@@ -79,9 +79,12 @@ const GatheringOverview = () => {
         }}>
         {Object.keys(gameData.gatheringResourcesData).map((profession) =>(
           <Box 
+          display="flex"
+          flexDirection='row'
+          alignItems={"center"}
           key={profession} 
           sx={{  bgcolor: 'rgba(169, 183, 200, 0.8)', margin: 2  }}>
-          <Container maxWidth="xs">
+          <Container >
           <Box key={profession} sx={{  bgcolor: 'rgba(139, 183, 200, 0.8)', margin: 1  }}>
           <Typography>{profession}: </Typography>
           <GatheringProfessionIcon profession={profession}/>
