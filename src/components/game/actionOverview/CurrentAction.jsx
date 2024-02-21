@@ -1,14 +1,30 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import LinearProgress from '@mui/material/LinearProgress';
 import Box from '@mui/material/Box';
 import { Grid, IconButton } from '@mui/material';
 import { Container } from '@mui/material';
 
 import CancelIcon from '@mui/icons-material/Cancel';
 
-const updateTime = 100 // ms update
+const updateTime = 10 // ms update
+
+import { styled } from '@mui/material/styles';
+import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+
+const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
+  height: 10,
+  borderRadius: 5,
+  [`&.${linearProgressClasses.colorPrimary}`]: {
+    backgroundColor: theme.palette.grey[theme.palette.mode === 'light' ? 200 : 800],
+  },
+  [`& .${linearProgressClasses.bar}`]: {
+    borderRadius: 5,
+    backgroundColor: theme.palette.mode === 'light' ? '#1a90ff' : '#308fe8',
+    transition: "none"
+  },
+}));
+
 
 export default function CurrentAction() {
   const { characterData } = useContext(CharacterDataContext);
@@ -66,15 +82,22 @@ export default function CurrentAction() {
 
   function getActionText(){
     return (
+      currentAction ?
+        <>
+          {actionType}
+          <br/>
+          {(limit) ? (
+            <>Iterations left: {iterations}</>
+          ):(
+            <>Counter: {counter}</>
+          )}
+        </>
+      :
       <>
-        {actionType}
-        <br/>
-        {(limit) ? (
-          <>Iterations left: {iterations}</>
-        ):(
-          <>Counter: {counter}</>
-        )}
-      </>
+          {"Empty"}
+          <br/>
+          <>Counter: 0 </>
+        </>
     )
   }
 
@@ -86,31 +109,26 @@ export default function CurrentAction() {
   }
 
   return (
-    <Box>
-      {!currentAction ? 
-      <>
-      Empty Action
-      </>
-      :
-       <Box
-       sx={{
-         border: '2px solid #333', // Add this line for border styling
-         borderRadius: '4px',
-         bgcolor: 'rgba(160, 177, 186, 0.8)',
-       }}
-      >
-        <LinearProgress variant="determinate" value={progress} />  
+    <Box
+      sx={{
+        border: '2px solid #333', // Add this line for border styling
+        borderRadius: '4px',
+        bgcolor: 'rgba(160, 177, 186, 0.8)',
+      }}>
+      <Box >
+          <BorderLinearProgress variant="determinate" value={progress}/>
         <Grid container>
-          <Grid item xs={10} sx={{ bgcolor: 'rgba(100, 177, 186, 0.8)'}}>
+          <Grid item >
             {getActionText()}
           </Grid>
-          <Grid item xs={2}>
+          <Grid item>
             <IconButton onClick={() => cancelAction()} aria-label="cancel">
               <CancelIcon />
             </IconButton>
+
           </Grid>
         </Grid>
-      </Box>}
+      </Box>
     </Box>
   );
 }
