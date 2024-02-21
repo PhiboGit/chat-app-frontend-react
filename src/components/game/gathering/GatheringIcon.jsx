@@ -93,8 +93,8 @@ const GatheringIcon = ({ gatheringData, onClick, selected}) => {
 
   const paperStyle = {
     position: 'relative',
-    width: 130,
-    height: 130,
+    width: 80,
+    height: 80,
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
