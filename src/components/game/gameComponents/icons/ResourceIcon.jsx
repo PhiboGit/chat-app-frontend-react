@@ -42,7 +42,7 @@ const ResourceIcon = ({ amount, name , onClick}) => {
 
 
   const IconComponent = () => (
-    <Icon style={{ width: '100%', height: '100%' }}>
+    <Icon sx={{width:'100%', height:'100%'}}>
       <img src={getIcon(name)} />
     </Icon>
   )

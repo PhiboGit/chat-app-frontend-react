@@ -1,33 +1,27 @@
 import React, { useState } from 'react';
 import Paper from '@mui/material/Paper';
 import HtmlTooltip from '../../../common/HtmlToolTip';
+import { styled } from '@mui/material';
 
+const StyledPaper = styled (Paper)(({bordercolor}) => ({
+  position: 'relative',
+  width:  50,
+  height: 50,
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  border: `4px solid ${bordercolor || "black"}`,
+  '&:hover': {
+    cursor: 'pointer',
+    zIndex: 2,
+    border: '4px solid pink',
+    backgroundColor: 'rgba(169, 169, 169, 0.4)', // Light gray with 0.3 opacity
+    opacity: 1, // Show overlay on hover
+    transition: 'opacity 0.3s ease', // Adjust the transition property
+  }
+}));
 
 const ClickableIcon = ({ icon:IconComponent, onClick, tooltipTitle, borderColor, bottomRightText, topLeftText }) => {
-  const [isHovered, setIsHovered] = useState(false)
-
-  const paperStyle = {
-    position: 'relative',
-    width:  50,
-    height: 50,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    transition: 'opacity 0.3s ease', // Adjust the transition property
-    cursor: 'pointer',
-    border: `4px solid ${borderColor || "black"}`, // Border style based on rarity
-  };
-
-  const overlayStyle = {
-    position: 'absolute',
-    top: 0,
-    left: 0,
-    width: '100%',
-    height: '100%',
-    backgroundColor: 'rgba(169, 169, 169, 0.4)', // Light gray with 0.3 opacity
-    opacity: isHovered ? 1 : 0, // Show overlay on hover
-    transition: 'opacity 0.3s ease', // Adjust the transition property
-  };
 
   const topLeftTextStyle = {
     position: 'absolute',
@@ -49,14 +43,6 @@ const ClickableIcon = ({ icon:IconComponent, onClick, tooltipTitle, borderColor,
     fontSize: '12px',
   };
 
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleLeave = () => {
-    setIsHovered(false);
-  };
-
   const handleClick = (event) => {
     console.log(`Clicked Icon!`);
     if (onClick) {
@@ -69,17 +55,14 @@ const ClickableIcon = ({ icon:IconComponent, onClick, tooltipTitle, borderColor,
       placement="top"
       title={ tooltipTitle }
       >
-      <Paper
-        style={paperStyle}
-        onMouseEnter={handleHover}
-        onMouseLeave={handleLeave}
+      <StyledPaper
+        bordercolor={borderColor}
         onClick={handleClick}
       >
-        <div style={overlayStyle}/>
-        <IconComponent style={{ width: '100%', height: '100%' }}/>
+        <IconComponent/>
         {bottomRightText && <div style={bottomRightTextStyle}>{bottomRightText}</div>}
         {topLeftText && <div style={topLeftTextStyle}>{topLeftText}</div>}
-      </Paper>
+      </StyledPaper>
     </HtmlTooltip>
   );
 };
