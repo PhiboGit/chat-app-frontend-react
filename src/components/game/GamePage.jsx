@@ -3,13 +3,7 @@ import {connectWebSocket, disconnectWebSocket, sendWebsocket} from './WebSocketS
 import { GameDataProvider } from './dataProviders/GameDataProvider';
 import { CharacterDataProvider } from './dataProviders/CharacterDataProvider';
 
-import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
-
-import ActionOverview from './actionOverview/ActionOverview';
-import BasicTabs from './mainContent/BasicTabs';
-import InventoryOverview from './inventory/InventoryOverview';
-import GameHeader from './GameHeader';
-import GameContent from './GameContent';
+import GamePageLayout from './GamePageLayout';
 
 const messageReceiver = new EventTarget()
 
@@ -39,18 +33,7 @@ export default function GamePage() {
         {(initGameData && initCharData) ? (
           <GameDataProvider initGameData={initGameData} send={sendWebsocket}>
             <CharacterDataProvider initCharData={initCharData} messageReceiver={messageReceiver}>
-              {/* makes it single page that does not scroll the page */}
-              <Box height="100vh" display="flex" flexDirection="column">
-                {/* header takes 7% view */}
-                <Box height={"7vh"} overflow={"hidden"}>
-                  <GameHeader/>
-                </Box>
-                {/* the rest of the horizontal space for the gameContent */}
-                <Box flex={1} overflow={"hidden"}>
-                  <GameContent/>
-                </Box>
-                
-              </Box>
+              <GamePageLayout/>
             </CharacterDataProvider>
           </GameDataProvider>
           ) : (
