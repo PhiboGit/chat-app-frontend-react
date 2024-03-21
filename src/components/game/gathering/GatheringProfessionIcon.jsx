@@ -54,17 +54,6 @@ const HtmlTooltip = styled(({ className, ...props }) => (
   },
 }));
 
-
-const CustomChip = ({gatheringData}) => {
-  return (
-    <Stack direction="row" spacing={1}>
-      {/* Small Chip with custom color */}
-      
-
-    </Stack>
-  );
-};
-
 function getSkillSheet(skillData, idToItemMap){
   const skillSheet = {
     luck: skillData.luck,
@@ -87,14 +76,7 @@ function getSkillSheet(skillData, idToItemMap){
 
 const ProfessionTitle = ({ profession, skillData }) => {
   const { gameData } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
-  
-  const idToItemMap = useMemo(() => {
-    return characterData.items.reduce((map, item) => {
-      map[item._id] = item;
-      return map;
-    }, {});
-  }, [characterData.items]);
+  const { idToItemMap } = useContext(CharacterDataContext);
 
   const expLevel = skillData.exp
   const nextExpLevel = gameData.expTable.Exp[`${skillData.level + 1}`]

@@ -16,17 +16,13 @@ import ResourceActionMenu from './ResourceActionMenu';
 
 const InventoryOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
+  const { characterData, idToItemMap } = useContext(CharacterDataContext);
 
   const resources = useMemo(() => characterData.resources,[characterData.resources])
   const items = useMemo(() => characterData.items,[characterData.items])
   const [selectedItem, setSelectedItem] = useState()
   const [selectedResource, setSelectedResource] = useState()
 
-  const idToItemMap = items.reduce((map, item) => {
-    map[item._id] = item;
-    return map;
-  }, {});
 
   const [anchorEl, setAnchorEl] = React.useState(null);
 

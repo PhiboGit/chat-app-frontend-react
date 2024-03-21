@@ -1,17 +1,31 @@
 // CharacterDataProvider.jsx
-import { createContext, useEffect, useState, useRef } from 'react';
+import { createContext, useEffect,useContext, useMemo, useState, useRef } from 'react';
 
 export const CharacterDataContext = createContext();
+
+
+const ActionQueueContext = createContext();
+
+export const useActionQueue = () => {
+  return useContext(ActionQueueContext);
+};
 
 export const CharacterDataProvider = ({children, initCharData, messageReceiver }) => {
 
   const charData = initCharData.character
   const [characterData, setCharacterData] = useState(charData);
+  const actionQueue = useMemo(() => characterData.actionQueue, [characterData]);
 
-  const orderMapRef= useRef({})
-  const [idToOrderMap, setIdToOrderMap] = useState(orderMapRef)
+  const idToItemMap = characterData.items.reduce((map, item) => {
+    map[item._id] = item;
+    return map;
+  }, {});
+
+  // marketplace resoucres
+  const [idToOrderMap, setIdToOrderMap] = useState({})
   const [marketplaceOrderBook, setMarketplaceOrderBook] = useState();
   
+  // marketplace items
   const itemOrderMapRef= useRef({})
   const [idToItemOrderMap, setIdToItemOrderMap] = useState(itemOrderMapRef)
   const [itemMarketplaceOrderBook, setItemMarketplaceOrderBook] = useState();
@@ -40,6 +54,16 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     };
   }, [])
 
+  useEffect(() => {
+    setCharacterData(charData);
+  }, [charData]);
+
+
+  useEffect(() => {
+    populateIdToOrderMap(initCharData.character.orders)
+    populateIdToItemOrderMap(initCharData.character.itemOrders)
+  }, [initCharData]);
+  
   function updateMarketplace(event){
     const receivedData = event.detail; // Access the data from the detail property
     console.log("Marketplace update: ", receivedData);
@@ -58,16 +82,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     }
   }
 
-  useEffect(() => {
-    setCharacterData(charData);
-  }, [charData]);
-
-
-  useEffect(() => {
-    populateIdToOrderMap(initCharData.character.orders)
-    populateIdToItemOrderMap(initCharData.character.itemOrders)
-  }, [initCharData]);
-
   function populateIdToItemOrderMap(orders){
     console.log("Populate ItemOrder Map");
     const newIdToOrderMap = {...itemOrderMapRef.current};
@@ -81,27 +95,27 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
 
   function populateIdToOrderMap(orders){
     console.log("Populate Order Map");
-    const newIdToOrderMap = {...orderMapRef.current};
-    for (const order of orders) {
-      newIdToOrderMap[order._id] = order;
-    }
-    orderMapRef.current = newIdToOrderMap;
-    setIdToOrderMap(orderMapRef.current)
-    console.log("Order Map", orderMapRef.current);
+    setIdToOrderMap(prev => {
+      const newIdToOrderMap = {...prev};
+      for (const order of orders) {
+        newIdToOrderMap[order._id] = order;
+      }
+      return newIdToOrderMap
+    })
+    console.log("Order Map", idToOrderMap);
   }
 
   function updateOrder(event) {
     const receivedData = event.detail; // Access the data from the detail property
     console.log("Order update: ", receivedData);
-    
     const order = receivedData.order;
-    const newIdToOrderMap = {...orderMapRef.current};
-    
-    newIdToOrderMap[order._id] = order;
-    
-    orderMapRef.current = newIdToOrderMap;
-    setIdToOrderMap(orderMapRef.current)
-    console.log("Order Map", orderMapRef.current);
+
+    setIdToOrderMap(prev => {
+      const newIdToOrderMap = {...prev};
+      newIdToOrderMap[order._id] = order;
+      return newIdToOrderMap
+    })
+    console.log("Order Map", idToOrderMap);
   }
 
   function updateItemOrder(event) {
@@ -171,14 +185,10 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
         if(lastKey == 'items' && typeof value === 'string'){
           return
         } else if(lastKey == 'items' && Array.isArray(value)){
-          // Create a mapping of _id to objects in currentObj[lastKey]
-          const idToItemMap = currentObj[lastKey].reduce((map, item) => {
-            map[item._id] = item;
-            return map;
-          }, {});
           for(const newItem of value){
             const item = idToItemMap[newItem._id]
             if(item){
+              // overwrite existing item 
               Object.assign(item, newItem);
             } else {
               currentObj[lastKey].push(newItem);
@@ -200,9 +210,21 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     console.log("characterData updated!")
   }
 
+  const contextValue = { 
+    characterData,
+    actionQueue,
+    idToItemMap,
+    marketplaceOrderBook,
+    idToOrderMap,
+    itemMarketplaceOrderBook,
+    idToItemOrderMap 
+  }
+
   return (
-    <CharacterDataContext.Provider value={{ characterData, marketplaceOrderBook, idToOrderMap ,itemMarketplaceOrderBook, idToItemOrderMap }}>
-      {children}
+    <CharacterDataContext.Provider value={contextValue}>
+      <ActionQueueContext.Provider value={actionQueue}>
+        {children}
+      </ActionQueueContext.Provider>
     </CharacterDataContext.Provider>
   );
 };

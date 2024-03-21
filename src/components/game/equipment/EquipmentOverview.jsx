@@ -41,14 +41,9 @@ import BasicIcon from '../gameComponents/icons/BasicIcon';
 
 const EquipmentOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
+  const { characterData, idToItemMap } = useContext(CharacterDataContext);
 
   const skills = characterData.skills
-  
-  const idToItemMap = characterData.items.reduce((map, item) => {
-    map[item._id] = item;
-    return map;
-  }, {});
   
   const getEquipItem =(profession, equipmentSlot) => {
     return idToItemMap[skills[profession].equipment[equipmentSlot]]

@@ -22,14 +22,7 @@ import { TextField } from '@mui/material';
 const SellItemOrderMenu = ({itemName, anchorEl, setAnchorEl}) => {
 
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
-
-  const idToItemMap = characterData.items.reduce((map, item) => {
-    if(item.name == itemName){
-      map[item._id] = item;
-    }
-    return map;
-  }, {});
+  const { characterData, idToItemMap } = useContext(CharacterDataContext);
 
   const [price, setPrice] = useState(20)
   const [itemId, setItemId] = useState("")

@@ -27,7 +27,7 @@ import ItemSelector from '../gameComponents/ItemSelector';
 
 const EnchantingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
+  const { characterData, idToItemMap } = useContext(CharacterDataContext);
 
   const [itemId, setItemId] = useState('')
   const [validEnchantingResources, setValidEnchantingResources] = useState([])
@@ -37,10 +37,6 @@ const EnchantingOverview = () => {
   const [limit, setLimit] = React.useState(true);
   const [iterations, setIterations] = useState(1);
 
-  const idToItemMap = characterData.items.reduce((map, item) => {
-    map[item._id] = item;
-    return map;
-  }, {});
 
   const handleItem = (newItemId) => {
     const item = idToItemMap[newItemId]

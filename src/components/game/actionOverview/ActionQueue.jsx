@@ -1,5 +1,5 @@
 import React, { useContext, useMemo, useState } from 'react';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import { useActionQueue } from '../dataProviders/CharacterDataProvider';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
 import IconButton from '@mui/material/IconButton';
@@ -10,10 +10,8 @@ import { Box, Container, Grid, Typography } from '@mui/material';
 import ClickAwayPopper from '../../common/ClickAwayPopper'
 
 export default function ActionQueue() {
-  const { characterData } = useContext(CharacterDataContext);
+  const actionQueue = useActionQueue();
   const { send } = useContext(GameDataContext);
-
-  const actionQueue = useMemo(() => characterData.actionQueue, [characterData.actionQueue]);
 
   const [anchorEl, setAnchorEl] = useState()
 

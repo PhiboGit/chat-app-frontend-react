@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 import ExpBar from '../ExpBar';
 
 import Box from '@mui/material/Box';
@@ -19,7 +18,6 @@ import { Typography } from '@mui/material';
 
 const GatheringOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
 
   const [profession, setProfession] = useState('mining');
   const [iterations, setIterations] = useState(1);
@@ -27,9 +25,6 @@ const GatheringOverview = () => {
   const [selectedItem, setSelectedItem] = useState(null);
   const [limit, setLimit] = React.useState(false);
   
-
-  const gatheringData = gameData.gatheringResourcesData[profession].tiers[tier-1]
-
   function handleSelection(identifier, profession, tier){
     setSelectedItem(identifier)
     setProfession(profession)
@@ -79,18 +74,18 @@ const GatheringOverview = () => {
         }}>
         {Object.keys(gameData.gatheringResourcesData).map((profession) =>(
           <Box 
-          display="flex"
-          flexDirection='row'
-          alignItems={"center"}
-          key={profession} 
-          sx={{  bgcolor: 'rgba(169, 183, 200, 0.8)', margin: 2  }}>
-          <Container >
-          <Box key={profession} sx={{  bgcolor: 'rgba(139, 183, 200, 0.8)', margin: 1  }}>
-          <Typography>{profession}: </Typography>
-          <GatheringProfessionIcon profession={profession}/>
-          <ExpBar profession={profession}></ExpBar> 
-          </Box>
-          </Container>
+            display="flex"
+            flexDirection='row'
+            alignItems={"center"}
+            key={profession} 
+            sx={{  bgcolor: 'rgba(169, 183, 200, 0.8)', margin: 2  }}>
+            <Container >
+            <Box key={profession} sx={{  bgcolor: 'rgba(139, 183, 200, 0.8)', margin: 1  }}>
+            <Typography>{profession}: </Typography>
+            <GatheringProfessionIcon profession={profession}/>
+            <ExpBar profession={profession}></ExpBar> 
+            </Box>
+            </Container>
           <Grid key={profession} container spacing={1}>
             {gameData.gatheringResourcesData[profession].tiers.map((value, index) => {
               const tier = index +1
