@@ -5,12 +5,10 @@ let socket = null
 
 /**
  * 
- * @param {*} setGameInitData 
- * @param {*} setCharInitData 
- * @param {EventTarget} messageReceiver 
  */
 export function connectWebSocket(setGameInitData, setCharInitData, messageReceiver, setWebSocketOpen) {
   console.log('ConnectWebSocket');
+  // no connection, closing, closed
   if (!socket || socket.readyState == 2 || socket.readyState == 3) {
     console.log('Setting up new socket...');
     const token = localStorage.getItem('token')
@@ -24,16 +22,16 @@ export function connectWebSocket(setGameInitData, setCharInitData, messageReceiv
     };
 
     socket.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      console.log('WebSocket message JSON received:', data);
+      const message = JSON.parse(event.data)
+      console.log('WebSocket message JSON received:', message);
       // Handle incoming messages from the WebSocket server
-      if (data['type'] === 'init_data') {
-        setGameInitData(data.data);
+      if (message['type'] === 'init_data') {
+        setGameInitData(message.data);
       }
-      if (data['type'] === 'init_character') {
-        setCharInitData(data.data);
+      if (message['type'] === 'init_character') {
+        setCharInitData(message.data);
       }
-      const customEvent = new CustomEvent(data['type'], { detail: data.data })
+      const customEvent = new CustomEvent(message['type'], { detail: message.data })
       messageReceiver.dispatchEvent(customEvent)
     };
 
