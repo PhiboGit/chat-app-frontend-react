@@ -5,15 +5,15 @@ export const CharacterDataContext = createContext();
 
 
 const ActionQueueContext = createContext();
-
 export const useActionQueue = () => {
-  return useContext(ActionQueueContext);
+  const actionQueue = useContext(ActionQueueContext);
+
+  return actionQueue
 };
 
 export const CharacterDataProvider = ({children, initCharData, messageReceiver }) => {
 
-  const charData = initCharData.character
-  const [characterData, setCharacterData] = useState(charData);
+  const [characterData, setCharacterData] = useState(initCharData.character);
   const actionQueue = useMemo(() => characterData.actionQueue, [characterData]);
 
   const idToItemMap = characterData.items.reduce((map, item) => {
@@ -26,8 +26,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
   const [marketplaceOrderBook, setMarketplaceOrderBook] = useState();
   
   // marketplace items
-  const itemOrderMapRef= useRef({})
-  const [idToItemOrderMap, setIdToItemOrderMap] = useState(itemOrderMapRef)
+  const [idToItemOrderMap, setIdToItemOrderMap] = useState({})
   const [itemMarketplaceOrderBook, setItemMarketplaceOrderBook] = useState();
 
 
@@ -42,7 +41,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     messageReceiver.addEventListener('item_order' , updateItemOrder)
 
     return () => {
-      
       console.log("removing event listener")
       messageReceiver.removeEventListener('update_char', updateChar)
       messageReceiver.removeEventListener('action_manager', updateChar)
@@ -54,47 +52,37 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     };
   }, [])
 
-  useEffect(() => {
-    setCharacterData(charData);
-  }, [charData]);
-
-
+  //with the initData pre-populate the maps
   useEffect(() => {
     populateIdToOrderMap(initCharData.character.orders)
     populateIdToItemOrderMap(initCharData.character.itemOrders)
   }, [initCharData]);
   
   function updateMarketplace(event){
-    const receivedData = event.detail; // Access the data from the detail property
-    console.log("Marketplace update: ", receivedData);
-
+    const receivedData = event.detail;
     if (receivedData.hasOwnProperty("orderBook")){
       setMarketplaceOrderBook(receivedData.orderBook)
     }
   }
 
   function updateItemMarketplace(event){
-    const receivedData = event.detail; // Access the data from the detail property
-    console.log("ItemMarketplace update: ", receivedData);
-
+    const receivedData = event.detail; 
     if (receivedData.hasOwnProperty("orderBook")){
       setItemMarketplaceOrderBook(receivedData.orderBook)
     }
   }
 
   function populateIdToItemOrderMap(orders){
-    console.log("Populate ItemOrder Map");
-    const newIdToOrderMap = {...itemOrderMapRef.current};
-    for (const order of orders) {
-      newIdToOrderMap[order._id] = order;
-    }
-    itemOrderMapRef.current = newIdToOrderMap;
-    setIdToItemOrderMap(itemOrderMapRef.current)
-    console.log("ItemOrder Map", itemOrderMapRef.current);
+    setIdToItemOrderMap(prev => {
+      const newIdToOrderMap = {...prev};
+      for (const order of orders) {
+        newIdToOrderMap[order._id] = order;
+      }
+      return newIdToOrderMap
+    })
   }
 
   function populateIdToOrderMap(orders){
-    console.log("Populate Order Map");
     setIdToOrderMap(prev => {
       const newIdToOrderMap = {...prev};
       for (const order of orders) {
@@ -102,76 +90,72 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
       }
       return newIdToOrderMap
     })
-    console.log("Order Map", idToOrderMap);
   }
 
   function updateOrder(event) {
-    const receivedData = event.detail; // Access the data from the detail property
-    console.log("Order update: ", receivedData);
+    const receivedData = event.detail;
     const order = receivedData.order;
-
     setIdToOrderMap(prev => {
       const newIdToOrderMap = {...prev};
       newIdToOrderMap[order._id] = order;
       return newIdToOrderMap
     })
-    console.log("Order Map", idToOrderMap);
   }
 
   function updateItemOrder(event) {
-    const receivedData = event.detail; // Access the data from the detail property
-    console.log("ItemOrder update: ", receivedData);
-    
+    const receivedData = event.detail;
     const order = receivedData.order;
-    const newIdToOrderMap = {...itemOrderMapRef.current};
-    
-    newIdToOrderMap[order._id] = order;
-    
-    itemOrderMapRef.current = newIdToOrderMap;
-    setIdToItemOrderMap(itemOrderMapRef.current)
-    console.log("ItemOrder Map", itemOrderMapRef.current);
+    setIdToItemOrderMap(prev => {
+      const newIdToOrderMap = {...prev};
+      newIdToOrderMap[order._id] = order;
+      return newIdToOrderMap
+    })
   }
 
   function updateItems(event){
-    const receivedData = event.detail; // Access the data from the detail property
-    console.log("Item update: ", receivedData);
-
+    const receivedData = event.detail;
     const items = receivedData.items;
-    
     changeValue('items', items, "$push");
   }
 
   function updateChar(event) {
-    const receivedData = event.detail; // Access the data from the detail property
-    console.log("Char update: ", receivedData);
-  
+    const receivedData = event.detail;  
     const updateOperations = ["$inc", "$set", "$push", "$pull"];
   
-    updateOperations.forEach((operation) => {
-      if (receivedData.hasOwnProperty(operation)) {
-        Object.entries(receivedData[operation]).forEach(([key, value]) => {
-          console.log("update: ", operation, key, value);
-          changeValue(key, value, operation);
-        });
-      }
-    });
-
-    console.log("CharData updated!", characterData);
+    setCharacterData( prev => {
+      const char = {...prev}
+      updateOperations.forEach((operation) => {
+        if (receivedData.hasOwnProperty(operation)) {
+          Object.entries(receivedData[operation]).forEach(([key, value]) => {
+            console.log("update: ", operation, key, value);
+            changeValue(char, key, value, operation);
+          });
+        }
+      });
+      return char
+    })
+    console.log("characterData updated!", characterData)
   }
 
-  function changeValue(key, value, operation) {
+  function changeValue(char, key, value, operation) {
     // traverse through the char data by key
     const keys = key.split('.');
-    let currentObj = charData;
+    // tree start, root, pointer to the entry that holds the key,value pair that needs to be changed
+    let currentObj = char;
+    // find the entry of the charData that need change based on the key. It is still and object.
+    // we stop at the object that holds the key/value. (keys[keys.length - 2])
     for (let i = 0; i < keys.length - 1; i++) {
       const currentKey = keys[i];
       if (!currentObj[currentKey]) {
         console.error("Invalid key for key: ", currentKey);
         return;
       }
+      // set the pointer to the current key
       currentObj = currentObj[currentKey];
     }
+    // currentObj now points to the object that should have the entry that needs to be updated
   
+    // the entry that needs to be updated
     const lastKey = keys[keys.length - 1];
 
     switch (operation) {
@@ -184,13 +168,14 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
       case "$push":
         if(lastKey == 'items' && typeof value === 'string'){
           return
+          // if it is an item update, the item is wrapped in an array
         } else if(lastKey == 'items' && Array.isArray(value)){
           for(const newItem of value){
-            const item = idToItemMap[newItem._id]
-            if(item){
-              // overwrite existing item 
+            // overwrite existing item
+            if(idToItemMap[newItem._id]){
               Object.assign(item, newItem);
             } else {
+              // or just add the item
               currentObj[lastKey].push(newItem);
             }
           }
@@ -206,8 +191,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
         console.error("Invalid operation: ", operation);
         return;
     }
-    setCharacterData({ ...charData });
-    console.log("characterData updated!")
   }
 
   const contextValue = { 
