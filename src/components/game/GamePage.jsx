@@ -4,8 +4,8 @@ import { GameDataProvider } from './dataProviders/GameDataProvider';
 import { CharacterDataProvider } from './dataProviders/CharacterDataProvider';
 
 import GamePageLayout from './GamePageLayout';
-
-const messageReceiver = new EventTarget()
+import { DataProviders } from './dataProviders/DataProviders';
+import { messageReceiver } from './dataProviders/MessageReceiver';
 
 export default function GamePage() {
   const [initGameData, setGameInitData] = useState();
@@ -33,7 +33,9 @@ export default function GamePage() {
         {(initGameData && initCharData) ? (
           <GameDataProvider initGameData={initGameData} send={sendWebsocket}>
             <CharacterDataProvider initCharData={initCharData} messageReceiver={messageReceiver}>
-              <GamePageLayout/>
+              <DataProviders initChar={initCharData}>
+                <GamePageLayout/>
+              </DataProviders>
             </CharacterDataProvider>
           </GameDataProvider>
           ) : (
