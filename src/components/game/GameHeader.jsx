@@ -1,32 +1,9 @@
 import React, { useEffect, useState } from 'react';
 
-
 import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
-import ActionOverview from './actionOverview/ActionOverview';
+
 import CurrentAction from './actionOverview/CurrentAction';
 import ActionQueue from './actionOverview/ActionQueue';
-import { useTestChatStore } from './dataProviders/TestChatProvider';
-import { useCharacterStore } from './dataProviders/CharacterProvider';
-
-const Display = ({ value }) => {
-  const [fieldValue] = useTestChatStore((store) => store[value]);
-  return (
-    <div className="value">
-      {value}: {fieldValue}
-    </div>
-  );
-};
-
-const TestValue = ({selector}) => {
-  const [fieldValue] = useCharacterStore(selector);
-
-  return (
-    <div >
-      Test: {JSON.stringify(fieldValue)}
-    </div>
-  );
-};
-
 
 export default function GameHeader() {
   return (
@@ -37,17 +14,6 @@ export default function GameHeader() {
         </Grid>
         <Grid item >
           <ActionQueue/>
-        </Grid>
-        <Grid item >
-          last chat message:
-          <Display value="sender" />
-          <Display value="message" />
-          <Display value="counter" />
-        </Grid>
-        <Grid item >
-          <TestValue selector={(char) => char.resources.woodT1}/>
-          <TestValue selector={(char) => char.skills.woodcutting.exp}/>
-          <TestValue selector={(char) => char.exp}/>
         </Grid>
       </Grid>
     </Box>
