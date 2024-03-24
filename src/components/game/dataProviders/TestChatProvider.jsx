@@ -4,13 +4,15 @@ import React, {
 import createPartialContextStore from "./createPartialContextStore";
 import {messageReceiver} from "./MessageReceiver";
 
-const { Provider, useStore } = createPartialContextStore({});
+let chatStore
 
 // Updater is a child of Provider to access the store
 const TestChatProvider = ({children, initChar}) => {
+  const { Provider, useStore } = createPartialContextStore({sender: "Init", message: "init"});
+  chatStore = useStore
   return (
     <Provider>
-      <Updater initChar={initChar}>
+      <Updater>
         {children}
       </Updater>
     </Provider>
@@ -18,11 +20,11 @@ const TestChatProvider = ({children, initChar}) => {
 }
 
 // subs to the event emitted by the websocket
-const Updater = ({children, initChar}) => {
-  const [state, setState] = useStore((store) => store);
+const Updater = ({children}) => {
+  const [state, setState] = chatStore((store) => store);
   
   useEffect(() => {
-    setState({counter: 1})
+    setState({counter: 0})
     console.log('sub to chat')
     messageReceiver.addEventListener('chat' , updateChat)
     return () => {
@@ -49,4 +51,4 @@ const Updater = ({children, initChar}) => {
 }
 
 
-export { TestChatProvider as TestChatProvider, useStore as useTestChatStore }
+export { TestChatProvider as TestChatProvider, chatStore as useTestChatStore }

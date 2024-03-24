@@ -4,13 +4,15 @@ import React, {
 import createPartialContextStore from "./createPartialContextStore";
 import {messageReceiver} from "./MessageReceiver";
 
-const { Provider, useStore } = createPartialContextStore({});
+let useCharacterStore
 
 // Updater is a child of Provider to access the store
 const CharacterProvider = ({children, initChar}) => {
+  const { Provider, useStore } = createPartialContextStore(initChar.character);
+  useCharacterStore = useStore
   return (
     <Provider>
-      <Updater initChar={initChar}>
+      <Updater useStore={useStore}>
         {children}
       </Updater>
     </Provider>
@@ -18,11 +20,11 @@ const CharacterProvider = ({children, initChar}) => {
 }
 
 // subs to the event emitted by the websocket
-const Updater = ({children, initChar}) => {
-  const [charState, setState] = useStore((char) => char.currency);
+const Updater = ({children, useStore}) => {
+  const [charState, setState] = useStore((char) => char);
   
   useEffect(() => {
-    setState(initChar.character)
+    //setState(initChar.character)
     messageReceiver.addEventListener('update_char' , updateChar)
     return () => {
       messageReceiver.removeEventListener('update_char', updateChar)
@@ -30,30 +32,22 @@ const Updater = ({children, initChar}) => {
   }, [])
   
   function updateChar(event) {
-    setState((prev) => {
-      console.log('prev', prev);
-    
-      return  { currency: {gold : prev.currency.gold + 10}}
-    
-    })
-    // const char = {...state}
-    // char.currency.gold = 10
-    // setState(char)
-    // const updateData = event.detail;  
-    // const updateOperations = ["$inc", "$set", "$push", "$pull"];
+    const receivedData = event.detail;  
+    const updateOperations = ["$inc", "$set", "$push", "$pull"];
   
-    // const char = state
-    // console.log("characterStore prev", char)
-    // updateOperations.forEach((operation) => {
-    //   if (updateData.hasOwnProperty(operation)) {
-    //     Object.entries(updateData[operation]).forEach(([key, value]) => {
-    //       console.log("update: ", operation, key, value);
-    //       changeValue(char, key, value, operation);
-    //     });
-    //   }
-    // });
-    // setState( char )
-    // console.log("characterStore updated!", char)
+    setState( prev => {
+      const char = {...prev}
+      updateOperations.forEach((operation) => {
+        if (receivedData.hasOwnProperty(operation)) {
+          Object.entries(receivedData[operation]).forEach(([key, value]) => {
+            console.log("update: ", operation, key, value);
+            changeValue(char, key, value, operation);
+          });
+        }
+      });
+      return char
+    })
+    console.log("characterData updated!", charState)
   }
 
   function changeValue(char, key, value, operation) {
@@ -120,4 +114,4 @@ const Updater = ({children, initChar}) => {
 }
 
 
-export { CharacterProvider as CharacterProvider, useStore as useCharacterStore }
+export { CharacterProvider as CharacterProvider, useCharacterStore as useCharacterStore }

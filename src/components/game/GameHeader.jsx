@@ -18,7 +18,7 @@ const Display = ({ value }) => {
 };
 
 const TestValue = ({}) => {
-  const [fieldValue] = useCharacterStore((char) => char.currency);
+  const [fieldValue] = useCharacterStore((char) => char.resources.woodT1);
 
   return (
     <div >
