@@ -58,7 +58,7 @@ const Updater = ({children, useStore}) => {
         }
       });
       console.log("character paths updated:", updatedPaths)
-      return updatedPaths
+      return char
     })
   }
 
