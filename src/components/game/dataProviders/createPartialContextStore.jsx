@@ -21,9 +21,16 @@ export default function createPartialContextStore(initialState) {
 
     // lets you change the state of the store
     const set = useCallback((value) => {
-      // everything stays unchanged except for the specfied value
-      store.current = { ...store.current, ...value };
-      // notify the subscribers that the store has changed
+      // Check if value is a function (updater function)
+      if (typeof value === 'function') {
+        // Call the updater function with the current state
+        const updatedValue = value(store.current);
+        // Update the store with the result of the updater function
+        store.current = { ...store.current, ...updatedValue };
+      } else {
+        // If value is not a function, treat it as a direct value update
+        store.current = { ...store.current, ...value };
+      }
       subscribers.current.forEach((callback) => callback());
     }, []);
 
