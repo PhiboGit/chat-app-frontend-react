@@ -22,6 +22,7 @@ const Updater = ({children, initChar}) => {
   const [state, setState] = useStore((store) => store);
   
   useEffect(() => {
+    setState({counter: 1})
     console.log('sub to chat')
     messageReceiver.addEventListener('chat' , updateChat)
     return () => {
@@ -31,7 +32,13 @@ const Updater = ({children, initChar}) => {
   
   function updateChat(event) {
     const detail = event.detail;
-    setState(detail)
+    //setState(detail)
+    setState((prev) => {
+      console.log('prev', prev);
+    
+      return  {...detail, counter: prev.counter + 1};
+    
+    })
   }
   
   return (
