@@ -12,13 +12,14 @@ import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemActionMenu from './ItemActionMenu';
 import ItemIcon from '../gameComponents/icons/ItemIcon';
 import ResourceActionMenu from './ResourceActionMenu';
+import { useCharacterStore } from '../dataProviders/CharacterProvider';
+import InventoryResourceGridItem from './InventoryResourceGridItem';
 
 
 const InventoryResources = () => {
-  const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
+  const [resources] = useCharacterStore((char) => char.resources)
+  
 
-  const resources = useMemo(() => characterData.resources,[characterData.resources])
   const [selectedResource, setSelectedResource] = useState()
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -40,15 +41,11 @@ const InventoryResources = () => {
     Resources: 
       <Grid container spacing={1}>
         {Object.entries(resources).map(([name, value]) => {
-          if (resources[name] > 0) return(
-          <Grid item key={name}>
-            <ResourceIcon
-              amount={value}
-              name={name}
-              onClick={(event) => openPopperResource(event, name)}
-            />
-          </Grid>
-        )})}          
+          if (value > 0) return (
+            <Grid item key={name}>
+              <InventoryResourceGridItem name={name} onClick={(event) => openPopperResource(event, name)}/>
+            </Grid>
+          )})}          
       </Grid>
       <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
         {selectedResource && <ResourceActionMenu resource={selectedResource} closeMenu={closePopper}/>}
