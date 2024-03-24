@@ -17,8 +17,8 @@ const Display = ({ value }) => {
   );
 };
 
-const TestValue = ({}) => {
-  const [fieldValue] = useCharacterStore((char) => char.resources.woodT1);
+const TestValue = ({selector}) => {
+  const [fieldValue] = useCharacterStore(selector);
 
   return (
     <div >
@@ -45,7 +45,9 @@ export default function GameHeader() {
           <Display value="counter" />
         </Grid>
         <Grid item >
-          <TestValue />
+          <TestValue selector={(char) => char.resources.woodT1}/>
+          <TestValue selector={(char) => char.skills.woodcutting.exp}/>
+          <TestValue selector={(char) => char.exp}/>
         </Grid>
       </Grid>
     </Box>
