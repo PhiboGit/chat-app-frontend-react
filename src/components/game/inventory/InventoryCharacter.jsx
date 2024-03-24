@@ -12,23 +12,24 @@ import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemActionMenu from './ItemActionMenu';
 import ItemIcon from '../gameComponents/icons/ItemIcon';
 import ResourceActionMenu from './ResourceActionMenu';
+import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
+
+const CharacterInfoDisplay = ({displayName, selector}) => {
+  const [value] = useCharacterStore(selector)
+  return(
+    <Typography>
+      {displayName}: {value}
+    </Typography>
+  )
+}
 
 const InventoryCharacter = () => {
-  const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
-
   return (
     <Box>
-    <Typography>
-      {characterData.characterName} 
-      <br />
-      Level: {characterData.level}
-      <br />
-      Exp: {characterData.exp}
-      <br />
-      Gold: {characterData.currency.gold}
-    </Typography>
+      <CharacterInfoDisplay displayName={"Character"} selector={(char) => char.characterName}/>
+      <CharacterInfoDisplay displayName={"Level"} selector={(char) => char.level}/>
+      <CharacterInfoDisplay displayName={"Exp"} selector={(char) => char.exp}/>
     </Box>
   );
 };
