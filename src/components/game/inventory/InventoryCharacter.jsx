@@ -25,6 +25,8 @@ const InventoryCharacter = () => {
       <br />
       Level: {characterData.level}
       <br />
+      Exp: {characterData.exp}
+      <br />
       Gold: {characterData.currency.gold}
     </Typography>
     </Box>
