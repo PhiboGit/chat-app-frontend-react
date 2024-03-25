@@ -17,7 +17,7 @@ import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 // each Item obersves its own state. 
 // now the grid only re-renders the item that changed, not the whole grid.
-const InventoryResourceGridItem = ({name, onClick}) => {
+const InventoryResourceGridItem = ({name}) => {
     
   const [value] = useCharacterStore((char) => char.resources[name])
 
@@ -34,7 +34,7 @@ const InventoryResourceGridItem = ({name, onClick}) => {
   };
 
   return(
-    <>
+    value > 0 && <Grid item key={name}>
       <ResourceIcon
         amount={value}
         name={name}
@@ -43,7 +43,7 @@ const InventoryResourceGridItem = ({name, onClick}) => {
       <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
         <ResourceActionMenu resource={name} closeMenu={closePopper}/>
       </ClickAwayPopper>
-    </>
+    </Grid>
 
   )
           

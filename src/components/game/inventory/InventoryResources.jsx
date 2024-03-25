@@ -18,18 +18,14 @@ import InventoryResourceGridItem from './InventoryResourceGridItem';
 
 const InventoryResources = () => {
   const [resources] = useCharacterStore((char) => char.resources)
-  const [renderItPlease] = useCharacterStore((char) => Object.values(char.resources).reduce((acc, value) => value > 0 ? acc + 1 : acc, 0))
 
   return (
     <Box>
     Resources:
       <Grid container spacing={1}>
-        {Object.entries(resources).map(([name, value]) => {
-          if (value > 0) return (
-            <Grid item key={name}>
-              <InventoryResourceGridItem name={name}/>
-            </Grid>
-          )})}          
+        {Object.entries(resources).map(([name, value]) => (
+            <InventoryResourceGridItem key={name} name={name}/>
+          ))}          
       </Grid>
     </Box>
   );
