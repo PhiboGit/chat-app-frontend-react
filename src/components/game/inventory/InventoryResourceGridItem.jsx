@@ -21,13 +21,29 @@ const InventoryResourceGridItem = ({name, onClick}) => {
     
   const [value] = useCharacterStore((char) => char.resources[name])
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+
+  const openPopperResource = (event) => {
+    console.log('openPopper')
+    setAnchorEl(event.currentTarget);
+  };
+
+  const closePopper = () => {
+    console.log('closePopper')
+    setAnchorEl(null);
+  };
+
   return(
-    
+    <>
       <ResourceIcon
         amount={value}
         name={name}
-        onClick={onClick}
-      />
+        onClick={(event) => openPopperResource(event, name)}
+        />
+      <ClickAwayPopper anchorEl={anchorEl} setAnchorEl={setAnchorEl}>
+        <ResourceActionMenu resource={name} closeMenu={closePopper}/>
+      </ClickAwayPopper>
+    </>
 
   )
           

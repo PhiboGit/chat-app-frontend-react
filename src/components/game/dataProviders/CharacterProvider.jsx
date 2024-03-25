@@ -34,8 +34,10 @@ const Updater = ({children, useStore}) => {
   
   useEffect(() => {
     messageReceiver.addEventListener('update_char' , updateChar)
+    messageReceiver.addEventListener('action_manager', updateChar);
     return () => {
       messageReceiver.removeEventListener('update_char', updateChar)
+      messageReceiver.removeEventListener('action_manager', updateChar)
     };
   }, [])
   
@@ -58,6 +60,8 @@ const Updater = ({children, useStore}) => {
         }
       });
       console.log("character paths updated:", updatedPaths)
+      // would like to only use updatedPaths.
+      // however, need to change set in the store, to be able to update deep values
       return char
     })
   }

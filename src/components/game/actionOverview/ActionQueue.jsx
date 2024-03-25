@@ -8,9 +8,10 @@ import QueueIcon from '@mui/icons-material/Queue';
 import { Box, Container, Grid, Typography } from '@mui/material';
 
 import ClickAwayPopper from '../../common/ClickAwayPopper'
+import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 export default function ActionQueue() {
-  const actionQueue = useActionQueue();
+  const [actionQueue] = useCharacterStore((char) => char.actionQueue)
   const { send } = useContext(GameDataContext);
 
   const [anchorEl, setAnchorEl] = useState()

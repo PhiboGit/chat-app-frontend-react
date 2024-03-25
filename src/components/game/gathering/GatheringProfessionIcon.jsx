@@ -22,6 +22,7 @@ import LoggingSvg from '../../../assets/svg/logging.svg'
 
 import RandomSvg from '../../../assets/svg/random.svg'
 import ItemIcon from '../gameComponents/icons/ItemIcon';
+import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 
 const iconMappings = {
@@ -119,8 +120,7 @@ const ProfessionTitle = ({ profession, skillData }) => {
 
 const GatheringProfessionIcon = ({ profession }) => {
   
-  const { characterData } = useContext(CharacterDataContext);
-  const skillData = useMemo(() => characterData.skills[profession], [characterData.skills[profession]]);
+  const [skillData] = useCharacterStore((char) => char.skills[profession])
 
   const [isHovered, setIsHovered] = useState(false);
 

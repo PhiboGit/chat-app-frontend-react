@@ -30,6 +30,7 @@ const InventoryCharacter = () => {
       <CharacterInfoDisplay displayName={"Character"} selector={(char) => char.characterName}/>
       <CharacterInfoDisplay displayName={"Level"} selector={(char) => char.level}/>
       <CharacterInfoDisplay displayName={"Exp"} selector={(char) => char.exp}/>
+      <CharacterInfoDisplay displayName={"Gold"} selector={(char) => char.currency.gold}/>
     </Box>
   );
 };

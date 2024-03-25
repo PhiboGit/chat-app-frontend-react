@@ -11,6 +11,7 @@ const updateTime = 10 // ms update
 
 import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
   height: 10,
@@ -27,13 +28,12 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 
 
 export default function CurrentAction() {
-  const { characterData } = useContext(CharacterDataContext);
   const { send } = useContext(GameDataContext)
 
   const [progress, setProgress] = useState(0)
   const [timer, setTimer] = useState()
 
-  const currentAction = useMemo(() => characterData.currentAction, [characterData.currentAction]);
+  const [currentAction] = useCharacterStore((char) => char.currentAction)
 
   const [actionTime, setActionTime] = useState()
   const [task, setTask] = useState()
