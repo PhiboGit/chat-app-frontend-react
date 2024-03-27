@@ -24,10 +24,12 @@ import ItemIcon from '../gameComponents/icons/ItemIcon'
 import StartActionController from '../gameComponents/StartActionController';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemSelector from '../gameComponents/ItemSelector';
+import { useItemIdMapStore } from '../dataProviders/ItemProvider';
 
 const EnchantingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData, idToItemMap } = useContext(CharacterDataContext);
+  const { characterData } = useContext(CharacterDataContext);
+  const [idToItemMap] = useItemIdMapStore((map) => map)
 
   const [itemId, setItemId] = useState('')
   const [validEnchantingResources, setValidEnchantingResources] = useState([])
@@ -39,7 +41,7 @@ const EnchantingOverview = () => {
 
 
   const handleItem = (newItemId) => {
-    const item = idToItemMap[newItemId]
+    const item = idToItemMap.get(newItemId)
     console.log("selected Item: ", item)
 
     const validItems = Object.keys(characterData.resources).filter((resource) => resource.includes(`${item.name}`))
@@ -110,8 +112,8 @@ const EnchantingOverview = () => {
             }}
           >
             <ItemSelector 
-              selectedItem={idToItemMap[itemId]} 
-              items={Object.entries(idToItemMap).map(([key, value]) => value)} 
+              selectedItem={idToItemMap.get(itemId)} 
+              items={Array.from(idToItemMap.values())} 
               onChange={handleItem}
             />
           </Box>

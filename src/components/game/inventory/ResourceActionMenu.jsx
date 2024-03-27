@@ -4,16 +4,20 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 
 import { GameDataContext } from '../dataProviders/GameDataProvider';
+import { TextField, Typography } from '@mui/material';
 
 const ResourceActionMenu = ({resource, closeMenu}) => {
   const { gameData, send } = useContext(GameDataContext);
+  const info = gameData.resourcesInfo[resource];
 
-  const handleSell = (item) => {
+  const [sellAmount, setSellAmount] = useState(1)
+
+  const handleSell = () => {
     const sell = {
       "type": "sell/resource",
       "args": {
         "resourceName": resource,
-        "amount": 1
+        "amount": sellAmount
       }
     }
     send(sell)
@@ -24,13 +28,21 @@ const ResourceActionMenu = ({resource, closeMenu}) => {
     <Container maxWidth="xs">
       <Box
         sx={{
-          bgcolor: 'rgba(160, 177, 186, 0.8)',
+          bgcolor: 'rgba(160, 177, 186, 0.95)',
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center', // Optional: Align items in the center horizontally
         }}
       >
-        <Button onClick={() => handleSell(resource)} key={"sell"} variant="contained">Sell</Button>
+        <Typography>
+          {info.displayName}
+        </Typography>
+        <TextField 
+          type='number' 
+          defaultValue={sellAmount} 
+          onChange={(event) => setSellAmount(parseInt(event.target.value))}
+          size='small'/>
+        <Button onClick={handleSell} key={"sell"} variant="contained">Sell</Button>
       </Box>
     </Container>
   )

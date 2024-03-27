@@ -37,30 +37,32 @@ import HelpCenterIcon from '@mui/icons-material/HelpCenter';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemSelector from '../gameComponents/ItemSelector';
 import BasicIcon from '../gameComponents/icons/BasicIcon';
+import { useItemIdMapStore } from '../dataProviders/ItemProvider';
 
 
 const EquipmentOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData, idToItemMap } = useContext(CharacterDataContext);
+  const { characterData } = useContext(CharacterDataContext);
+  const [idToItemMap] = useItemIdMapStore((map) => map)
 
   const skills = characterData.skills
   
   const getEquipItem =(profession, equipmentSlot) => {
-    return idToItemMap[skills[profession].equipment[equipmentSlot]]
+    const itemId = skills[profession].equipment[equipmentSlot]
+    return idToItemMap.get(itemId)
   }
 
   const filteredItems = (profession, equipmentSlot) => {
-    const filter = 
-      Object.entries(idToItemMap)
-      .filter(([id, item]) => item.equipmentSkills.includes(profession) && item.equipmentType == equipmentSlot)
-      .map(([id,item]) => item)
+    const filter = Array.from(idToItemMap.entries())
+      .filter(([id, item]) => item.equipmentSkills.includes(profession) && item.equipmentType === equipmentSlot)
+      .map(([id, item]) => item);
     //console.log('Filtered items', filter)
     return filter
   }
 
   const handleItem = (itemId, profession, equipmentSlot) => {
     // can also be "null", then it is unequip
-    const item = idToItemMap[itemId]
+    const item = idToItemMap.get(itemId)
     console.log("selected Item: ", item)
     
     const equip = {

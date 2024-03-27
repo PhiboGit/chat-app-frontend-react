@@ -18,11 +18,12 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import { TextField } from '@mui/material';
+import { useItemIdMapStore } from '../../dataProviders/ItemProvider';
 
 const SellItemOrderMenu = ({itemName, anchorEl, setAnchorEl}) => {
 
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData, idToItemMap } = useContext(CharacterDataContext);
+  const [idToItemMap] = useItemIdMapStore((map) => map)
 
   const [price, setPrice] = useState(20)
   const [itemId, setItemId] = useState("")
@@ -42,7 +43,7 @@ const SellItemOrderMenu = ({itemName, anchorEl, setAnchorEl}) => {
   }
 
   const onItemSelect = (itemId) =>{
-    setItem(idToItemMap[itemId])
+    setItem(idToItemMap.get(itemId))
     setItemId(itemId)
   }
 
@@ -53,7 +54,7 @@ const SellItemOrderMenu = ({itemName, anchorEl, setAnchorEl}) => {
           <Box
             sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
           >
-            <ItemSelector selectedItem={item} items={Object.values(idToItemMap)} onChange={onItemSelect}/>
+            <ItemSelector selectedItem={item} items={Array.from(idToItemMap.values())} onChange={onItemSelect}/>
             <TextField
             label="Price per Unit"
             id="outlined-size-small"

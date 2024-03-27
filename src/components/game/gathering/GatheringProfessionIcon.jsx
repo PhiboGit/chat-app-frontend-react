@@ -23,6 +23,7 @@ import LoggingSvg from '../../../assets/svg/logging.svg'
 import RandomSvg from '../../../assets/svg/random.svg'
 import ItemIcon from '../gameComponents/icons/ItemIcon';
 import { useCharacterStore } from '../dataProviders/CharacterProvider';
+import { useItemIdMapStore } from '../dataProviders/ItemProvider';
 
 
 const iconMappings = {
@@ -64,7 +65,8 @@ function getSkillSheet(skillData, idToItemMap){
   }
 
   Object.keys(skillData.equipment).forEach((slot) => {
-    const item = idToItemMap[skillData.equipment[slot]];
+    const itemId = skillData.equipment[slot]
+    const item = idToItemMap.get(itemId);
     if (item) {
       skillSheet.luck += item.properties.luck
       skillSheet.speed += item.properties.speed + (item.properties.baseSpeed || 0)
@@ -77,7 +79,7 @@ function getSkillSheet(skillData, idToItemMap){
 
 const ProfessionTitle = ({ profession, skillData }) => {
   const { gameData } = useContext(GameDataContext);
-  const { idToItemMap } = useContext(CharacterDataContext);
+  const [idToItemMap] = useItemIdMapStore((map) => map)
 
   const expLevel = skillData.exp
   const nextExpLevel = gameData.expTable.Exp[`${skillData.level + 1}`]
@@ -109,7 +111,7 @@ const ProfessionTitle = ({ profession, skillData }) => {
         <Grid item key={itemId}>
           <ItemIcon
             style={{ width: '35px', height: '35px' }} // Adjust size as needed
-            item={idToItemMap[itemId]}
+            item={idToItemMap.get(itemId)}
           />
         </Grid>
             )})}
