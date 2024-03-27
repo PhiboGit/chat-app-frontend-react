@@ -1,7 +1,7 @@
-import React, { useContext, useState, useMemo } from 'react';
-import Container from '@mui/material/Container'
-import Box from '@mui/material/Box'
-import Button from '@mui/material/Button'
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import Container from '@mui/material/Container';
+import React, { useContext } from 'react';
 
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 

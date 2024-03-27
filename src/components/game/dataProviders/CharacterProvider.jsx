@@ -1,9 +1,8 @@
 import React, {
   useEffect,
 } from "react";
+import { messageReceiver } from "./MessageReceiver";
 import createPartialContextStore from "./createPartialContextStore";
-import {messageReceiver} from "./MessageReceiver";
-import { useItemIdMapStore } from "./ItemProvider";
 
 let useCharacterStore
 
@@ -108,4 +107,4 @@ const Updater = ({children, useStore}) => {
 }
 
 
-export { CharacterProvider as CharacterProvider, useCharacterStore as useCharacterStore }
+export { CharacterProvider as CharacterProvider, useCharacterStore as useCharacterStore };

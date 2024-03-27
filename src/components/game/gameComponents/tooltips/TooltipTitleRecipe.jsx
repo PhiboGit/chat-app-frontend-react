@@ -1,23 +1,18 @@
-import React, { useContext, useState, useMemo } from 'react';
 import Typography from '@mui/material/Typography';
+import React from 'react';
 
-import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
-import { GameDataContext } from '../../dataProviders/GameDataProvider';
-
+import { useCharacterStore } from '../../dataProviders/CharacterProvider';
 
 const TooltipTitleRecipe = ({recipe}) => {
 
-  const { gameData } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
-
-  const skillData = characterData.skills[recipe.profession]
+  const [professionLevel] = useCharacterStore(char => char.skills[recipe.profession].level)
 
   return (
     <React.Fragment>
       <Typography color="inherit">{recipe.amount} x {recipe.name}</Typography>
       <hr/>
       <b>
-        <span style={{ color: recipe.level > skillData.level ? 'red' : 'green' }}>
+        <span style={{ color: recipe.level > professionLevel ? 'red' : 'green' }}>
           {`Level: ${recipe.level}`}
         </span>
       </b>

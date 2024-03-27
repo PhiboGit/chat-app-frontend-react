@@ -1,8 +1,8 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { GameDataContext } from '../../dataProviders/GameDataProvider';
 import Typography from '@mui/material/Typography';
+import React, { useContext } from 'react';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
 
-import ChipStack from "../ChipStack"
+import ChipStack from "../ChipStack";
 
 const TooltipTitleResource = ({name, amount}) => {
   const { gameData } = useContext(GameDataContext);

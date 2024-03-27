@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 
-import CurrentAction from './actionOverview/CurrentAction';
 import ActionQueue from './actionOverview/ActionQueue';
+import CurrentAction from './actionOverview/CurrentAction';
 
 export default function GameHeader() {
   return (

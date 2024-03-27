@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
-import Paper from '@mui/material/Paper'
+import React from 'react';
 
-import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import BlockIcon from '@mui/icons-material/Block';
+import QuestionMarkIcon from '@mui/icons-material/QuestionMark';
 import { Typography } from '@mui/material';
 import ClickableIcon from './ClickableIcon';
 

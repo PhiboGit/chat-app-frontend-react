@@ -1,14 +1,14 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
-import ProfessionSelector from '../gameComponents/ProfessionSelector';
-import RecipeSelector from '../gameComponents/RecipeSelector';
-import RecipeInfo from '../gameComponents/RecipeInfo';
 import IngredientSelector from '../gameComponents/IngredientSelector';
+import ProfessionSelector from '../gameComponents/ProfessionSelector';
+import RecipeInfo from '../gameComponents/RecipeInfo';
+import RecipeSelector from '../gameComponents/RecipeSelector';
 import StartActionController from '../gameComponents/StartActionController';
 
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
 import RarityDistribution from './RarityDistribution';
 

@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 
 import { GameDataContext } from '../../dataProviders/GameDataProvider';
 
 import Icon from '@mui/material/Icon';
-import getIcon from './iconSvgMapping';
-import ClickableIcon from './ClickableIcon';
 import TooltipTitleResource from '../tooltips/TooltipTitleResource';
+import ClickableIcon from './ClickableIcon';
+import getIcon from './iconSvgMapping';
 
 const getRarityColor = (rarity) => {
   switch (rarity) {

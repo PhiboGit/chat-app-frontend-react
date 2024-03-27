@@ -1,13 +1,12 @@
-import React, { useContext, useMemo, useState } from 'react';
-import { useActionQueue } from '../dataProviders/CharacterDataProvider';
+import React, { useContext, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
-import IconButton from '@mui/material/IconButton';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QueueIcon from '@mui/icons-material/Queue';
-import { Box, Container, Grid, Typography } from '@mui/material';
+import { Box, Grid } from '@mui/material';
+import IconButton from '@mui/material/IconButton';
 
-import ClickAwayPopper from '../../common/ClickAwayPopper'
+import ClickAwayPopper from '../../common/ClickAwayPopper';
 import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 export default function ActionQueue() {

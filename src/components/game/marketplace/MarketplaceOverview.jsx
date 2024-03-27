@@ -1,37 +1,21 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Grid from '@mui/material/Grid';
 import Button from '@mui/material/Button';
-import Paper from '@mui/material/Paper';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
 
-import ResourceIcon from '../gameComponents/icons/ResourceIcon';
-import OrderBook from './resourceMarketplace/OrderBook';
-import MyOrders from './resourceMarketplace/MyOrders';
-import Listings from './resourceMarketplace/Listings';
 import ItemListings from './itemMarketplace/ItemListings';
 import MyItemOrders from './itemMarketplace/MyItemOrders';
+import Listings from './resourceMarketplace/Listings';
+import MyOrders from './resourceMarketplace/MyOrders';
 
 
 
 
 const MarketplaceOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
 
   const [view, setView] = useState('listing')
-
-  
 
   const resourcesInfo = gameData.resourcesInfo
 

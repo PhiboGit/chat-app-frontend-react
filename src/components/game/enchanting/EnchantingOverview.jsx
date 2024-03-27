@@ -1,30 +1,18 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
-import ExpBar from '../ExpBar';
 import Container from '@mui/material/Container';
-import CarpenterIcon from '@mui/icons-material/Carpenter';
 
-import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel'
-import { Grid } from '@mui/material';
-import Button from '@mui/material/Button';
-import Popper from '@mui/material/Popper';
-import { ClickAwayListener } from '@mui/material';import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ResourceIcon from '../gameComponents/icons/ResourceIcon';
-import RecipeIcon from '../gameComponents/icons/RecipeIcon';
-import ItemIcon from '../gameComponents/icons/ItemIcon'
-import StartActionController from '../gameComponents/StartActionController';
-import ClickAwayPopper from '../../common/ClickAwayPopper';
-import ItemSelector from '../gameComponents/ItemSelector';
-import { useItemIdMapStore } from '../dataProviders/ItemProvider';
+import TextField from '@mui/material/TextField';
 import { useCharacterStore } from '../dataProviders/CharacterProvider';
+import { useItemIdMapStore } from '../dataProviders/ItemProvider';
+import ItemSelector from '../gameComponents/ItemSelector';
+import StartActionController from '../gameComponents/StartActionController';
 
 const EnchantingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);

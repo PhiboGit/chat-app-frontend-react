@@ -1,19 +1,12 @@
-import * as React from 'react';
-import PropTypes from 'prop-types';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import GatheringOverview from '../gathering/GatheringOverview';
-import RefiningOverview from '../refiningOverview/RefiningOverview';
-import CraftingOverview from '../crafting/CraftingOverview';
-import AugmentationOverview from '../augmentation/AugmentationOverview';
-import EnchantingOverview from '../enchanting/EnchantingOverview';
+import Tab from '@mui/material/Tab';
+import Tabs from '@mui/material/Tabs';
+import PropTypes from 'prop-types';
+import * as React from 'react';
 import EquipmentOverview from '../equipment/EquipmentOverview';
-import MarketplaceOverview from '../marketplace/MarketplaceOverview';
-import InventoryResources from './InventoryResources';
-import InventoryItems from './InventoryItems';
 import InventoryCharacter from './InventoryCharacter';
+import InventoryItems from './InventoryItems';
+import InventoryResources from './InventoryResources';
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;

@@ -1,29 +1,25 @@
-import React, { useContext, useState, useMemo} from 'react';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import React, { useContext, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
 
-import { styled } from '@mui/material/styles';
 import Grid from '@mui/material/Grid';
-import Button from '@mui/material/Button';
+import Icon from '@mui/material/Icon';
+import Paper from '@mui/material/Paper';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Icon from '@mui/material/Icon';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
 
-import MiningSvg from '../../../assets/svg/mining.svg'
-import HerbsSvg from '../../../assets/svg/herbs-bundle.svg'
-import LoggingSvg from '../../../assets/svg/logging.svg'
+import HerbsSvg from '../../../assets/svg/herbs-bundle.svg';
+import LoggingSvg from '../../../assets/svg/logging.svg';
+import MiningSvg from '../../../assets/svg/mining.svg';
 
 
 
 
-import RandomSvg from '../../../assets/svg/random.svg'
-import ItemIcon from '../gameComponents/icons/ItemIcon';
+import RandomSvg from '../../../assets/svg/random.svg';
 import { useCharacterStore } from '../dataProviders/CharacterProvider';
 import { useItemIdMapStore } from '../dataProviders/ItemProvider';
+import ItemIcon from '../gameComponents/icons/ItemIcon';
 
 
 const iconMappings = {

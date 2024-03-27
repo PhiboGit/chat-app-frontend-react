@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper, IconButton, styled } from '@mui/material';
-import CheckIcon from '@mui/icons-material/Check'; 
 import CancelIcon from '@mui/icons-material/Cancel';
-import { GameDataContext } from '../../dataProviders/GameDataProvider';
+import CheckIcon from '@mui/icons-material/Check';
+import { IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, styled } from '@mui/material';
+import React, { useContext } from 'react';
 import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
+import { GameDataContext } from '../../dataProviders/GameDataProvider';
 
 import ItemIcon from '../../gameComponents/icons/ItemIcon';
-import ResourceIcon from '../../gameComponents/icons/ResourceIcon';
 
 const CompactTable = styled(Table)({
   minWidth: 400,

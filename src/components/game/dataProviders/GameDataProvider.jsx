@@ -1,5 +1,5 @@
 // GameDataProvider.jsx
-import { createContext, useState } from 'react';
+import { createContext } from 'react';
 
 export const GameDataContext = createContext();
 

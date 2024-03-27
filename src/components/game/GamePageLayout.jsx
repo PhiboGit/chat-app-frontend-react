@@ -1,9 +1,9 @@
 import React from 'react';
 
-import { Grid, Container, Box} from '@mui/material';
+import { Box } from '@mui/material';
 
-import GameHeader from './GameHeader';
 import GameContent from './GameContent';
+import GameHeader from './GameHeader';
 
 export default function GamePageLayout() {
 

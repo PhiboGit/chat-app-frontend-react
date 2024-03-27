@@ -1,19 +1,17 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 
-import ProfessionSelector from '../gameComponents/ProfessionSelector';
-import RecipeSelector from '../gameComponents/RecipeSelector';
-import RecipeInfo from '../gameComponents/RecipeInfo';
 import IngredientSelector from '../gameComponents/IngredientSelector';
+import ProfessionSelector from '../gameComponents/ProfessionSelector';
+import RecipeInfo from '../gameComponents/RecipeInfo';
+import RecipeSelector from '../gameComponents/RecipeSelector';
 import StartActionController from '../gameComponents/StartActionController';
 
 const RefiningOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
 
   const refiningRecipes = gameData.refiningRecipes
 

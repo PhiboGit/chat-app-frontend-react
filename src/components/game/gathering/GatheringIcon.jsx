@@ -1,25 +1,20 @@
-import React, { useContext, useState, useMemo } from 'react';
-import { styled } from '@mui/material/styles';
-import Button from '@mui/material/Button';
+import Icon from '@mui/material/Icon';
+import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import Typography from '@mui/material/Typography';
-import Paper from '@mui/material/Paper';
-import Icon from '@mui/material/Icon';
-import Chip from '@mui/material/Chip';
-import Stack from '@mui/material/Stack';
+import { styled } from '@mui/material/styles';
+import React, { useState } from 'react';
 
-import BaobabSvg from '../../../assets/svg/baobab.svg'
-import BirchSvg from '../../../assets/svg/birch-trees.svg'
-import BeechSvg from '../../../assets/svg/beech.svg'
-import DeadTreeSvg from '../../../assets/svg/dead-wood.svg'
-import HolyOakSvg from '../../../assets/svg/holy-oak.svg'
-import OakSvg from '../../../assets/svg/oak.svg'
-import PineSvg from '../../../assets/svg/pine-tree.svg'
-import WillowSvg from '../../../assets/svg/willow-tree.svg'
+import BaobabSvg from '../../../assets/svg/baobab.svg';
+import BeechSvg from '../../../assets/svg/beech.svg';
+import DeadTreeSvg from '../../../assets/svg/dead-wood.svg';
+import PineSvg from '../../../assets/svg/pine-tree.svg';
+import WillowSvg from '../../../assets/svg/willow-tree.svg';
 
 
 
-import RandomSvg from '../../../assets/svg/random.svg'
+import RandomSvg from '../../../assets/svg/random.svg';
 
 
 const iconMappings = {

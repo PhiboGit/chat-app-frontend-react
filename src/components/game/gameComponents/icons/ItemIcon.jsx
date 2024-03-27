@@ -1,16 +1,11 @@
-import React, { useContext, useState, useMemo } from 'react';
+import React from 'react';
 
-import Box from '@mui/material/Box';
-import Container from '@mui/material/Container';
-import Paper from '@mui/material/Paper';
 import Icon from '@mui/material/Icon';
 
-import { GameDataContext } from '../../dataProviders/GameDataProvider';
-import HtmlTooltip from '../../../common/HtmlToolTip';
-import TooltipTitleGatheringTool from '../tooltips/TooltipTitleGatheringTool';
 import TooltipTitleArmor from '../tooltips/TooltipTitleArmor';
-import getIcon from './iconSvgMapping';
+import TooltipTitleGatheringTool from '../tooltips/TooltipTitleGatheringTool';
 import ClickableIcon from './ClickableIcon';
+import getIcon from './iconSvgMapping';
 
 
 const getRarityColor = (rarity) => {

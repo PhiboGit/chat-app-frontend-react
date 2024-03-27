@@ -1,12 +1,12 @@
-import React, { Fragment, useContext, useMemo, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
+import Typography from '@mui/material/Typography';
 
-import adjustWeights from './Wheights';
 import { useCharacterStore } from '../dataProviders/CharacterProvider';
+import adjustWeights from './Wheights';
 
 
 const indexToRarity = (index) => {

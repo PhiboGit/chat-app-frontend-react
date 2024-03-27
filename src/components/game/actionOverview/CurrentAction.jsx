@@ -1,15 +1,14 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
-import { GameDataContext } from '../dataProviders/GameDataProvider';
-import Box from '@mui/material/Box';
 import { Grid, IconButton } from '@mui/material';
-import { Container } from '@mui/material';
+import Box from '@mui/material/Box';
+import React, { useContext, useEffect, useState } from 'react';
+import { GameDataContext } from '../dataProviders/GameDataProvider';
 
 import CancelIcon from '@mui/icons-material/Cancel';
 
 const updateTime = 10 // ms update
 
-import { styled } from '@mui/material/styles';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
+import { styled } from '@mui/material/styles';
 import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({

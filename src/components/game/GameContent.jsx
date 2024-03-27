@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
+import { Grid } from '@mui/material';
 
-import BasicTabs from './mainContent/BasicTabs';
 import InventoryTabs from './inventory/InventoryTabs';
+import BasicTabs from './mainContent/BasicTabs';
 
 export default function GameContent() {
 

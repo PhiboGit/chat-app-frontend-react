@@ -1,13 +1,13 @@
-import React, { useContext, useEffect, useState, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
-import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
+import Container from '@mui/material/Container';
 import Grid from '@mui/material/Grid';
 
-import ItemSelector from '../gameComponents/ItemSelector';
-import { useItemIdMapStore } from '../dataProviders/ItemProvider';
 import { useCharacterStore } from '../dataProviders/CharacterProvider';
+import { useItemIdMapStore } from '../dataProviders/ItemProvider';
+import ItemSelector from '../gameComponents/ItemSelector';
 
 
 const EquipmentOverview = () => {
