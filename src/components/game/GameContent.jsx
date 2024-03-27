@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import {connectWebSocket, disconnectWebSocket, sendWebsocket} from './WebSocketService';
-import { GameDataProvider } from './dataProviders/GameDataProvider';
-import { CharacterDataProvider } from './dataProviders/CharacterDataProvider';
 
 import { Grid, Container, Box, Tabs, Tab } from '@mui/material';
 
-import ActionOverview from './actionOverview/ActionOverview';
 import BasicTabs from './mainContent/BasicTabs';
-import InventoryOverview from './inventory/InventoryOverview';
 import InventoryTabs from './inventory/InventoryTabs';
-
-const messageReceiver = new EventTarget()
 
 export default function GameContent() {
 
