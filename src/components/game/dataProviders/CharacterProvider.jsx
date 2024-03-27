@@ -61,21 +61,14 @@ const Updater = ({children, useStore}) => {
   
     setState( prev => {
       const char = {...prev}
-      let updatedPaths = {}
       updateOperations.forEach((operation) => {
         if (updates.hasOwnProperty(operation)) {
           Object.entries(updates[operation]).forEach(([path, value]) => {
             console.log("update: ", operation, path, value);
-            const newValue = changeValue(char, path, value, operation);
-            const changedPath = {}
-            setPath(changedPath, path,() => newValue)
-            updatedPaths = {...updatedPaths, ...changedPath}
+            changeValue(char, path, value, operation);
           });
         }
       });
-      console.log("character paths updated:", updatedPaths)
-      // would like to only use updatedPaths.
-      // however, need to change set in the store, to be able to update deep values
       console.log("character updated:", char)
       return char
     })
@@ -92,6 +85,7 @@ const Updater = ({children, useStore}) => {
         break;
       case "$push":
         return setPath(char, path, (prev) => {
+          // necessary as push does not return an array!
           const newArray = [...prev]
           newArray.push(value)
           return newArray
