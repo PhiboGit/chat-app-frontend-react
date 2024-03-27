@@ -1,12 +1,12 @@
 import React, { Fragment, useContext, useMemo, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
 
 import adjustWeights from './Wheights';
+import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 
 const indexToRarity = (index) => {
@@ -48,9 +48,8 @@ const getColor = (index) => getRarityColor(indexToRarity(index))
 
 const RarityDistribution = ({ recipe, selectedIngredients }) => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
 
-  const characterSkillData = useMemo(() => characterData.skills[recipe.profession], [characterData.skills[recipe.profession]])
+  const characterSkillData = useCharacterStore(char => char.skills[recipe.profession])
 
   const [rarityWeights, setRarityWeights] = useState([0,0,0,0,0])
   useEffect(() => {

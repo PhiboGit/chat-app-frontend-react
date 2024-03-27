@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import ProfessionSelector from '../gameComponents/ProfessionSelector';
 import RecipeSelector from '../gameComponents/RecipeSelector';
@@ -15,7 +14,6 @@ import RarityDistribution from './RarityDistribution';
 
 const CraftingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
 
   const [profession, setProfession] = useState('');
   const [allRecipes, setAllRecipes] = useState({});

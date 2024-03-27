@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import Container from '@mui/material/Container';
 import Box from '@mui/material/Box';
@@ -14,7 +13,6 @@ import StartActionController from '../gameComponents/StartActionController';
 
 const AugmentationOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
 
   const [profession, setProfession] = useState('');
   const [allRecipes, setAllRecipes] = useState({});

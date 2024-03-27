@@ -1,28 +1,13 @@
-import React, { Fragment, useContext, useEffect, useState } from 'react';
-import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
+import React from 'react';
 
-import ExpBar from '../ExpBar';
 import Container from '@mui/material/Container';
-import CarpenterIcon from '@mui/icons-material/Carpenter';
 
-import Switch from '@mui/material/Switch';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel'
-import { Grid } from '@mui/material';
-import Button from '@mui/material/Button';
-import Popper from '@mui/material/Popper';
-import { ClickAwayListener } from '@mui/material';
-import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
-import ResourceIcon from './icons/ResourceIcon';
-import RecipeIcon from './icons/RecipeIcon';
 
-import ClickAwayPopper from '../../common/ClickAwayPopper'
 
 
 const IngredientSelector = ({selectedIngredients, ingredients, onChange}) => {

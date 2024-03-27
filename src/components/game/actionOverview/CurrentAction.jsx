@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState, useMemo } from 'react';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import Box from '@mui/material/Box';
 import { Grid, IconButton } from '@mui/material';

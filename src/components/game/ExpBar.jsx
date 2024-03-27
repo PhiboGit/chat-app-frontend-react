@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from './dataProviders/GameDataProvider';
-import { CharacterDataContext } from './dataProviders/CharacterDataProvider';
 import Box from '@mui/material/Box';
 import LinearProgress from '@mui/material/LinearProgress';
 import { useCharacterStore } from './dataProviders/CharacterProvider';

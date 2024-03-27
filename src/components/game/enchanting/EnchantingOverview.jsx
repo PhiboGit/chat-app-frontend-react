@@ -1,6 +1,5 @@
 import React, { Fragment, useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../dataProviders/CharacterDataProvider';
 
 import ExpBar from '../ExpBar';
 import Container from '@mui/material/Container';
@@ -25,10 +24,11 @@ import StartActionController from '../gameComponents/StartActionController';
 import ClickAwayPopper from '../../common/ClickAwayPopper';
 import ItemSelector from '../gameComponents/ItemSelector';
 import { useItemIdMapStore } from '../dataProviders/ItemProvider';
+import { useCharacterStore } from '../dataProviders/CharacterProvider';
 
 const EnchantingOverview = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext);
+  const [resources] = useCharacterStore(char => char.resources)
   const [idToItemMap] = useItemIdMapStore((map) => map)
 
   const [itemId, setItemId] = useState('')
@@ -44,7 +44,8 @@ const EnchantingOverview = () => {
     const item = idToItemMap.get(newItemId)
     console.log("selected Item: ", item)
 
-    const validItems = Object.keys(characterData.resources).filter((resource) => resource.includes(`${item.name}`))
+    const validItems = Object.keys(resources).filter((resource) => resource.includes(`${item.name}`))
+
 
     // Set the selected recipe and its ingredients
     setItemId(newItemId);

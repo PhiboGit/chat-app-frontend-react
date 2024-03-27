@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
 
 import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
@@ -23,7 +22,6 @@ import ItemOrderBook from './ItemOrderBook';
 
 const ItemListings = () => {
   const { gameData, send } = useContext(GameDataContext);
-  const { characterData } = useContext(CharacterDataContext)
   
   const resourcesInfo = gameData.resourcesInfo
 

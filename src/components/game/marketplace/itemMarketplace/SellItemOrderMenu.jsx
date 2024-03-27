@@ -1,6 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { GameDataContext } from '../../dataProviders/GameDataProvider';
-import { CharacterDataContext } from '../../dataProviders/CharacterDataProvider';
 
 import ClickAwayPopper from '../../../common/ClickAwayPopper';
 import ItemSelector from '../../gameComponents/ItemSelector';
