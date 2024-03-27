@@ -26,10 +26,12 @@ export default function createPartialContextStore(initialState) {
         // Call the updater function with the current state
         const updatedValue = value(store.current);
         // Update the store with the result of the updater function
-        store.current = { ...store.current, ...updatedValue };
+        //store.current = { ...store.current, ...updatedValue };
+        store.current = updatedValue;
       } else {
         // If value is not a function, treat it as a direct value update
-        store.current = { ...store.current, ...value };
+        //store.current = { ...store.current, ...value };
+        store.current = value
       }
       subscribers.current.forEach((callback) => callback());
     }, []);
