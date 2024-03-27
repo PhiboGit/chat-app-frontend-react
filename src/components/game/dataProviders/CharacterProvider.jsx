@@ -3,13 +3,27 @@ import React, {
 } from "react";
 import createPartialContextStore from "./createPartialContextStore";
 import {messageReceiver} from "./MessageReceiver";
+import { useItemIdMapStore } from "./ItemProvider";
 
 let useCharacterStore
 
+
+const createInitialCharacterState = (initChar) => {
+  // deep copy, cause currently there are other Updater with the same initial state initChar
+  const initialState = structuredClone(initChar)
+  // other Schema are populated only with the init message
+  // These are managed by other stores
+  const populatedToIdArray = (array) => array.map(object => object._id)
+  initialState.items = populatedToIdArray(initialState.items)
+  initialState.orders = populatedToIdArray(initialState.orders)
+  initialState.itemOrders= populatedToIdArray(initialState.itemOrders)
+  return initialState
+}
+
 // Updater is a child of Provider to access the store
 const CharacterProvider = ({children, initChar}) => {
-  // deep copy, cause currently there are two characterUpdater with the same initial state initChar
-  const { Provider, useStore } = createPartialContextStore(structuredClone(initChar.character));
+  
+  const { Provider, useStore } = createPartialContextStore(createInitialCharacterState(initChar.character));
   useCharacterStore = useStore
   return (
     <Provider>
@@ -62,6 +76,7 @@ const Updater = ({children, useStore}) => {
       console.log("character paths updated:", updatedPaths)
       // would like to only use updatedPaths.
       // however, need to change set in the store, to be able to update deep values
+      console.log("character updated:", char)
       return char
     })
   }
@@ -76,10 +91,14 @@ const Updater = ({children, useStore}) => {
         return setPath(char, path, (prev) => prev + value)
         break;
       case "$push":
-        return setPath(char, path, (prev) => prev.push(value))
+        return setPath(char, path, (prev) => {
+          const newArray = [...prev]
+          newArray.push(value)
+          return newArray
+        })
         break;
       case "$pull":
-        return setPath(char, path, (prev) => prev.filter(item => item._id != value))
+        return setPath(char, path, (prev) => prev.filter(id => id != value))
         break;
       default:
         console.error("Invalid operation: ", operation);
