@@ -16,11 +16,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
   const [characterData, setCharacterData] = useState(initCharData.character);
   const actionQueue = useMemo(() => characterData.actionQueue, [characterData]);
 
-  const idToItemMap = characterData.items.reduce((map, item) => {
-    map[item._id] = item;
-    return map;
-  }, {});
-
   // marketplace resoucres
   const [idToOrderMap, setIdToOrderMap] = useState({})
   const [marketplaceOrderBook, setMarketplaceOrderBook] = useState();
@@ -34,7 +29,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     console.log("adding event listener")
     messageReceiver.addEventListener('update_char', updateChar);
     messageReceiver.addEventListener('action_manager', updateChar);
-    messageReceiver.addEventListener('items', updateItems);
     messageReceiver.addEventListener('marketplace' , updateMarketplace)
     messageReceiver.addEventListener('order' , updateOrder)
     messageReceiver.addEventListener('item_marketplace' , updateItemMarketplace)
@@ -44,7 +38,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
       console.log("removing event listener")
       messageReceiver.removeEventListener('update_char', updateChar)
       messageReceiver.removeEventListener('action_manager', updateChar)
-      messageReceiver.removeEventListener('items', updateItems);
       messageReceiver.removeEventListener('marketplace', updateMarketplace);
       messageReceiver.removeEventListener('order', updateOrder);
       messageReceiver.removeEventListener('item_marketplace', updateItemMarketplace);
@@ -112,11 +105,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
     })
   }
 
-  function updateItems(event){
-    const receivedData = event.detail;
-    const items = receivedData.items;
-    changeValue('items', items, "$push");
-  }
 
   function updateChar(event) {
     const receivedData = event.detail;  
@@ -166,23 +154,7 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
         currentObj[lastKey] = value;
         break;
       case "$push":
-        if(lastKey == 'items' && typeof value === 'string'){
-          return
-          // if it is an item update, the item is wrapped in an array
-        } else if(lastKey == 'items' && Array.isArray(value)){
-          for(const newItem of value){
-            // overwrite existing item
-            if(idToItemMap[newItem._id]){
-              Object.assign(item, newItem);
-            } else {
-              // or just add the item
-              currentObj[lastKey].push(newItem);
-            }
-          }
-          currentObj[lastKey]
-        }else {
           currentObj[lastKey].push(value);
-        }
         break;
       case "$pull":
         currentObj[lastKey] = currentObj[lastKey].filter(item => item._id != value);
@@ -196,7 +168,6 @@ export const CharacterDataProvider = ({children, initCharData, messageReceiver }
   const contextValue = { 
     characterData,
     actionQueue,
-    idToItemMap,
     marketplaceOrderBook,
     idToOrderMap,
     itemMarketplaceOrderBook,
