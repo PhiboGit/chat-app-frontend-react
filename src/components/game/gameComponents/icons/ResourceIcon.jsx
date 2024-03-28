@@ -26,16 +26,7 @@ const getRarityColor = (rarity) => {
 
 const ResourceIcon = ({ amount, name , onClick}) => {
   const { gameData, send } = useContext(GameDataContext);
-  const resourcesInfo = gameData.resourcesInfo;
-  const info = resourcesInfo[name]
-  const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
-   // "woodT1_common"
-   //matchResult[0] "woodT1_common"
-   //matchResult[1] "wood"
-   //matchResult[2] "T1"
-   //matchResult[3] "1"
-   //matchResult[4] "_common"
-   //matchResult[5] "common"
+  const info = gameData.resourcesInfo[name]
 
   const rarity = info.rarity
   const borderColor = rarity ? getRarityColor(rarity) : 'transparent';
