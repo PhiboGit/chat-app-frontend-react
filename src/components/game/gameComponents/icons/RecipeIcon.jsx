@@ -3,14 +3,9 @@ import React from 'react';
 import Icon from '@mui/material/Icon';
 import Typography from '@mui/material/Typography';
 
-
 import TooltipTitleRecipe from '../tooltips/TooltipTitleRecipe';
 import ClickableIcon from './ClickableIcon';
 import getIcon from './iconSvgMapping';
-
-
-
-
 
 const RecipeIcon = ({disableTitle, recipe, onClick}) => {
 

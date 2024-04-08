@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 
 import Container from '@mui/material/Container';
 
@@ -8,37 +8,35 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 
+import { GameDataContext } from '../dataProviders/GameDataProvider';
+import { IntegrationInstructions } from '@mui/icons-material';
 
 
-const IngredientSelector = ({selectedIngredients, ingredients, onChange}) => {
+const IngredientSelector = ({ recipeName, profession, selectedIngredients, setSelectedIngredients}) => {
+  const { gameData } = useContext(GameDataContext);
+
+  const ingredients = gameData.refiningRecipes[profession][recipeName].ingredients
 
   const onChangeIngredient = (ingredientName, ingredientSlotIndex) => {
-
-    onChange(ingredientName, ingredientSlotIndex)
+    const newSelectedIngredients = [...selectedIngredients];
+    newSelectedIngredients[ingredientSlotIndex] = ingredientName
+    console.log("selected Ingredients: ", newSelectedIngredients);
+    setSelectedIngredients(newSelectedIngredients)
   }
 
   return (
     <Container maxWidth="xs">
-        <Box 
-          display="flex"
-          flexDirection='column'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
-        >
-          <Box 
-          display="flex"
-          flexDirection='row'
-          alignItems="center"
-          sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
-        >
-          {ingredients.map((ingredientSlot, slotIndex) => (
-            
+      <Box 
+        display="flex"
+        flexDirection='row'
+        justifyContent={"center"}
+        sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
+      >
+        {ingredients.map((ingredientSlot, slotIndex) => (
           <FormControl key={slotIndex} sx={{ m: 1, minWidth: 80 }}>
-            <InputLabel id="ingredient-label">Ingredient</InputLabel>
+            <InputLabel >Ingredient</InputLabel>
             <Select
-              labelId="ingredient-label"
-              id="ingredient"
-              value={selectedIngredients[slotIndex] || (ingredientSlot.required ? ingredientSlot.slot[0].resource : "")}
+              value={selectedIngredients[slotIndex]}
               label="Ingredient"
               onChange={(event) => onChangeIngredient(event.target.value, slotIndex)}
             >
@@ -53,10 +51,9 @@ const IngredientSelector = ({selectedIngredients, ingredients, onChange}) => {
               ))}
             </Select>
           </FormControl>
-          ))}
-          </Box>
-        </Box>
-      </Container>
+        ))}
+      </Box>
+    </Container>
   )
 }
 

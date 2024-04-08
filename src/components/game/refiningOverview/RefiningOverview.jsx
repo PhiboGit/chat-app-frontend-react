@@ -5,68 +5,26 @@ import Box from '@mui/material/Box';
 import Container from '@mui/material/Container';
 
 import IngredientSelector from '../gameComponents/IngredientSelector';
-import ProfessionSelector from '../gameComponents/ProfessionSelector';
 import RecipeInfo from '../gameComponents/RecipeInfo';
 import RecipeSelector from '../gameComponents/RecipeSelector';
 import StartActionController from '../gameComponents/StartActionController';
+import { Grid } from '@mui/material';
 
-const RefiningOverview = () => {
+const RefiningOverview = ({profession}) => {
   const { gameData, send } = useContext(GameDataContext);
 
-  const refiningRecipes = gameData.refiningRecipes
-
-  const [profession, setProfession] = useState('');
-  const [allRecipes, setAllRecipes] = useState({});
+  const professionRecipes = gameData.refiningRecipes[profession]
+  
   const [recipeName, setRecipe] = useState('');
-  const [ingredients, setIngredients] = useState([]);
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const [limit, setLimit] = React.useState(true);
+  const [limit, setLimit] = useState(true);
   const [iterations, setIterations] = useState(1);
-  
-  function init(){
-    const selectedProfession = 'woodworking'
 
-    setProfession(selectedProfession)
-    setRecipe('');
-    setIngredients([]);
-    setSelectedIngredients([]);
-    setAllRecipes(refiningRecipes[selectedProfession]);
-  } 
-  
-  useEffect(() => {
-    init();
-  }, []);
-
-
-  const handleProfession = (newProfession) => {
-    console.log('selected Profession', newProfession)
-    setProfession(newProfession);
-    // Reset recipe and ingredients when the profession changes
-    setRecipe('');
-    setIngredients([]);
-    setSelectedIngredients([]);
-    setAllRecipes(refiningRecipes[newProfession]);
-  };
-
-  const handleRecipe = (newRecipeName) => {
-    console.log("selected Recipe: ", newRecipeName)
-    setRecipe(newRecipeName);
-    // find the ingredients
-    const recipeIngredients = allRecipes[newRecipeName]?.ingredients || []
-    setIngredients(recipeIngredients);
-    // and pre-select the ingredient
-    const newSelectedIngredients = recipeIngredients.map((value) => value.required ? value.slot[0].resource : "")
-    setSelectedIngredients(newSelectedIngredients);
-    console.log("selected Ingredients: ", newSelectedIngredients)
-  };
-
-  const handleIngredients = (ingredientName, slotIndex) => {
-    const newSelectedIngredients = [...selectedIngredients];
-    newSelectedIngredients[slotIndex] = ingredientName
-    console.log("selected Ingredients: ", newSelectedIngredients);
-    setSelectedIngredients(newSelectedIngredients);
-  };
+  const changeRecipe = (recipeName) => {
+    setRecipe(recipeName);
+    setSelectedIngredients(professionRecipes[recipeName].ingredients.map((ingredientSlot) => ingredientSlot.required ? ingredientSlot.slot[0].resource : ""));
+  }
 
   const handleLimit = (checked) => {
     console.log('limit', checked);
@@ -74,11 +32,8 @@ const RefiningOverview = () => {
     setIterations(1);
   };
 
-  const handleIterations = (number) => {
-    setIterations(number)
-  }
   
-  function handleStart(){
+  const handleStart = () =>{
     const crafting = {
       "type": "action",
       "actionType": profession,
@@ -95,38 +50,38 @@ const RefiningOverview = () => {
   }
 
   return (
-    <Container maxWidth="sm">
+    <Container maxWidth="md">
+      
+      <RecipeSelector
+        recipeMap={professionRecipes}
+        onChange={changeRecipe}
+      />
+        
+      {recipeName && 
       <Box 
         display="flex"
         flexDirection='column'
         alignItems="center"
-        sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
-        <ProfessionSelector 
-          professions={['woodworking', 'smelting', 'weaving']}
-          selectedProfession={profession}
-          onChange={handleProfession} 
-        />
-        <RecipeSelector
-          selectedRecipeName={recipeName}
-          recipeMap={allRecipes}
-          onChange={handleRecipe}
-        />
-        {recipeName && <RecipeInfo recipe={allRecipes[recipeName]}/>}
+        sx={{ bgcolor: 'rgba(169, 223, 110, 0.8)'}}
+      >
+        <RecipeInfo recipe={professionRecipes[recipeName]}/>
         <IngredientSelector
+          recipeName={recipeName}
+          profession={profession}
           selectedIngredients={selectedIngredients}
-          ingredients={ingredients}
-          onChange={handleIngredients}
+          setSelectedIngredients={setSelectedIngredients}
         />
       
         <StartActionController
           hasLimit={limit}
           onChangeLimit={handleLimit}
           iterations={iterations}
-          onChangeIterations={handleIterations}
-          startDisabled={selectedIngredients.filter((value) => value !== "").length < 1}
+          setIterations={setIterations}
+          startDisabled={selectedIngredients.length < 1}
           onClickStart={handleStart}
         />
       </Box>
+      }
     </Container>
   );
 };

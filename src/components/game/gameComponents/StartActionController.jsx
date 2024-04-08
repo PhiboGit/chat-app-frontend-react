@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import Container from '@mui/material/Container';
 import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
@@ -6,7 +6,20 @@ import FormControlLabel from '@mui/material/FormControlLabel'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
 
-const StartActionController = ({hasLimit, onChangeLimit, iterations, onChangeIterations, startDisabled, onClickStart }) => {
+const StartActionController = ({hasLimit, onChangeLimit, iterations, setIterations, startDisabled, onClickStart }) => {
+
+  const [value, setValue] = useState(iterations);
+  const handleInput = (event) => {
+    const inputValue = event.target.value;
+    // Only allow positive integers
+    if (/^\d*$/.test(inputValue)) {
+      setValue(inputValue)
+      setIterations(parseInt(inputValue) || 1);
+    } else {
+      setValue(1)
+      setIterations(1);
+    }
+  }
 
   return (
     <Container maxWidth="xs">
@@ -21,9 +34,10 @@ const StartActionController = ({hasLimit, onChangeLimit, iterations, onChangeIte
         {hasLimit && (<TextField
           label="Iterations"
           id="outlined-size-small"
-          defaultValue= {iterations}
+          value= {value}
+          defaultValue={1}
           size="small"
-          onChange={(event) => onChangeIterations(parseInt(event.target.value))}
+          onChange={handleInput}          
         />)}
         <Button disabled={startDisabled} onClick={onClickStart} variant="contained">Start</Button>
       </Box>
