@@ -35,7 +35,6 @@ const StartActionController = ({hasLimit, onChangeLimit, iterations, setIteratio
           label="Iterations"
           id="outlined-size-small"
           value= {value}
-          defaultValue={1}
           size="small"
           onChange={handleInput}          
         />)}

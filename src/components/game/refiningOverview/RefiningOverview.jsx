@@ -13,7 +13,10 @@ import { Grid } from '@mui/material';
 const RefiningOverview = ({profession}) => {
   const { gameData, send } = useContext(GameDataContext);
 
-  const professionRecipes = gameData.refiningRecipes[profession]
+  const professionRecipes = Object.fromEntries(
+    Object.entries(gameData.recipesData)
+      .filter(([key, recipe]) => recipe.profession === profession)
+  )
   
   const [recipeName, setRecipe] = useState('');
   const [selectedIngredients, setSelectedIngredients] = useState([]);

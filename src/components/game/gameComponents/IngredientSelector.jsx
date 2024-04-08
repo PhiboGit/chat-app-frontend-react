@@ -15,7 +15,7 @@ import { IntegrationInstructions } from '@mui/icons-material';
 const IngredientSelector = ({ recipeName, profession, selectedIngredients, setSelectedIngredients}) => {
   const { gameData } = useContext(GameDataContext);
 
-  const ingredients = gameData.refiningRecipes[profession][recipeName].ingredients
+  const ingredients = gameData.recipesData[recipeName].ingredients
 
   const onChangeIngredient = (ingredientName, ingredientSlotIndex) => {
     const newSelectedIngredients = [...selectedIngredients];

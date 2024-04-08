@@ -28,7 +28,7 @@ const CraftingOverview = () => {
     setRecipe('');
     setIngredients([]);
     setSelectedIngredients([]);
-    setAllRecipes(gameData.recipesData[newProfession]);
+    setAllRecipes(gameData.recipesData.filter((recipe) => recipe.profession === newProfession));
   };
 
   const handleRecipe = (newRecipeName) => {
@@ -54,7 +54,7 @@ const CraftingOverview = () => {
     setRecipe('');
     setIngredients([]);
     setSelectedIngredients([]);
-    setAllRecipes(gameData.recipesData[selectedProfession]);
+    setAllRecipes(gameData.recipesData.filter((recipe) => recipe.profession ===selectedProfession));
   } 
   
   useEffect(() => {

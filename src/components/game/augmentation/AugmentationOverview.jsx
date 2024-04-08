@@ -31,7 +31,9 @@ const AugmentationOverview = () => {
     setUpgrades([]);
     setSelectedUpgrades([]);
     setAllRecipes(Object.fromEntries(
-      Object.entries(gameData.recipesData[selectedProfession]).filter(([key, value]) => value.upgrades.length > 0)
+      Object.entries(gameData.recipesData
+        .filter(([key, recipe]) => recipe.profession === selectedProfession && recipe.upgrades.length > 0)
+      )
     ))
   } 
   
@@ -48,8 +50,9 @@ const AugmentationOverview = () => {
     setUpgrades([]);
     setSelectedUpgrades([]);
     setAllRecipes(Object.fromEntries(
-      Object.entries(gameData.recipesData[newProfession]).filter(([key, value]) => value.upgrades.length > 0)
-    ));
+      Object.entries(gameData.recipesData)
+        .filter(([key, recipe]) => recipe.profession === newProfession && value.upgrades.length > 0))
+    );
   };
 
   const handleRecipe = (newRecipeName) => {
