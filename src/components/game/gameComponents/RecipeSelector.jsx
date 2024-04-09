@@ -5,7 +5,6 @@ import { Grid } from '@mui/material';
 import Box from '@mui/material/Box';
 
 import RecipeIcon from './icons/RecipeIcon';
-import ClickAwayPopper from '../../common/ClickAwayPopper'
 
 const RecipeSelector = ({recipeMap, onChange}) => {
 
@@ -29,7 +28,7 @@ return (
               <Grid container justifyContent={"center"} spacing={1}>
                 {Object.keys(recipeMap).map((recipeName) => (
                     <Grid item key={recipeName}>
-                      <RecipeIcon recipe={recipeMap[recipeName]} onClick={() => onChange(recipeName)}/>
+                      <RecipeIcon recipeName={recipeName} onClick={() => onChange(recipeName)}/>
                     </Grid>
                   ))}
               </Grid>

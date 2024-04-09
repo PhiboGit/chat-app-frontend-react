@@ -2,13 +2,13 @@ import React , { useContext } from 'react';
 
 import Container from '@mui/material/Container'
 import Box from '@mui/material/Box'
-import RecipeIcon from './icons/RecipeIcon';
 import ResourceIcon from './icons/ResourceIcon';
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 
-const RecipeInfo = ({recipe}) => {
+const RecipeInfo = ({recipeName}) => {
   const { gameData } = useContext(GameDataContext);
-  const info = gameData.resourcesInfo[recipe.name]
+  const recipe = gameData.recipesData[recipeName]
+  const resourceInfo = gameData.resourcesInfo[recipe.name]
 
   return (
     <Container maxWidth="xs">
@@ -18,7 +18,7 @@ const RecipeInfo = ({recipe}) => {
         alignItems="center"
         sx={{ bgcolor: 'rgba(135, 168, 155, 0.8)'}}
       >
-        <h3>{`${recipe.amount} x ${info.displayName}`}</h3>
+        <h3>{`${recipe.amount} x ${resourceInfo.displayName}`}</h3>
         <Box
             sx={{
               margin: 1,

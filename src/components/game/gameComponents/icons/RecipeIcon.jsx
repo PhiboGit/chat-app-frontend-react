@@ -7,16 +7,16 @@ import TooltipTitleRecipe from '../tooltips/TooltipTitleRecipe';
 import ClickableIcon from './ClickableIcon';
 import CustomSvgIcon from './CustomSvgIcon';
 
-const RecipeIcon = ({disableTitle, recipe, onClick}) => {
+const RecipeIcon = ({disableTitle, recipeName, onClick}) => {
 
-  const IconComponent = () => CustomSvgIcon(recipe ? recipe.name : "scroll")
+  const IconComponent = () => CustomSvgIcon(recipeName ? recipeName : "scroll")
 
   return (
     <ClickableIcon 
       icon={IconComponent} 
       onClick={onClick} 
       tooltipTitle={!disableTitle ? 
-        <TooltipTitleRecipe recipe={recipe}/> 
+        <TooltipTitleRecipe recipeName={recipeName}/> 
         : <React.Fragment><Typography>{"Select Recipe!"}</Typography></React.Fragment>}
     />
   );
