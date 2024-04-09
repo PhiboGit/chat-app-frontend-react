@@ -5,6 +5,12 @@ import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
+
+import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
+import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
+import HtmlTooltip from "../../common/HtmlToolTip";
 
 const StartActionController = ({hasLimit, onChangeLimit, iterations, setIterations, startDisabled, onClickStart }) => {
 
@@ -27,7 +33,13 @@ const StartActionController = ({hasLimit, onChangeLimit, iterations, setIteratio
           alignItems="center"
           sx={{ bgcolor: 'rgba(91, 91, 91, 0.8)'}}
         >
-          <FormControlLabel control={<Switch checked={hasLimit} onChange={(event) => onChangeLimit(event.target.checked)}/>} label="Limit" />
+          <Stack direction="row" alignItems={"center"} spacing={1}>
+            <HtmlTooltip title="unlimted iterations">
+              <AllInclusiveIcon fontSize="small" />
+            </HtmlTooltip>
+            <FormControlLabel control={<Switch checked={hasLimit} onChange={(event) => onChangeLimit(event.target.checked)}/>}/>
+            <VerticalAlignTopIcon fontSize="small" />
+          </Stack>
         
         {hasLimit && (<TextField
           label="Iterations"
