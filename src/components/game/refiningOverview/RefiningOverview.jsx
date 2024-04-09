@@ -21,7 +21,7 @@ const RefiningOverview = ({profession}) => {
   const [recipeName, setRecipe] = useState('');
   const [selectedIngredients, setSelectedIngredients] = useState([]);
 
-  const [limit, setLimit] = useState(true);
+  const [limit, setLimit] = useState(false);
   const [iterations, setIterations] = useState(1);
 
   const changeRecipe = (recipeName) => {
