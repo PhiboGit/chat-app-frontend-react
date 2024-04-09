@@ -5,15 +5,11 @@ import Typography from '@mui/material/Typography';
 
 import TooltipTitleRecipe from '../tooltips/TooltipTitleRecipe';
 import ClickableIcon from './ClickableIcon';
-import getIcon from './iconSvgMapping';
+import CustomSvgIcon from './CustomSvgIcon';
 
 const RecipeIcon = ({disableTitle, recipe, onClick}) => {
 
-  const IconComponent = () => (
-    <Icon style={{ width: '100%', height: '100%' }}>
-      <img src={getIcon(recipe ? recipe.name : "scroll")} />
-    </Icon>
-  )
+  const IconComponent = () => CustomSvgIcon(recipe ? recipe.name : "scroll")
 
   return (
     <ClickableIcon 

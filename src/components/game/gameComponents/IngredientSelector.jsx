@@ -7,11 +7,13 @@ import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Typography from '@mui/material/Typography';
+import Stack from '@mui/material/Stack';
 
 import { GameDataContext } from '../dataProviders/GameDataProvider';
-import { IntegrationInstructions } from '@mui/icons-material';
 import ResourceIcon from './icons/ResourceIcon';
 import BasicIcon from './icons/BasicIcon';
+import ResourceIconChip from './ResourceIconChip';
 
 
 const IngredientSelector = ({ recipeName, selectedIngredients, setSelectedIngredients}) => {
@@ -45,6 +47,7 @@ const IngredientSelector = ({ recipeName, selectedIngredients, setSelectedIngred
               {!ingredientSlot.required && 
                 <MenuItem key={"empty"} value={"null"}>
                   <BasicIcon iconName={"null"}/>
+                  <Typography> Empty </Typography>
                 </MenuItem>}
               {ingredientSlot.slot.map((ingredient, index) => (
                 <MenuItem key={index} value={ingredient.resource}>

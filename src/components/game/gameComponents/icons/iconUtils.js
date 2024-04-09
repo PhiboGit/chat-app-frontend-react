@@ -43,7 +43,7 @@ const iconMappings = {
   'scroll': ScrollSvg,
 };
 
-const getIcon = (SvgIconName) => {
+const getSvg = (SvgIconName) => {
   if (SvgIconName){
     const icon = iconMappings[SvgIconName]
     if(icon){
@@ -59,4 +59,22 @@ const getIcon = (SvgIconName) => {
   return RandomSvg;
 };
 
-export default getIcon
+
+const getRarityColor = (rarity) => {
+  switch (rarity) {
+    case 'common':
+      return '#b0b0b0';
+    case 'uncommon':
+      return '#4caf50';
+    case 'rare':
+      return '#2196f3';
+    case 'epic':
+      return '#a335ee';
+    case 'legendary':
+      return '#ff9800';
+    default:
+      return 'rgba(0, 0, 0, 0.87)';
+  }
+};
+
+export {getSvg, getRarityColor}

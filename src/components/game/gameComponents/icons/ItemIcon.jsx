@@ -5,25 +5,9 @@ import Icon from '@mui/material/Icon';
 import TooltipTitleArmor from '../tooltips/TooltipTitleArmor';
 import TooltipTitleGatheringTool from '../tooltips/TooltipTitleGatheringTool';
 import ClickableIcon from './ClickableIcon';
-import getIcon from './iconSvgMapping';
+import {getRarityColor} from './iconUtils';
+import CustomSvgIcon from './CustomSvgIcon';
 
-
-const getRarityColor = (rarity) => {
-  switch (rarity) {
-    case 'common':
-      return '#b0b0b0';
-    case 'uncommon':
-      return '#4caf50';
-    case 'rare':
-      return '#2196f3';
-    case 'epic':
-      return '#a335ee';
-    case 'legendary':
-      return '#ff9800';
-    default:
-      return 'rgba(0, 0, 0, 0.87)';
-  }
-};
 
 
 const ItemIcon = ({ item, onClick }) => {
@@ -38,11 +22,7 @@ const ItemIcon = ({ item, onClick }) => {
     }
   }
 
-  const IconComponent = () => (
-    <Icon style={{ width: '100%', height: '100%' }}>
-      <img src={getIcon(item.name)} />
-    </Icon>
-  )
+  const IconComponent = () => CustomSvgIcon(item.name)
 
   return (
     <ClickableIcon 
