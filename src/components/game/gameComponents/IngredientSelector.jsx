@@ -10,11 +10,13 @@ import Select from '@mui/material/Select';
 
 import { GameDataContext } from '../dataProviders/GameDataProvider';
 import { IntegrationInstructions } from '@mui/icons-material';
+import ResourceIcon from './icons/ResourceIcon';
+import BasicIcon from './icons/BasicIcon';
 
 
-const IngredientSelector = ({ recipeName, profession, selectedIngredients, setSelectedIngredients}) => {
+const IngredientSelector = ({ recipeName, selectedIngredients, setSelectedIngredients}) => {
   const { gameData } = useContext(GameDataContext);
-
+  const infoDict = gameData.resourcesInfo
   const ingredients = gameData.recipesData[recipeName].ingredients
 
   const onChangeIngredient = (ingredientName, ingredientSlotIndex) => {
@@ -41,12 +43,12 @@ const IngredientSelector = ({ recipeName, profession, selectedIngredients, setSe
               onChange={(event) => onChangeIngredient(event.target.value, slotIndex)}
             >
               {!ingredientSlot.required && 
-                <MenuItem key={"empty"} value={""}>
-                  empty
+                <MenuItem key={"empty"} value={"null"}>
+                  <BasicIcon iconName={"null"}/>
                 </MenuItem>}
               {ingredientSlot.slot.map((ingredient, index) => (
                 <MenuItem key={index} value={ingredient.resource}>
-                  {ingredient.amount}   {ingredient.resource}
+                  <ResourceIcon amount={ingredient.amount} name={ingredient.resource}/>
                 </MenuItem>
               ))}
             </Select>

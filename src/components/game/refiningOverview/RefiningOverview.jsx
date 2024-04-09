@@ -26,7 +26,7 @@ const RefiningOverview = ({profession}) => {
 
   const changeRecipe = (recipeName) => {
     setRecipe(recipeName);
-    setSelectedIngredients(professionRecipes[recipeName].ingredients.map((ingredientSlot) => ingredientSlot.required ? ingredientSlot.slot[0].resource : ""));
+    setSelectedIngredients(professionRecipes[recipeName].ingredients.map((ingredientSlot) => ingredientSlot.required ? ingredientSlot.slot[0].resource : "null"));
   }
 
   const handleLimit = (checked) => {
@@ -45,7 +45,7 @@ const RefiningOverview = ({profession}) => {
       "iterations": parseInt(iterations),
       "args": {
           "recipe": recipeName,
-          "ingredients": selectedIngredients.filter((value) => value !== "")
+          "ingredients": selectedIngredients.filter((value) => value !== "null")
       }
     }
     console.log("crafting: ", crafting);
@@ -70,7 +70,6 @@ const RefiningOverview = ({profession}) => {
         <RecipeInfo recipe={professionRecipes[recipeName]}/>
         <IngredientSelector
           recipeName={recipeName}
-          profession={profession}
           selectedIngredients={selectedIngredients}
           setSelectedIngredients={setSelectedIngredients}
         />
