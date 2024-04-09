@@ -1,4 +1,10 @@
 
+import BaobabSvg from '../../../../assets/svg/baobab.svg';
+import BeechSvg from '../../../../assets/svg/beech.svg';
+import DeadTreeSvg from '../../../../assets/svg/dead-wood.svg';
+import PineSvg from '../../../../assets/svg/pine-tree.svg';
+import WillowSvg from '../../../../assets/svg/willow-tree.svg';
+
 import PickaxeSvg from '../../../../assets/svg/war-pick.svg'
 import SickleSvg from '../../../../assets/svg/sickle.svg'
 import AxeSvg from '../../../../assets/svg/wood-axe.svg'
@@ -22,6 +28,12 @@ import ScrollSvg from '../../../../assets/svg/scroll.svg'
 import RandomSvg from '../../../../assets/svg/random.svg'
 
 const iconMappings = {
+  'TreeT1': PineSvg,
+  'TreeT2': BeechSvg,
+  'TreeT3': BaobabSvg,
+  'TreeT4': DeadTreeSvg,
+  'TreeT5': WillowSvg,
+
   'pickaxe': PickaxeSvg,
   'sickle': SickleSvg,
   'axe':AxeSvg,

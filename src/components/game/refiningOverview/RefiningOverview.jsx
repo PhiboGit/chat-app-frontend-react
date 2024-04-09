@@ -61,7 +61,7 @@ const RefiningOverview = ({profession}) => {
         alignItems="center"
         sx={{ bgcolor: 'rgba(169, 223, 110, 0.8)'}}
       >
-        <RecipeInfo recipe={professionRecipes[recipeName]}/>
+        <RecipeInfo recipeName={recipeName}/>
         <IngredientSelector
           recipeName={recipeName}
           selectedIngredients={selectedIngredients}

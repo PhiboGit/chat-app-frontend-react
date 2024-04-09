@@ -11,7 +11,7 @@ import Switch from '@mui/material/Switch';
 import TextField from '@mui/material/TextField';
 
 import Button from '@mui/material/Button';
-import GatheringIcon from './GatheringIcon';
+import GatheringIcon from '../gameComponents/icons/GatheringIcon';
 import GatheringProfessionIcon from './GatheringProfessionIcon';
 import { Typography } from '@mui/material';
 import StartActionController from '../gameComponents/StartActionController';
@@ -27,6 +27,7 @@ const GatheringOverview = () => {
   const [limit, setLimit] = React.useState(false);
   
   function handleSelection(identifier, profession, tier){
+    console.log('selected node:', identifier)
     setSelectedItem(identifier)
     setProfession(profession)
     setTier(tier)
@@ -54,19 +55,17 @@ const GatheringOverview = () => {
         display="flex"
         flexDirection='column'
         alignItems="center"
-        sx={{ bgcolor: 'rgba(169, 223, 251, 0.8)'}}>
+        >
       <Container maxWidth="md">
-      <Box sx={{ 
-        
-        bgcolor: 'rgba(169, 150, 230, 0.8)' 
-        }}>
+      <Box >
         {Object.keys(gameData.gatheringResourcesData).map((profession) =>(
           <Box 
             display="flex"
             flexDirection='row'
             alignItems={"center"}
             key={profession} 
-            sx={{  bgcolor: 'rgba(169, 183, 200, 0.8)', margin: 2  }}>
+            margin={2}
+            >
             <Container >
             <Box key={profession} sx={{  bgcolor: 'rgba(139, 183, 200, 0.8)', margin: 1  }}>
             <Typography>{profession}: </Typography>
@@ -75,15 +74,16 @@ const GatheringOverview = () => {
             </Box>
             </Container>
           <Grid key={profession} container spacing={1}>
-            {gameData.gatheringResourcesData[profession].tiers.map((value, index) => {
+            {gameData.gatheringResourcesData[profession].tiers.map((nodeData, index) => {
               const tier = index +1
-              const identifier = `${profession}-${tier}`
+              const identifier = nodeData.lootTable
               return(
               <Grid item key={identifier}>
                 <GatheringIcon
-                  selected ={selectedItem == identifier}
+                  profession={profession}
+                  tier={tier}
                   onClick={() => handleSelection(identifier, profession, tier)}
-                  gatheringData={gameData.gatheringResourcesData[profession].tiers[index]}
+                  selected={selectedItem == identifier}
                 />
               </Grid>
             )})}          
