@@ -11,13 +11,11 @@ const StartActionController = ({hasLimit, onChangeLimit, iterations, setIteratio
   const [value, setValue] = useState(iterations);
   const handleInput = (event) => {
     const inputValue = event.target.value;
-    // Only allow positive integers
     if (/^\d*$/.test(inputValue)) {
       setValue(inputValue)
       setIterations(parseInt(inputValue) || 1);
     } else {
-      setValue(1)
-      setIterations(1);
+      event.target.value = value
     }
   }
 
