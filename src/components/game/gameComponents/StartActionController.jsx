@@ -12,7 +12,7 @@ import AllInclusiveIcon from '@mui/icons-material/AllInclusive';
 import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import HtmlTooltip from "../../common/HtmlToolTip";
 
-const StartActionController = ({hasLimit, onChangeLimit, iterations, setIterations, startDisabled, onClickStart }) => {
+const StartActionController = ({limit, setLimit, iterations, setIterations, startDisabled, onClickStart }) => {
 
   const [value, setValue] = useState(iterations);
   const handleInput = (event) => {
@@ -37,11 +37,11 @@ const StartActionController = ({hasLimit, onChangeLimit, iterations, setIteratio
             <HtmlTooltip title="unlimted iterations">
               <AllInclusiveIcon fontSize="small" />
             </HtmlTooltip>
-            <FormControlLabel control={<Switch checked={hasLimit} onChange={(event) => onChangeLimit(event.target.checked)}/>}/>
+            <FormControlLabel control={<Switch checked={limit} onChange={(event) => setLimit(event.target.checked)}/>}/>
             <VerticalAlignTopIcon fontSize="small" />
           </Stack>
         
-        {hasLimit && (<TextField
+        {limit && (<TextField
           label="Iterations"
           id="outlined-size-small"
           value= {value}

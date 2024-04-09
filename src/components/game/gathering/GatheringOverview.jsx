@@ -14,6 +14,7 @@ import Button from '@mui/material/Button';
 import GatheringIcon from './GatheringIcon';
 import GatheringProfessionIcon from './GatheringProfessionIcon';
 import { Typography } from '@mui/material';
+import StartActionController from '../gameComponents/StartActionController';
 
 
 const GatheringOverview = () => {
@@ -29,19 +30,6 @@ const GatheringOverview = () => {
     setSelectedItem(identifier)
     setProfession(profession)
     setTier(tier)
-  }
-
-  const handleLimit = (event) => {
-    setLimit(event.target.checked);
-    if (event.target.checked) {
-      setIterations(100);
-    } else {
-      setIterations(1);
-    }
-  };
-
-  const handleIterations = (event) => {
-    setIterations(parseInt(event.target.value))
   }
 
   const startAction = () => {
@@ -104,24 +92,14 @@ const GatheringOverview = () => {
         ))}
       </Box>
       </Container>
-      <Container maxWidth="xs">
-      <Box 
-        display="flex"
-        flexDirection='column'
-        alignItems="center"
-        sx={{ bgcolor: 'rgba(169, 223, 151, 0.8)'}}>
-        <Switch checked={limit} onChange={handleLimit} inputProps={{ 'aria-label': 'controlled' }}/>
-        {limit && (<TextField
-          label="Iterations"
-          id="outlined-size-small"
-          defaultValue= {iterations}
-          size="small"
-          onChange={handleIterations}
-        />)}
-        <Button disabled={!selectedItem} onClick={startAction} variant="contained">Start</Button>
-        {selectedItem}       
-    </Box>
-    </Container>
+      <StartActionController
+        limit={limit}
+        setLimit={setLimit}
+        iterations={iterations}
+        setIterations={setIterations}
+        startDisabled={selectedItem == null}
+        onClickStart={startAction}
+      />
     </Box>
     </Container>
   );

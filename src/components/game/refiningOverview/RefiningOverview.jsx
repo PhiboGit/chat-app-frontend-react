@@ -29,12 +29,6 @@ const RefiningOverview = ({profession}) => {
     setSelectedIngredients(professionRecipes[recipeName].ingredients.map((ingredientSlot) => ingredientSlot.required ? ingredientSlot.slot[0].resource : "null"));
   }
 
-  const handleLimit = (checked) => {
-    console.log('limit', checked);
-    setLimit(checked);
-    setIterations(1);
-  };
-
   
   const handleStart = () =>{
     const crafting = {
@@ -75,8 +69,8 @@ const RefiningOverview = ({profession}) => {
         />
       
         <StartActionController
-          hasLimit={limit}
-          onChangeLimit={handleLimit}
+          limit={limit}
+          setLimit={setLimit}
           iterations={iterations}
           setIterations={setIterations}
           startDisabled={selectedIngredients.length < 1}
