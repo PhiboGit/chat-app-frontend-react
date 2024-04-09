@@ -9,15 +9,6 @@ const TooltipTitleResource = ({name, amount}) => {
 
   const info = gameData.resourcesInfo[name]
 
-  const matchResult = name.match(/^(.*?)(T(\d))?(_(.*))?$/);
-   // "woodT1_common"
-   //matchResult[0] "woodT1_common"
-   //matchResult[1] "wood"
-   //matchResult[2] "T1"
-   //matchResult[3] "1"
-   //matchResult[4] "_common"
-   //matchResult[5] "common"
-
   const resourceName = info.displayName || name
   const tier = info.tier || 0
   const rarity = info.rarity || "undef"
