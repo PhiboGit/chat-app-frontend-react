@@ -12,10 +12,16 @@ import TooltipGatheringNode from '../tooltips/TooltipGatheringNode';
 import HtmlTooltip from '../../../common/HtmlToolTip';
 
 const StyledPaper = styled (Paper)(() => ({
-  width:  50,
-  height: 50,
+  padding: 5,
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  justifyContent: 'space-between',
+  width:  90,
+  height: 90,
   '&:hover': {
     cursor: 'pointer',
+    backgroundColor: 'rgba(150, 150, 150, 0.4)'
   },
 }));
 
@@ -38,10 +44,11 @@ const GatheringIcon = ({ profession, tier, onClick, selected}) => {
       >
       <StyledPaper
         elevation={selected? 0 : 6}
-        sx={{ border: selected ? '2px solid white' : '2px solid black' }}
+        sx={{ boxShadow: selected ? 'inset 1px 1px 6px -1px black': undefined }} // undefined to use elevation
         onClick={handleClick}
       >
-        <IconComponent sx={{width: '100%', height: '100%'}}/>
+        <Typography fontSize={10} > {nodeData.displayName} </Typography>
+        <IconComponent sx={{width: '75%', height: '75%'}}/>
       </StyledPaper>
         
     </HtmlTooltip>

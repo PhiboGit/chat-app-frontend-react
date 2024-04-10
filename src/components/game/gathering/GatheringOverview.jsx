@@ -28,7 +28,11 @@ const GatheringOverview = () => {
   
   function handleSelection(identifier, profession, tier){
     console.log('selected node:', identifier)
-    setSelectedItem(identifier)
+    if (selectedItem === identifier) {
+      setSelectedItem(null)
+    }else{
+      setSelectedItem(identifier)
+    }
     setProfession(profession)
     setTier(tier)
   }
