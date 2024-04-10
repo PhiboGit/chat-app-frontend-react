@@ -22,7 +22,7 @@ const ItemIcon = ({ item, onClick }) => {
     }
   }
 
-  const IconComponent = () => CustomSvgIcon(item.name)
+  const IconComponent = CustomSvgIcon(item.name)
 
   return (
     <ClickableIcon 

@@ -59,7 +59,7 @@ const ClickableIcon = ({ icon:IconComponent, onClick, tooltipTitle, borderColor,
         bordercolor={borderColor}
         onClick={handleClick}
       >
-        <IconComponent/>
+        <IconComponent sx={{width: '100%', height: '100%'}}/>
         {bottomRightText && <div style={bottomRightTextStyle}>{bottomRightText}</div>}
         {topLeftText && <div style={topLeftTextStyle}>{topLeftText}</div>}
       </StyledPaper>

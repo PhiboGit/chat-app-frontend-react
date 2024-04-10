@@ -27,7 +27,7 @@ const GatheringIcon = ({ profession, tier, onClick, selected}) => {
     if(onClick) onClick(event);
   }
 
-  const IconComponent = () => CustomSvgIcon(nodeData.lootTable)
+  const IconComponent = CustomSvgIcon(nodeData.lootTable)
 
   return (
     <HtmlTooltip
@@ -41,7 +41,7 @@ const GatheringIcon = ({ profession, tier, onClick, selected}) => {
         sx={{ border: selected ? '2px solid white' : '2px solid black' }}
         onClick={handleClick}
       >
-        <IconComponent/>
+        <IconComponent sx={{width: '100%', height: '100%'}}/>
       </StyledPaper>
         
     </HtmlTooltip>

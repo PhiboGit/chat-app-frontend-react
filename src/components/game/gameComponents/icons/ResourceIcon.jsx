@@ -14,7 +14,7 @@ const ResourceIcon = ({ amount, name , onClick}) => {
 
   const rarity = info.rarity
   const borderColor = rarity ? getRarityColor(rarity) : 'transparent';
-  const IconComponent = () => CustomSvgIcon(name)
+  const IconComponent = CustomSvgIcon(name)
 
   return (
     <ClickableIcon 

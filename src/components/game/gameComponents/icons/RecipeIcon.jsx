@@ -9,7 +9,7 @@ import CustomSvgIcon from './CustomSvgIcon';
 
 const RecipeIcon = ({disableTitle, recipeName, onClick}) => {
 
-  const IconComponent = () => CustomSvgIcon(recipeName ? recipeName : "scroll")
+  const IconComponent = CustomSvgIcon(recipeName ? recipeName : "scroll")
 
   return (
     <ClickableIcon 
