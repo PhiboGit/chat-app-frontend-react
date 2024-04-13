@@ -14,14 +14,12 @@ return (
           display="flex"
           flexDirection='column'
           alignItems="center"
-          sx={{ bgcolor: 'rgba(160, 177, 186, 0.8)'}}
-        >
-          Select a Recipe:
           
+        >         
           <Container maxWidth="sx">
             <Box
               sx={{ 
-                bgcolor: 'rgba(160, 177, 186, 0.8)',
+                
                 margin: 1,
               }}
             >

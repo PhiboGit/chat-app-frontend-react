@@ -13,6 +13,7 @@ import AugmentationOverview from '../augmentation/AugmentationOverview';
 import EnchantingOverview from '../enchanting/EnchantingOverview';
 import MarketplaceOverview from '../marketplace/MarketplaceOverview';
 import RefiningTabs from '../refiningOverview/RefiningTabs';
+import CraftingTabs from '../crafting/CraftingTabs';
 
 function CustomTabPanel(props) {
   const { children, value, index} = props;
@@ -33,9 +34,16 @@ export default function BasicTabs() {
   };
 
   return (
-    <Box height="100%" display="flex" flexDirection="column">
+    <Box height="100%" display="flex" flexDirection='column'>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs variant="scrollable" scrollButtons="auto" value={value} onChange={handleChange}>
+        <Tabs 
+          orientation='horizontal'
+          variant="scrollable"
+          scrollButtons="auto" 
+          value={value} 
+          onChange={handleChange}
+
+        >
           <Tab label="Gathering" icon={<FavoriteIcon />} iconPosition="start" />
           <Tab label="Refining"  />
           <Tab label="Crafting"  />
@@ -52,7 +60,7 @@ export default function BasicTabs() {
           <RefiningTabs/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={2}>
-          <CraftingOverview/>
+          <CraftingTabs/>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={3}>
           <AugmentationOverview/>

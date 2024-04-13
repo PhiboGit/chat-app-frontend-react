@@ -16,7 +16,6 @@ const RecipeInfo = ({recipeName}) => {
         display="flex"
         flexDirection='column'
         alignItems="center"
-        sx={{ bgcolor: 'rgba(135, 168, 155, 0.8)'}}
       >
         <h3>{`${recipe.amount} x ${resourceInfo.displayName}`}</h3>
         <Box

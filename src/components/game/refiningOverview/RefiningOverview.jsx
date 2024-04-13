@@ -67,17 +67,17 @@ const RefiningOverview = ({profession}) => {
           selectedIngredients={selectedIngredients}
           setSelectedIngredients={setSelectedIngredients}
         />
-      
-        <StartActionController
-          limit={limit}
-          setLimit={setLimit}
-          iterations={iterations}
-          setIterations={setIterations}
-          startDisabled={selectedIngredients.length < 1}
-          onClickStart={handleStart}
-        />
       </Box>
       }
+      
+      <StartActionController
+        limit={limit}
+        setLimit={setLimit}
+        iterations={iterations}
+        setIterations={setIterations}
+        startDisabled={selectedIngredients.length < 1}
+        onClickStart={handleStart}
+      />
     </Container>
   );
 };

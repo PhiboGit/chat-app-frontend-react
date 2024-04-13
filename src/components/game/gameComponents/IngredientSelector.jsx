@@ -34,10 +34,9 @@ const IngredientSelector = ({ recipeName, selectedIngredients, setSelectedIngred
         display="flex"
         flexDirection='row'
         justifyContent={"center"}
-        sx={{ bgcolor: 'rgba(135, 168, 185, 0.8)'}}
       >
         {ingredients.map((ingredientSlot, slotIndex) => (
-          <FormControl key={slotIndex} sx={{ m: 1, minWidth: 80 }}>
+          <FormControl key={slotIndex} sx={{ margin: 1, minWidth: 80 }}>
             <InputLabel >Ingredient</InputLabel>
             <Select
               value={selectedIngredients[slotIndex]}

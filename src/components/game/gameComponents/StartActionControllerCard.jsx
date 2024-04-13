@@ -13,7 +13,7 @@ import VerticalAlignTopIcon from '@mui/icons-material/VerticalAlignTop';
 import HtmlTooltip from "../../common/HtmlToolTip";
 import { Paper } from "@mui/material";
 
-const StartActionController = ({limit, setLimit, iterations, setIterations, startDisabled, onClickStart }) => {
+const StartActionControllerCard = ({limit, setLimit, iterations, setIterations, startDisabled, onClickStart }) => {
 
   const [value, setValue] = useState(iterations);
   const handleInput = (event) => {
@@ -27,11 +27,10 @@ const StartActionController = ({limit, setLimit, iterations, setIterations, star
   }
 
   return (
-    <Paper elevation={1}>
       <Box 
           display="flex"
-          flexDirection='column'
-          alignItems="center"
+          flexDirection='row'
+          justifyContent={'space-between'}
         >
           <Stack direction="row" alignItems={"center"} spacing={1}>
             <HtmlTooltip title="unlimted iterations">
@@ -48,10 +47,16 @@ const StartActionController = ({limit, setLimit, iterations, setIterations, star
           size="small"
           onChange={handleInput}          
         />)}
-        <Button disabled={startDisabled} onClick={onClickStart} variant="contained">Start</Button>
+        <Button 
+          disabled={startDisabled} 
+          onClick={onClickStart} 
+          variant="contained"
+          
+          >
+            Start
+          </Button>
       </Box>
-    </Paper>
   )
 }
 
-export default StartActionController
+export default StartActionControllerCard
