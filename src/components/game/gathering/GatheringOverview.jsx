@@ -13,7 +13,7 @@ import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import GatheringIcon from '../gameComponents/icons/GatheringIcon';
 import GatheringProfessionIcon from './GatheringProfessionIcon';
-import { Typography } from '@mui/material';
+import { Paper, Typography } from '@mui/material';
 import StartActionController from '../gameComponents/StartActionController';
 
 
@@ -61,40 +61,39 @@ const GatheringOverview = () => {
         alignItems="center"
         >
       <Container maxWidth="md">
-      <Box >
+      
         {Object.keys(gameData.gatheringResourcesData).map((profession) =>(
-          <Box 
-            display="flex"
-            flexDirection='row'
-            alignItems={"center"}
-            key={profession} 
-            margin={2}
-            >
-            <Container >
-            <Box key={profession} sx={{  bgcolor: 'rgba(139, 183, 200, 0.8)', margin: 1  }}>
-            <Typography>{profession}: </Typography>
-            <GatheringProfessionIcon profession={profession}/>
-            <ExpBar profession={profession}></ExpBar> 
-            </Box>
-            </Container>
-          <Grid key={profession} container spacing={1}>
-            {gameData.gatheringResourcesData[profession].tiers.map((nodeData, index) => {
-              const tier = index +1
-              const identifier = nodeData.lootTable
-              return(
-              <Grid item key={identifier}>
-                <GatheringIcon
-                  profession={profession}
-                  tier={tier}
-                  onClick={() => handleSelection(identifier, profession, tier)}
-                  selected={selectedItem == identifier}
-                />
-              </Grid>
-            )})}          
-          </Grid>
-        </Box>
+          <Paper key={profession} >
+            <Box 
+              display="flex"
+              flexDirection='row'
+              alignItems={"center"}
+              margin={2}
+              >
+              
+              <Box width={'40%'} sx={{ margin: 1  }}>
+                <Typography>{profession}: </Typography>
+                <GatheringProfessionIcon profession={profession}/>
+                <ExpBar profession={profession}></ExpBar> 
+              </Box>
+            <Grid key={profession} container spacing={1}>
+              {gameData.gatheringResourcesData[profession].tiers.map((nodeData, index) => {
+                const tier = index +1
+                const identifier = nodeData.lootTable
+                return(
+                <Grid item key={identifier}>
+                  <GatheringIcon
+                    profession={profession}
+                    tier={tier}
+                    onClick={() => handleSelection(identifier, profession, tier)}
+                    selected={selectedItem == identifier}
+                  />
+                </Grid>
+              )})}          
+            </Grid>
+          </Box>
+        </Paper>
         ))}
-      </Box>
       </Container>
       <StartActionController
         limit={limit}
