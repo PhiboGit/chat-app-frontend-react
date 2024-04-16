@@ -5,43 +5,42 @@ import { GameDataContext } from '../dataProviders/GameDataProvider';
 import Container from '@mui/material/Container';
 import RecipeCard from './CraftingCard';
 import CraftingCard from './CraftingCard';
-import { Box } from '@mui/material';
+import { Box, Grid } from '@mui/material';
 import RecipeSelector from '../gameComponents/RecipeSelector';
+import RecipeSelectorList from './RecipeSelectorList';
 
-const CraftingOverview = ({profession}) => {
+const CraftingOverview = ({craftingActionState, dispatch}) => {
   const { gameData } = useContext(GameDataContext);
-
-  const [recipeName, setRecipeName] = useState('');
-
-  useEffect(() => {
-    setRecipeName('')
-  }, [profession])
 
   const professionRecipes = Object.fromEntries(
     Object.entries(gameData.recipesData)
-      .filter(([key, recipe]) => recipe.profession === profession)
+      .filter(([key, recipe]) => recipe.profession === craftingActionState.profession)
   )
 
   const onChangeRecipe = (recipeName) => {
     console.log('recipeName', recipeName);
-    setRecipeName(recipeName);
+    dispatch({ type: 'changed_recipeName', recipeName: recipeName })
   }
 
   return (
-    <Container maxWidth="md">
-      <Box display='flex' flexDirection='row'>
-        <RecipeSelector
-          recipeMap={professionRecipes}
-          onChange={onChangeRecipe}
-          
-        />
-        {recipeName && <CraftingCard 
-          profession={profession}
-          recipeName={recipeName}
-        />}
-      </Box>
+    <Box maxWidth="md" sx={{ paddingTop: 2, paddingBottom: 2}}>
+      <Grid container direction='row'>
+        <Grid item xs={3} sx={{ justifyContent: "start", display: "flex"}}>
+          <RecipeSelectorList
+            recipeMap={professionRecipes}
+            selectedRecipe={craftingActionState.recipeName}
+            onChange={onChangeRecipe}
+          />
+        </Grid>
+        <Grid item xs={9} sx={{ justifyContent: "center", display: 'block'}}>
+          <CraftingCard 
+            craftingActionState={craftingActionState}
+            dispatch={dispatch}
+          />
+        </Grid>
+      </Grid>
 
-    </Container>
+    </Box>
   );
 };
 

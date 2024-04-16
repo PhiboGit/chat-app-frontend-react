@@ -15,7 +15,7 @@ const TooltipTitleRecipe = ({recipeName}) => {
 
   return (
     <React.Fragment>
-      <Typography color="inherit">{recipe.amount} x {resourceInfo.displayName}</Typography>
+      <Typography color="inherit">{resourceInfo.displayName}{recipe.amount > 1 ? ` x${recipe.amount}` : ""}</Typography>
       <hr/>
       <b>
         <span style={{ color: recipe.level > professionLevel ? 'red' : 'green' }}>

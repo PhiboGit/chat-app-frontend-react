@@ -16,7 +16,7 @@ import BasicIcon from './icons/BasicIcon';
 import ResourceIconChip from './ResourceIconChip';
 
 
-const IngredientSelector = ({ recipeName, selectedIngredients, setSelectedIngredients}) => {
+const IngredientSelector = ({ recipeName, selectedIngredients, setSelectedIngredients, dispatch}) => {
   const { gameData } = useContext(GameDataContext);
   const infoDict = gameData.resourcesInfo
   const ingredients = gameData.recipesData[recipeName].ingredients
@@ -26,6 +26,7 @@ const IngredientSelector = ({ recipeName, selectedIngredients, setSelectedIngred
     newSelectedIngredients[ingredientSlotIndex] = ingredientName
     console.log("selected Ingredients: ", newSelectedIngredients);
     setSelectedIngredients(newSelectedIngredients)
+    dispatch({ type: 'changed_selectedIngredients', ingredientName: ingredientName, ingredientSlotIndex: ingredientSlotIndex })
   }
 
   return (
