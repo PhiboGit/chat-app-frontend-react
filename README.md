@@ -1,1 +1,1 @@
-Game: inspired by milkywayidle
+
